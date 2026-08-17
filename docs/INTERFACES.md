@@ -1,4 +1,4 @@
-# Frozen interface contract (v1, 2026-08-17)
+# Frozen interface contract (v1.1, 2026-08-17)
 
 Every parallel track builds against this file. **Nothing here changes without a version bump
 and a note in the changelog at the bottom.** Tracks do not share mutable JSON conventions;
@@ -62,8 +62,8 @@ complete:
   "url": "https://hts.usitc.gov/reststop/exportList?from=0100&to=9999&format=JSON&styles=false",
   "fetched_at": "2026-08-18T04:09:55Z",
   "revision": "2026HTSRev16",
-  "row_count": 35801,
-  "bytes": 12631914,
+  "row_count": 35791,
+  "bytes": 7117481,
   "sha256": "…",
   "min_rows": 30000,
   "min_bytes": 1000000,
@@ -72,8 +72,9 @@ complete:
 }
 ```
 
-`revision` is `null` when the source does not publish one. `staleness_days` is computed
-against the source's own `Last-Modified` when it sends one, otherwise against `fetched_at`.
+`revision` is `null` when the source does not publish one. `row_count`, `bytes` and `sha256` all describe the file that was written to disk, never the upstream payload, because the file is the only thing the gate can re-measure.
+
+`staleness_days` records how far behind the source already was at fetch time: the gap between its own `Last-Modified` and `fetched_at`, or `0` when it sends no such header. It says nothing about how old the snapshot is now. Age is the gate's job, per §2.
 
 ### 1.2 Record shapes
 
@@ -83,11 +84,13 @@ resolution walks upward through preceding rows.
 ```json
 {"htsno": "8543709860", "indent": 3, "description": "Other",
  "general": "2.6%", "special": "Free (A,AU,…)", "other": "35%", "units": ["No."],
- "row_index": 28104}
+ "footnotes": [{"columns": ["desc"], "value": "See 9903.88.15.", "type": "endnote"}],
+ "additional_duties": null, "row_index": 28104}
 ```
 
-`htsno` is `null` for header rows that carry only a description. Rate fields are the raw
-strings as published; parsing them is not this layer's job.
+`htsno` is `null` for header rows that carry only a description. Rate fields are the raw strings as published; parsing them is not this layer's job.
+
+`footnotes` is where an extra duty actually hangs. 783 rows point at a chapter 99 subheading (`9903.90` on 680 of them, the Section 301 China list `9903.88` on 6), and for goods of the wrong origin that add-on dwarfs the base rate, so a duty comparison that ignores it is wrong rather than incomplete. `additional_duties` is populated on only 512 rows, all agricultural safeguards in chapter 9904; it is carried because it is free to carry, not because it is the 301 hook. The upstream export also ships a misspelt `addiitionalDuties` field that is null on every row; ignore it.
 
 `cross.jsonl` holds one line per CBP ruling:
 
@@ -97,8 +100,9 @@ strings as published; parsing them is not this layer's job.
  "related_rulings": ["N301122"], "url": "…"}
 ```
 
-⚠️ CROSS search returns ruling numbers **upper-case**, the detail endpoint returns them
-**lower-case**. Track A normalizes to upper-case on write. Any join key elsewhere in the
+`url` is derived, not fetched: the search endpoint does not return one, and paying 218,606 single-ruling requests to collect them is not worth it. It is built as `https://rulings.cbp.gov/ruling/<RULING_NUMBER>`, verified to return 200.
+
+⚠️ CROSS search returns ruling numbers **upper-case**, the detail endpoint returns them **lower-case**. Track A normalizes to upper-case on write. Any join key elsewhere in the
 codebase is already upper-case and must not be re-cased.
 
 `csl.jsonl` holds one line per Consolidated Screening List entry, with fields passed through
@@ -110,7 +114,7 @@ from the ITA API plus `source_list` and `license_requirement`.
 hs2017,hs2022,relationship,n_hs2022_candidates,is_ex,unsd_relationship,in_wco_table2,is_sweep
 ```
 
-Already built and validated at `internal/correlation/` (15,656 rows). Track A ports the
+Already built and validated during research (15,656 rows, sha256 `d969990f…`). Track A ports the
 existing `fetch_sources.sh` + `parse_wco_table2.py` + `build_correlation.py` into the
 package unchanged in behavior; the byte-identical `hs2017_hs2022.csv` is the acceptance test.
 
@@ -132,7 +136,9 @@ def load_manifest(snapshot_dir: Path, source: str) -> Manifest: ...
 1. the manifest is missing, or `SNAPSHOT.json` is missing / `status != "ok"`
 2. `row_count < min_rows` or `bytes < min_bytes`
 3. `sha256` does not match the file on disk
-4. `staleness_days > 30`
+4. `staleness_days > 30`, or the snapshot is more than 30 days old measured from `fetched_at` to `now`
+
+A manifest value written at fetch time can never grow, so age has to be recomputed at every gate call or the check is decorative: a snapshot pulled in 2024 would still declare `staleness_days: 0` today. `assert_healthy` therefore takes `now: datetime | None = None`, defaulting to the current time, and the fixture tests pass a fixed value so a committed fixture does not turn the suite red on a calendar date.
 
 The three known traps this gate exists for, all observed for real:
 
@@ -247,8 +253,7 @@ Both tracks ship `pytest` tests that assert runtime behavior, never source shape
 
 - A snapshot fixture small enough to commit (a few hundred rows), built by trimming a real
   snapshot, so tests need no network.
-- Track A: each of the three traps has a test that makes the gate raise: a 200-with-empty
-  body, a row count under the floor, a lower-case ruling number that must come out upper.
+- Track A: a test per trap. The first two make the gate raise (a 200-with-empty body, a row count under the floor); the case trap is tested at the fetch layer instead, because no gate check reads ruling numbers and adding one would mean scanning 218,606 lines on every open.
 - Track B: one test per routing rule, plus the invariant that no `1:1` item is ever routed
   to `AGENT`, plus an inherited-rate case where `inherited is True` and
   `resolved_from_row` points at the ancestor.
@@ -258,5 +263,5 @@ Both tracks ship `pytest` tests that assert runtime behavior, never source shape
 
 ## Changelog
 
-- **v1, 2026-08-17.** Initial freeze. Covers tracks A (sync) and B (triage) only.
-  Tracks C onward extend this file rather than inventing parallel conventions.
+- **v1, 2026-08-17.** Initial freeze. Covers tracks A (sync) and B (triage) only. Tracks C onward extend this file rather than inventing parallel conventions.
+- **v1.1, 2026-08-17.** Written after both tracks delivered and reported back. Age is recomputed at gate time rather than read from a value that cannot grow; `hts.jsonl` carries `footnotes` and `additional_duties`, without which a duty comparison silently omits Section 301; the example manifest carried a row count taken from a different export format; `url` on a ruling is documented as derived; the correlation table's path no longer points at a directory that does not ship.
