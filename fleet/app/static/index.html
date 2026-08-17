@@ -361,21 +361,25 @@ function tapeRebuild(cases) {
   drawTape();
 }
 
-//: One exclusion argument usually kills a whole family of codes at once: six
+//: One exclusion argument usually kills a whole family of codes at once: the six
 //: subheadings of 8549 all fall to the same note about waste and scrap. Printing
-//: it six times renders a loop where the reasoning had one step, and the reader
-//: who sees the third identical line concludes it is a template. Every candidate
-//: is still named, and the record underneath is untouched.
+//: six near-identical lines renders a loop where the reasoning took one step, and
+//: a reader who sees the third one concludes it is a template. So consecutive
+//: rejections within a heading become one row that names every code it covers.
+//: The wording of the rest is not thrown away, it is in the case detail and in
+//: the audit trail, one line per candidate.
 function collapse(lines) {
   const out = [];
   for (const l of lines) {
     const prev = out[out.length - 1];
+    const code = l.text.split(' ')[0];
     const same = prev && prev.kind === 'reject' && l.kind === 'reject'
                  && prev.case_id === l.case_id
-                 && prev.detail === l.detail && (prev.ref || '') === (l.ref || '');
-    if (!same) { out.push({...l, codes: [l.text.split(' ')[0]]}); continue; }
-    prev.codes.push(l.text.split(' ')[0]);
+                 && prev.codes[0].slice(0, 4) === code.slice(0, 4);
+    if (!same) { out.push({...l, codes: [code]}); continue; }
+    prev.codes.push(code);
     prev.text = `${prev.codes.join(' ')} ruled out`;
+    prev.ref = `${prev.codes.length} subheadings of ${code.slice(0, 4)}`;
   }
   return out;
 }
