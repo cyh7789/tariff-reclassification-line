@@ -18,6 +18,7 @@ HEADINGS = [
     pytest.param("Additional U.S. Notes", id="additional-us"),
     pytest.param("Note", id="singular"),
     pytest.param("Note:", id="singular-colon"),
+    pytest.param("Statistical Note", id="chapter-53-statistical"),
 ]
 
 

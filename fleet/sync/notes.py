@@ -47,10 +47,12 @@ MIN_PDF_BYTES = 10_000
 # Notes run from the heading down to the first tariff line, which starts with a
 # 4-digit heading followed by a dot, near the left margin.
 # Real headings seen in 2026HTSRev16: "Notes", "Notes:", "U.S. Notes",
-# "Additional U.S. Notes", and the singular forms. A variant this misses does not
-# fail loudly; it just reports the chapter as having no notes.
+# "Additional U.S. Notes", "Statistical Note" (chapter 53 has only that one), and
+# the singular forms. A variant this misses does not fail loudly; it just reports
+# the chapter as having no notes, which reads to the agent as nothing to check.
 NOTES_START = re.compile(
-    r"^[ \t]*(?:Additional[ \t]+)?(?:U\.S\.[ \t]+)?(?:Subheading[ \t]+)?Notes?[ \t]*:?[ \t]*$",
+    r"^[ \t]*(?:Additional[ \t]+)?(?:U\.S\.[ \t]+)?"
+    r"(?:Subheading[ \t]+|Statistical[ \t]+)?Notes?[ \t]*:?[ \t]*$",
     re.MULTILINE | re.IGNORECASE,
 )
 TARIFF_LINE = re.compile(r"^[ \t]{0,8}\d{4}\.\d{2}", re.MULTILINE)
