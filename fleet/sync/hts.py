@@ -61,6 +61,21 @@ def to_record(row: dict, row_index: int) -> dict:
         "special": row.get("special") or "",
         "other": row.get("other") or "",
         "units": list(units),
+        # Where the extra duty hangs. 783 rows point at a chapter 99 subheading and
+        # for goods of the wrong origin that add-on dwarfs the base rate, so a rate
+        # read without it is wrong rather than partial. `additional_duties` is the
+        # agricultural safeguard column, populated on 512 rows in chapter 9904.
+        # Upstream also ships a misspelt `addiitionalDuties` that is null on every
+        # row; it is not carried, because a field that is always null invites a
+        # reader to conclude there is nothing there.
+        "footnotes": [
+            {"columns": list(f.get("columns") or []),
+             "value": (f.get("value") or "").strip(),
+             "type": f.get("type") or ""}
+            for f in (row.get("footnotes") or [])
+            if (f.get("value") or "").strip()
+        ],
+        "additional_duties": (row.get("additionalDuties") or "").strip() or None,
         "row_index": row_index,
     }
 

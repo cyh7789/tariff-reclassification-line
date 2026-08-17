@@ -62,6 +62,7 @@ class Snapshot:
         self._section_notes: dict[str, str] | None = None
         self._chapter_sections: dict[str, str] | None = None
         self._ruling_text: dict[str, dict] | None = None
+        self._screening: list[dict] | None = None
 
     @property
     def hts(self) -> list[dict]:
@@ -115,6 +116,19 @@ class Snapshot:
                             row = json.loads(line)
                             self._ruling_text[row["rulingNumber"].upper()] = row
         return self._ruling_text
+
+    @property
+    def screening(self) -> list[dict]:
+        """The consolidated screening list, as fetched. 25,939 entries."""
+        if self._screening is None:
+            self._screening = []
+            path = self.dir / "csl.jsonl"
+            if path.exists():
+                with path.open(encoding="utf-8") as fh:
+                    for line in fh:
+                        if line.strip():
+                            self._screening.append(json.loads(line))
+        return self._screening
 
     @property
     def chapter_sections(self) -> dict[str, str]:
@@ -321,6 +335,54 @@ class PrecedentIndex:
             ))
         hits.sort(key=lambda p: (-p.score, p.ruling_date < "2022", p.ruling_number))
         return hits[:limit]
+
+
+def screening_candidates(snapshot: Snapshot, name: str, limit: int = 6) -> list[dict]:
+    """Screening-list entries whose name resembles the one given.
+
+    Candidates only. Two names resembling each other is a reason to look, and a
+    list of 25,939 entries produces resemblance constantly: shared surnames,
+    transliterations, holding companies. Which of them denotes the same party is a
+    question about the world, not about strings, so this returns what it found and
+    leaves the conclusion alone.
+    """
+    wanted = _screening_key(name)
+    if not wanted:
+        return []
+    hits = []
+    for entry in snapshot.screening:
+        listed = _screening_key(entry.get("name"))
+        if not listed:
+            continue
+        if listed == wanted:
+            score = 1.0
+        elif listed in wanted or wanted in listed:
+            score = 0.75
+        else:
+            shared = set(listed.split()) & set(wanted.split())
+            if len(shared) < 2:
+                continue
+            score = round(len(shared) / max(len(set(listed.split())), 1), 2)
+        hits.append({"name": entry.get("name"), "source_list": entry.get("source_list"),
+                     "country": entry.get("country"),
+                     "addresses": entry.get("addresses"),
+                     "alt_names": entry.get("alt_names"),
+                     "license_requirement": entry.get("license_requirement"),
+                     "resemblance": score})
+    hits.sort(key=lambda h: -h["resemblance"])
+    return hits[:limit]
+
+
+#: Corporate furniture that makes two spellings of one party look different.
+_SCREENING_NOISE = frozenset("""
+ltd limited llc inc incorporated co corp corporation gmbh ag sa nv bv pte plc
+company holdings holding group international trading industries industry the and
+""".split())
+
+
+def _screening_key(name: str | None) -> str:
+    words = re.sub(r"[^\w\s]", " ", (name or "").lower()).split()
+    return " ".join(w for w in words if w not in _SCREENING_NOISE and len(w) > 1)
 
 
 def get_ruling(snapshot: Snapshot, index: "PrecedentIndex", ruling_number: str) -> str:

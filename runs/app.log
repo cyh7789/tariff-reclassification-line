@@ -1,0 +1,1827 @@
+INFO:     Will watch for changes in these directories: ['/Volumes/CyhSSD/Dev/hackathon/active/allthings-agentic/repo/fleet']
+INFO:     Uvicorn running on http://127.0.0.1:8080 (Press CTRL+C to quit)
+INFO:     Started reloader process [76658] using WatchFiles
+INFO:     Started server process [76742]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:54257 - "GET / HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/app/main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [76742]
+INFO:     Started server process [77812]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:54259 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54260 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54261 - "GET /health HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/app/main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [77812]
+INFO:     Started server process [82567]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:54279 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54280 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54281 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /static/flow.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/cases/C-f8fe774425 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/cases/C-9920fe65c5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /static/flow.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54331 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/cases/C-59b7be819e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /static/flow.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54331 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/cases/C-59b7be819e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/cases/C-59b7be819e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/cases/C-f47845d666 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54331 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54332 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/app/main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [82567]
+INFO:     Started server process [33115]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55109 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55110 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55111 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55112 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55113 - "POST /api/cases/C-580a3c080e/advance HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55114 - "POST /api/cases/C-580a3c080e/advance HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55115 - "POST /api/cases/C-580a3c080e/advance HTTP/1.1" 409 Conflict
+INFO:     127.0.0.1:55116 - "POST /api/cases/C-59b7be819e/advance HTTP/1.1" 409 Conflict
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=150 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /static/flow.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55104 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/cases/C-9920fe65c5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/cases/C-9920fe65c5 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/catalog HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "POST /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55104 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55105 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-f4f6d842/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=151 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/cases/C-4c89dd63c8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56277 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56278 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56279 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56280 - "GET /api/batches/B-ff300e45 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=171 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=172 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=172 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=172 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=173 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=173 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=173 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=173 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8/flow?since=173 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/workflow/store.py', 'fleet/app/main.py'. Reloading...
+INFO:     127.0.0.1:56251 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56250 - "GET /api/batches/B-bb33b2e8/flow?since=173 HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [33115]
+INFO:     Started server process [4035]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8/flow?since=173 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8/flow?since=173 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56304 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56305 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56306 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56307 - "POST /api/batches/B-bb33b2e8/restart-stranded HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/uvicorn/protocols/http/httptools_impl.py", line 421, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 56, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/fastapi/applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/routing.py", line 690, in app
+    await route.handle(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/routing.py", line 280, in handle
+    await self.app(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/fastapi/routing.py", line 330, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/CyhSSD/Dev/hackathon/active/allthings-agentic/repo/fleet/app/main.py", line 311, in restart_stranded
+    asyncio.create_task(asyncio.to_thread(worker.run_case, case.case_id))
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/asyncio/tasks.py", line 381, in create_task
+    loop = events.get_running_loop()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: no running event loop
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8/flow?since=173 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8/flow?since=174 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8/flow?since=174 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8/flow?since=174 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8/flow?since=174 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8/flow?since=174 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8/flow?since=174 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8/flow?since=174 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8/flow?since=174 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56314 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56315 - "POST /api/batches/B-bb33b2e8/restart-stranded HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/uvicorn/protocols/http/httptools_impl.py", line 421, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/uvicorn/middleware/proxy_headers.py", line 56, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/fastapi/applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/routing.py", line 690, in app
+    await route.handle(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/routing.py", line 280, in handle
+    await self.app(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/fastapi/routing.py", line 330, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/starlette/concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/anyio/to_thread.py", line 63, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 2518, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 1002, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/CyhSSD/Dev/hackathon/active/allthings-agentic/repo/fleet/app/main.py", line 311, in restart_stranded
+    asyncio.create_task(asyncio.to_thread(worker.run_case, case.case_id))
+  File "/Users/cyh/.pyenv/versions/3.11.8/lib/python3.11/asyncio/tasks.py", line 381, in create_task
+    loop = events.get_running_loop()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: no running event loop
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8/flow?since=174 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8/flow?since=175 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8/flow?since=175 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56316 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8/flow?since=175 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8/flow?since=175 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+/Volumes/CyhSSD/Dev/hackathon/active/allthings-agentic/repo/fleet/workflow/store.py:381: RuntimeWarning: coroutine 'to_thread' was never awaited
+  return [dict(r) for r in rows]
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8/flow?since=175 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8/flow?since=175 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8/flow?since=175 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8/flow?since=175 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8/flow?since=175 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56302 - "GET /api/batches/B-bb33b2e8/flow?since=175 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/app/main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [4035]
+INFO:     Started server process [7944]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:56427 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56428 - "POST /api/batches/B-bb33b2e8/restart-stranded HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /static/flow.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56433 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/cases/C-83c5cf6832 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56446 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56465 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56446 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56446 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56561 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/cases/C-ed5d0119be HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/cases/C-0773124cb4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/cases/C-b323ae9589 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/cases/C-ed5c346635 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/cases/C-83c5cf6832 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/cases/C-ed5c346635 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/cases/C-0773124cb4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/cases/C-be5907213e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+Direct use of automatic function calling (AFC) in Models.generate_content is not recommended. Instead, we recommend to use AFC in Chat.send_message. Similarly, direct use of AFC in Models.generate_content_stream is not recommended. Instead, we recommend to use AFC in Chat.send_message_stream.
+INFO:     127.0.0.1:56440 - "GET /api/cases/C-c724324950 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/cases/C-bda5ce7791 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=183 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=184 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=184 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=185 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/cases/C-83c5cf6832 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=186 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=186 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=186 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=186 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/cases/C-83c5cf6832 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=186 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=186 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=187 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=187 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=189 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/cases/C-4ca41b249e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56440 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/cases/C-b5d01063b0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/cases/C-83c5cf6832 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=190 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56751 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56433 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/workflow/store.py', 'fleet/app/main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [7944]
+INFO:     Started server process [35878]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56852 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56853 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56854 - "POST /api/batches/B-f4f6d842/approve HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56855 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56804 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56803 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /static/flow.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56963 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=196 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57309 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:57310 - "POST /api/batches/B-bb33b2e8/approve HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57311 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=196 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=191 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/cases/C-4ca41b249e HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /static/flow.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56963 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/cases/C-43332156f2 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57392 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56964 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56963 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57599 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57600 - "GET /api/batches/B-f4f6d842 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57601 - "GET /api/batches/B-f4f6d842/flow HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57602 - "GET /api/cases/C-f3f1734291 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57579 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57651 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57652 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57740 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57741 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57757 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57758 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/sync/hts.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [35878]
+INFO:     Started server process [52281]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:57791 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57792 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57830 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57831 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/findings/engine.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [52281]
+INFO:     Started server process [70663]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:57883 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57884 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57883 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57884 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57884 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57883 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57883 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57884 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/findings/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [70663]
+INFO:     Started server process [71766]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:57905 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57904 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57904 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57905 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57904 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57905 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57905 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57905 - "GET /static/flow.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:57905 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57905 - "GET /api/batches HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57905 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57904 - "GET /api/batches/B-bb33b2e8/flow?since=0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57904 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57905 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57905 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57904 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57905 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57904 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57904 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57905 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57904 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57905 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/findings/engine.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [71766]
+WARNING:  WatchFiles detected changes in 'fleet/findings/engine.py'. Reloading...
+INFO:     Started server process [73418]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [73418]
+WARNING:  WatchFiles detected changes in 'fleet/findings/engine.py'. Reloading...
+INFO:     Started server process [73561]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [73561]
+INFO:     Started server process [73628]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57943 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57942 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/workflow/store.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [73628]
+INFO:     Started server process [76334]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58004 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58005 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58159 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58160 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58194 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58193 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/adk/agents.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [76334]
+INFO:     Started server process [96875]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:58207 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58208 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58207 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58208 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58208 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58207 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58207 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58208 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fleet/adk/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [96875]
+WARNING:  WatchFiles detected changes in 'fleet/agents/tools.py'. Reloading...
+INFO:     Started server process [98738]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [98738]
+INFO:     Started server process [98865]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58211 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58212 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58268 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58269 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58289 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58290 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58319 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58320 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58348 - "GET /api/batches/B-bb33b2e8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58349 - "GET /api/batches/B-bb33b2e8/flow?since=212 HTTP/1.1" 200 OK

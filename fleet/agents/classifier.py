@@ -271,7 +271,12 @@ class Runner:
         except Exception as exc:  # noqa: BLE001
             return {"error": f"{name} failed: {exc}"}
 
-    def classify(self, item: Item) -> dict:
+    def classify(self, item: Item, on_event=None) -> dict:
+        """`on_event(kind, payload)` is called as work happens, for the live view.
+
+        Without it the only observable moment is completion, and a batch that
+        takes a minute looks like nothing is happening for a minute.
+        """
         contents = [types.Content(role="user", parts=[types.Part(text=render_item(item))])]
         config = types.GenerateContentConfig(
             system_instruction=self.system_prompt,
@@ -328,6 +333,9 @@ class Runner:
             parts = []
             for call in calls:
                 args = dict(call.args or {})
+                if on_event:
+                    on_event("tool", {"tool": call.name, "args": args,
+                                      "calls": len(tool_calls) + 1})
                 result = self.call_tool(call.name, args)
                 tool_calls.append({"name": call.name, "args": args})
                 parts.append(types.Part.from_function_response(name=call.name, response=result))
