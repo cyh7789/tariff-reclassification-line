@@ -92,6 +92,10 @@ class Case:
     prior_duty_rate: str | None = None
     reasoning: str = ""
     distinguishing_fact: str = ""
+    #: Whether that fact came from the goods description or was inferred from the
+    #: schedule text. Both ship; the signer is told which.
+    decisive_quote: str = ""
+    fact_source: str = ""
     citations: list = field(default_factory=list)
     missing_property: str | None = None
     ask_department: str | None = None
@@ -144,6 +148,8 @@ CREATE TABLE IF NOT EXISTS cases (
     prior_duty_rate    TEXT,
     reasoning          TEXT NOT NULL DEFAULT '',
     distinguishing_fact TEXT NOT NULL DEFAULT '',
+    decisive_quote     TEXT NOT NULL DEFAULT '',
+    fact_source        TEXT NOT NULL DEFAULT '',
     citations          TEXT NOT NULL DEFAULT '[]',
     candidates         TEXT NOT NULL DEFAULT '[]',
     missing_property   TEXT,
@@ -232,6 +238,8 @@ MIGRATIONS = [
     ("cases", "tools_used", "TEXT NOT NULL DEFAULT '[]'"),
     ("cases", "seconds", "REAL NOT NULL DEFAULT 0"),
     ("cases", "attempts", "INTEGER NOT NULL DEFAULT 0"),
+    ("cases", "decisive_quote", "TEXT NOT NULL DEFAULT ''"),
+    ("cases", "fact_source", "TEXT NOT NULL DEFAULT ''"),
 ]
 
 

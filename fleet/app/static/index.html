@@ -862,6 +862,13 @@ window.openCase = async (id) => {
       ['Selected', k.selected_code ? `<code>${k.selected_code}</code>` : '<span class="muted">none</span>'],
       ['Runner-up', k.runner_up_code ? `<code>${k.runner_up_code}</code>` : '<span class="muted">—</span>'],
       ['What separates them', k.distinguishing_fact || '<span class="muted">—</span>'],
+      // Whether that fact is something the importer stated or something the
+      // agent inferred from the schedule. Both ship; the person signing a legal
+      // declaration is the one who should be told which they are signing.
+      ...(k.selected_code ? [['Grounds', k.fact_source === 'description'
+        ? `<span class="quote">“${esc(k.decisive_quote)}”</span>
+           <span class="muted">— the importer's own words</span>`
+        : `<span class="muted">not stated in the description; read from the schedule text</span>`]] : []),
       ['Duty', k.duty_rate ? `${k.duty_rate}${k.prior_duty_rate?` <span class="muted">(was ${k.prior_duty_rate})</span>`:''}` : '<span class="muted">—</span>'],
       ['Confidence', k.confidence ?? '<span class="muted">—</span>'],
       ['Effort', k.tool_calls ? `${k.tool_calls} tool calls · ${k.seconds}s${

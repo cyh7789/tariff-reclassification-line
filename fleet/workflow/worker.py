@@ -32,6 +32,7 @@ from fleet.triage.duty import resolve
 from fleet.triage.engine import triage
 from fleet.triage.types import LineItem, Route
 from fleet.verify.citations import CitationVerifier
+from fleet.verify.grounding import fact_source
 from fleet.workflow.store import CaseState, Store
 from fleet.workflow.transcript import steps as transcript_steps
 
@@ -253,6 +254,12 @@ class Worker:
             runner_up_code=answer.get("runner_up_code"),
             confidence=answer.get("confidence"),
             distinguishing_fact=answer.get("distinguishing_fact") or "",
+            decisive_quote=answer.get("decisive_quote") or "",
+            # Against the description the agent was shown, which includes facts
+            # the company supplied afterwards: those are the importer speaking
+            # too, and a case that went out for an answer and came back should
+            # not read as an inference for having taken the long way.
+            fact_source=str(fact_source(answer.get("decisive_quote"), description)),
             reasoning=answer.get("reasoning", ""),
             citations=answer.get("citations", []),
             duty_rate=duty.general if duty else None,

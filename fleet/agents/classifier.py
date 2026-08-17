@@ -98,6 +98,10 @@ RESPONSE_SCHEMA = {
         "selected_code_8": {"type": "STRING", "nullable": True},
         "runner_up_code": {"type": "STRING", "nullable": True},
         "distinguishing_fact": {"type": "STRING", "nullable": True},
+        # The words in the description that establish that fact, where it stated
+        # them. Resolved by substring after the run; a case without one still
+        # ships, with the signer told the fact came from the schedule instead.
+        "decisive_quote": {"type": "STRING", "nullable": True},
         # One line per candidate that was ruled out. The reviewer's job is to
         # check a decision, and a decision they cannot see the losing side of is
         # a number they have to re-derive themselves.
