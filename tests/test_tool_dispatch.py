@@ -24,11 +24,23 @@ def dispatcher():
     return runner
 
 
-def test_a_missing_required_argument_returns_an_error(dispatcher):
-    result = dispatcher.call_tool("search_precedents", {"tariff_prefix": "8424"})
+def test_a_call_with_neither_keywords_nor_a_prefix_returns_an_error(dispatcher):
+    result = dispatcher.call_tool("search_precedents", {})
 
     assert "error" in result
-    assert "query" in result["error"]
+    assert "tariff_prefix" in result["error"]
+
+
+def test_a_prefix_without_keywords_is_a_valid_call(dispatcher):
+    """Browsing what a heading has been used for is a question, not a mistake.
+
+    An earlier version rejected this, which is how the agent came away from
+    heading 0309 with nothing and fell back on reading the schedule.
+    """
+    result = dispatcher.call_tool("search_precedents", {"tariff_prefix": "8424"})
+
+    assert "error" not in result
+    assert "rulings" in result
 
 
 def test_the_error_names_the_tool_and_stays_short(dispatcher):
