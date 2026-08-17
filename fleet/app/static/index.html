@@ -35,10 +35,11 @@
   /* flow diagram, explainer style: coloured zones, numbered steps */
   #flowCard { padding: 6px 10px 10px; margin-bottom: 10px; overflow-x: auto;
               position: relative; }
-  /* Width is the binding constraint, height follows the aspect ratio. A fixed
-     height letterboxes the drawing: it scaled to fit the height and left a third
-     of the card empty on the right, which is what made the boxes look small. */
-  svg#flow { width: 100%; min-width: 860px; height: auto; display: block; }
+  /* Drawn at its own size on a canvas that scrolls, rather than shrunk to fit.
+     Fitting a wide graph into a card is what made every box small: the nodes are
+     designed at a readable size and the card pans, which is how a node editor
+     works anyway. */
+  svg#flow { width: 1980px; height: 620px; display: block; }
   #fsBtn { position: absolute; top: 10px; right: 14px; z-index: 2; opacity: .75;
            font-size: 12px; padding: 5px 10px; }
   #fsBtn:hover { opacity: 1; }
@@ -47,7 +48,7 @@
      across a room. */
   #flowCard:fullscreen { background: var(--card); padding: 26px 34px;
                          display: flex; flex-direction: column; justify-content: center; }
-  #flowCard:fullscreen svg#flow { height: 78vh; min-width: 0; }
+  #flowCard:fullscreen svg#flow { width: 100%; height: 88vh; }
   #flowCard:fullscreen #live { padding: 14px 4px 6px; }
   #flowCard:fullscreen .worker { font-size: 15px; padding: 7px 18px; }
   #flowCard:fullscreen .flowNote { font-size: 15px; }
@@ -56,19 +57,23 @@
   #flow .zn { font: 12.5px ui-sans-serif, system-ui; fill: #94a3b8; }
   /* Direct child only. The gate badge is a rect too, and a blanket rule painted
      it white on white, which is why "operator" was an empty pill. */
-  #flow .node > rect { fill: #fff; stroke: #d7dee8; stroke-width: 1.5;
-                       filter: drop-shadow(0 1px 2px rgba(15,23,42,.06)); }
-  #flow .node.on > rect { stroke: var(--zc); stroke-width: 2.2; }
+  #flow .node > rect:first-of-type { fill: #fff; stroke: #dbe2ec; stroke-width: 1.5;
+                       filter: drop-shadow(0 2px 5px rgba(15,23,42,.08)); }
+  #flow .node.on > rect:first-of-type { stroke: var(--zc); stroke-width: 2.2; }
   #flow .node { cursor: pointer; }
-  #flow .node:hover > rect { stroke: var(--zc); }
-  #flow .nl { font: 640 17px ui-sans-serif, system-ui; fill: #0f172a; }
+  #flow .node:hover > rect:first-of-type { stroke: var(--zc); }
+  #flow .nl { font: 640 15.5px ui-sans-serif, system-ui; fill: #0f172a; }
+  #flow .ni { font: 700 20px ui-sans-serif, system-ui; }
+  #flow .lg { font: 12.5px ui-sans-serif, system-ui; fill: #64748b; }
+  #flow .subn { font: 700 13px ui-sans-serif, system-ui; }
+  #flow .sub circle { transition: none; }
   #flow .ns { font: 13px ui-sans-serif, system-ui; fill: #7c8798; }
-  #flow .nn { font: 700 28px ui-sans-serif, system-ui; text-anchor: end; }
+  #flow .nn { font: 700 14px ui-sans-serif, system-ui; fill: #fff; }
   #flow .gb { font: 700 10.5px ui-sans-serif, system-ui; letter-spacing: .2px; }
   /* A gate somebody else holds is drawn as a gate, not as a disabled control:
      the work is really waiting there, it is just not yours to release. */
-  #flow .node.locked > rect { stroke-dasharray: 5 4; }
-  #flow .node.mine > rect { stroke: #d97706; stroke-width: 2.2; }
+  #flow .node.locked > rect:first-of-type { stroke-dasharray: 6 4; }
+  #flow .node.mine > rect:first-of-type { stroke: #d97706; stroke-width: 2.2; }
   #flow .el { font: 13px ui-sans-serif, system-ui; fill: #9aa5b4;
               paint-order: stroke; stroke: #fff; stroke-width: 3.5px;
               stroke-linejoin: round; }
@@ -231,7 +236,7 @@
 
   <div class="card" id="flowCard">
     <button id="fsBtn">⤢ Full screen</button>
-    <svg id="flow" viewBox="0 0 1242 672" preserveAspectRatio="xMinYMin meet"></svg>
+    <svg id="flow" viewBox="0 0 1980 620" preserveAspectRatio="xMinYMin meet"></svg>
     <div id="explain" class="blank">Hover any box to see what it does. Click a row below to follow one item.</div>
     <div id="trace"></div>
     <div id="live"></div>

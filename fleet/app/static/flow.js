@@ -16,19 +16,16 @@
 // screen is detail hanging off that one distinction, so the blocks are the
 // biggest thing on the page and the boxes inside them are readable from across a
 // room.
-const ZONES = [
-  { id: 'z-det',   x:  20, y:  84, w: 386, h: 486, colour: '#0284c7', tint: '#eff8ff',
-    label: '1 · Machines settle what they can', note: 'no model is involved here' },
-  { id: 'z-agent', x: 428, y:  84, w: 386, h: 486, colour: '#059669', tint: '#ecfdf5',
-    label: '2 · Agents judge the rest',         note: 'every claim carries a citation' },
-  { id: 'z-human', x: 856, y:  84, w: 366, h: 486, colour: '#d97706', tint: '#fffbeb',
-    label: '3 · People decide',                 note: 'one signature, one exception' },
-];
+//: Positions are the diagram. Left to right is the order work happens in, and a
+//: node hanging below another belongs to it: the classifier's four tools are its
+//: own, not steps in the chain. No enclosing boxes, because the boxes were doing
+//: the job that colour and position do better, and they cost a third of the room.
+const KIND = {
+  machine: {colour: '#0284c7', tint: '#eff8ff', what: 'settled by table lookup'},
+  agent:   {colour: '#059669', tint: '#ecfdf5', what: 'judged by Gemini, with citations'},
+  person:  {colour: '#d97706', tint: '#fffbeb', what: 'waiting for a named person'},
+};
 
-//: Who can act at each node. Most of the pipeline answers "nobody, it moves on
-//: its own", and that is the product: the places a person is needed are the ones
-//: worth drawing, and each belongs to one role. These are the same rules the API
-//: enforces, so a badge here and a 403 there cannot drift apart.
 const OWNER = {
   gate: 'operator', intake: 'operator',
   needs: 'contributor',
@@ -37,154 +34,151 @@ const OWNER = {
 
 const ROLE_LABEL = {operator: 'operator', contributor: 'engineering', approver: 'approver'};
 
-const NODES = [
-  { id: 'gate', x: 44, y: 146, w: 174, h: 88, zone: 'z-det',
-    label: 'Snapshot', sub: 'dated · hashed · gated',
-    what: 'A frozen copy of the law, checked before use: the 35,791-line tariff '
-        + 'schedule, the legal notes of all 98 chapters, 218,606 past customs '
-        + 'rulings, the screening list, the official correlation table. Row counts, '
-        + 'sizes, hashes and age are verified before anything may read it.',
-    why:  'A classification has to be reproducible months later, so its citations '
-        + 'point at a version that still exists. And these government endpoints '
-        + 'answer a wrong URL with HTTP 200 and an empty body: an empty screening '
-        + 'list passes every party, so the line stops rather than working from a '
-        + 'file that only looks fine.' },
+const W = 176, H = 68;
 
-  { id: 'intake', x: 232, y: 146, w: 130, h: 88, zone: 'z-det',
+const NODES = [
+  { id: 'intake', x: 40, y: 210, kind: 'machine', icon: '⇥',
     label: 'Batch in', sub: 'CSV or catalog',
     what: 'The lines to classify, as exported from the ERP: filed code, goods, and '
-        + 'whatever else the export carries. Quantity, origin and supplier are '
-        + 'picked up when present because the duty and the screening need them.',
+        + 'whatever else the export carries. Quantity, origin and supplier are picked '
+        + 'up when present, because the duty and the screening need them.',
     why:  'Nobody re-files a catalog for fun. The codes sat correct for years and '
         + 'became wrong without anybody touching them.' },
 
-  { id: 'triage', x: 44, y: 288, w: 318, h: 92, zone: 'z-det',
-    label: 'Triage', sub: 'survived · dead · scope changed',
-    what: 'Plain set arithmetic against the current schedule. Sorts every line into '
-        + 'code still valid, code withdrawn, or code valid but its coverage moved.',
-    why:  'This part needs no judgment at all, so it must not cost a model call. It '
-        + 'also decides what the agent is measured on.' },
+  { id: 'gate', x: 270, y: 210, kind: 'machine', icon: '⛨',
+    label: 'Snapshot', sub: 'dated · hashed · gated',
+    what: 'A frozen copy of the law, checked before use: 35,791 tariff lines, the '
+        + 'notes of all 98 chapters, 218,606 past rulings, 25,939 screening entries. '
+        + 'Row counts, sizes, hashes and age are verified before anything reads it.',
+    why:  'These government endpoints answer a wrong URL with HTTP 200 and an empty '
+        + 'body. An empty screening list passes every party, so the line stops rather '
+        + 'than working from a file that only looks fine.' },
 
-  { id: 'settled', x: 44, y: 434, w: 318, h: 82, zone: 'z-det',
+  { id: 'triage', x: 500, y: 210, kind: 'machine', icon: '⋔',
+    label: 'Triage', sub: 'survived · dead · scope',
+    what: 'Set arithmetic against the current schedule: code still valid, code '
+        + 'withdrawn, or code valid but its coverage moved.',
+    why:  'This part needs no judgment, so it must not cost a model call. It also '
+        + 'decides what the agent is measured on.' },
+
+  { id: 'settled', x: 750, y: 40, kind: 'machine', icon: '✓',
     label: 'Settled by lookup', sub: 'never reaches an agent',
     what: 'Lines whose code is unchanged, plus withdrawn codes the official table '
-        + 'maps one-to-one. Answered by table lookup and closed.',
-    why:  'Sending these to a model would pad the autonomy figure with free wins. '
-        + 'Keeping them out is what makes the remaining number mean something.' },
+        + 'maps one-to-one. Answered by lookup and closed.',
+    why:  'Sending these to a model would pad the autonomy figure with free wins.' },
 
-  { id: 'agent', x: 452, y: 146, w: 338, h: 106, zone: 'z-agent',
-    label: 'Classifier agent', sub: 'notes · tariff lines · precedents',
-    what: 'Gemini reading the chapter and section notes, the tariff lines under each '
-        + 'candidate and prior rulings on comparable goods, then choosing one 8-digit '
-        + 'code, naming the runner-up, and accounting for every candidate it dropped.',
-    why:  'The correlation table states that it "has no legal status" and is "a guide '
-        + 'only". It says where to look. Deciding needs the notes, the precedents and '
-        + 'the product in front of you.' },
+  { id: 'agent', x: 750, y: 210, kind: 'agent', icon: '◇',
+    label: 'Classifier agent', sub: 'Gemini 3.7 Flash',
+    what: 'Reads the chapter and section notes, the tariff lines under each candidate '
+        + 'and prior rulings on comparable goods, then chooses one 8-digit code, names '
+        + 'the runner-up, and accounts for every candidate it dropped.',
+    why:  'The correlation table states that it has "no legal status" and is "a guide '
+        + 'only". It says where to look. Deciding needs the notes and the precedents.' },
 
-  { id: 'verify', x: 452, y: 300, w: 338, h: 92, zone: 'z-agent',
+  { id: 'verify', x: 1000, y: 210, kind: 'agent', icon: '⚖',
     label: 'Citation check', sub: 'every reference re-resolved',
-    what: 'A program, not a model. Takes each citation and goes and looks: does the '
-        + 'ruling exist, does the note number exist, are the quoted words really in it.',
-    why:  'On Vertex the Pro line stops at 3.1, below this project\'s floor, so '
-        + '"have a stronger model check it" is not available. Trust has to come from '
-        + 'something that cannot be talked round. A model that never read the note '
-        + 'paraphrases it, and a paraphrase fails a substring check.' },
+    what: 'A program, not a model. Does the ruling exist, does the note number exist, '
+        + 'are the quoted words really in it.',
+    why:  'On Vertex the Pro line stops at 3.1, below this project\'s floor, so "have '
+        + 'a stronger model check it" is not available. A model that never read the '
+        + 'note paraphrases it, and a paraphrase fails a substring check.' },
 
-  { id: 'compliance', x: 452, y: 440, w: 338, h: 82, zone: 'z-agent',
+  { id: 'compliance', x: 1250, y: 210, kind: 'agent', icon: '$',
     label: 'Compliance pass', sub: 'duty · chapter 99 · screening',
-    what: 'What the settled code means for this entry: the gap against what was '
-        + 'filed, the chapter 99 add-on for goods of the wrong origin, the duty on '
-        + 'lines charged by weight, and any supplier resembling a party on the '
-        + 'screening list. The count is what it closed on its own.',
-    why:  'Money follows arithmetic, so the arithmetic is done rather than left on '
-        + 'the officer\'s desk. Identity does not follow arithmetic: 25,939 listed '
-        + 'entries produce resemblance constantly, so that one is handed over with '
-        + 'what matched and what differs, never decided here.' },
+    what: 'What the settled code means for this entry: the gap against what was filed, '
+        + 'the chapter 99 add-on, the duty on lines charged by weight, and any supplier '
+        + 'resembling a listed party. The count is what it closed on its own.',
+    why:  'Money follows arithmetic, so the arithmetic is done. Identity does not: '
+        + '25,939 listed entries produce resemblance constantly, so that one is handed '
+        + 'over with what matched and what differs, never decided here.' },
 
-  { id: 'ready', x: 876, y: 146, w: 322, h: 106, zone: 'z-human',
+  { id: 'ready', x: 1500, y: 210, kind: 'person', icon: '✎',
     label: 'Ready to sign', sub: 'evidence pack attached',
-    what: 'Selected code, runner-up, the fact that separates them, what the entry '
-        + 'owes and where that came from, the notes and rulings behind it, verified.',
-    why:  'The licensed person is signing a legal declaration. What they need is not '
-        + 'a shortlist to work through but a decision they can check.' },
+    what: 'Selected code, runner-up, the fact that separates them, what the entry owes '
+        + 'and where that came from, the notes and rulings behind it, verified.',
+    why:  'The licensed person is signing a legal declaration. What they need is a '
+        + 'decision they can check, not a shortlist to work through.' },
 
-  { id: 'needs', x: 876, y: 300, w: 322, h: 92, zone: 'z-human',
-    label: 'On somebody\'s desk', sub: 'the question, and who holds it',
+  { id: 'approved', x: 1750, y: 210, kind: 'person', icon: '✔',
+    label: 'Approved', sub: 'one action, whole batch',
+    what: 'One signature releases everything that passed. Anything refused or '
+        + 'unverified is held back and named.',
+    why:  'Signing row by row is the hand-holding this system exists to remove.' },
+
+  { id: 'needs', x: 1500, y: 420, kind: 'person', icon: '?',
+    label: "On somebody's desk", sub: 'the question, and who holds it',
     what: 'Lines the system refused to settle: a property the description never '
         + 'stated, a quantity the entry never carried, a supplier that resembles a '
         + 'listed party. Each says what is missing and which function holds it.',
     why:  'Filing on a guess costs the duty difference plus penalties, and the person '
-        + 'who signed owes it. Asking is cheaper than being wrong, and a question '
-        + 'with a named owner is cheaper than a queue.' },
-
-  { id: 'approved', x: 876, y: 440, w: 322, h: 82, zone: 'z-human',
-    label: 'Approved', sub: 'one action, whole batch',
-    what: 'One deliberate signature releases everything that passed. Anything refused '
-        + 'or unverified is held back and named.',
-    why:  'Signing row by row is the hand-holding this system exists to remove. '
-        + 'Deciding to sign at all is the part that cannot be delegated.' },
+        + 'who signed owes it. A question with a named owner is cheaper than a queue.' },
 ];
 
-//: Metadata for the explanation panel, keyed the same way as the nodes.
-export const NODE_INFO = Object.fromEntries(
-  NODES.map(n => [n.id, { label: n.label, what: n.what, why: n.why }]));
+//: Sub-nodes: what a node reaches for, drawn hanging off it rather than in the
+//: chain, because calling a tool is not a step the work passes through. The
+//: counts are the real call counts from the run.
+const SUBS = [
+  { of: 'agent', id: 'notes',   x: 690, y: 360, label: 'chapter notes',  tool: 'get_chapter_notes' },
+  { of: 'agent', id: 'lines',   x: 800, y: 360, label: 'tariff lines',   tool: 'get_tariff_lines' },
+  { of: 'agent', id: 'search',  x: 910, y: 360, label: 'ruling search',  tool: 'search_precedents' },
+  { of: 'agent', id: 'ruling',  x: 1020, y: 360, label: 'ruling text',   tool: 'get_ruling' },
+  { of: 'compliance', id: 'csl', x: 1290, y: 360, label: 'screening list', tool: null },
+];
 
-// from, to, count key, step, label, routing
-// Only the main chain is numbered. Returns and refusals carry a word instead: a
-// dozen bold step numbers is most of what made this diagram feel crowded, and
-// the loops are not steps anybody follows in order.
+// from, to, count key, label, routing
 const EDGES = [
-  ['gate',       'triage',   null,            '',   'released',       'elbow'],
-  ['intake',     'triage',   'received',      '1',  'difference'   , 'elbow'],
-  ['triage',     'settled',  'deterministic', '2a', 'unchanged'    , 'v'],
-  ['triage',     'agent',    'agent',         '2b', 'judgment'     , 'h'],
-  ['agent',      'verify',   'classified',    '3',  'proposed code',  'v'],
-  ['agent',      'needs',    'refused',       '',   'refused'      , 'h'],
-  ['verify',     'compliance','verified',     '4',  'verified'     , 'v'],
-  ['verify',     'agent',    'held',          '',   'held back',      'loopL'],
-  ['compliance', 'ready',    'settledHere',   '5',  'costed',         'h'],
-  ['compliance', 'needs',    'forAPerson',    '',   'identity',       'h'],
-  ['needs',      'agent',    'requeued',      '',   'answered',       'backL'],
-  ['ready',      'approved', 'approvedAgent', '6',  'sign',           'skirtR'],
-  ['settled',    'approved', 'approvedDet',   '6b', 'sign',           'baseline'],
+  ['intake',     'gate',      'received',      'the batch',      'fwd'],
+  ['gate',       'triage',    'received',      'released',       'fwd'],
+  ['triage',     'settled',   'deterministic', 'unchanged',      'fwd'],
+  ['triage',     'agent',     'agent',         'needs judgment', 'fwd'],
+  ['agent',      'verify',    'classified',    'proposed code',  'fwd'],
+  ['verify',     'compliance','verified',      'citations hold', 'fwd'],
+  ['compliance', 'ready',     'settledHere',   'costed',         'fwd'],
+  ['ready',      'approved',  'approvedAgent', 'sign',           'fwd'],
+  ['settled',    'approved',  'approvedDet',   'sign',           'over'],
+  ['agent',      'needs',     'refused',       'will not guess', 'down'],
+  ['compliance', 'needs',     'forAPerson',    'identity',       'down'],
+  ['needs',      'agent',     'requeued',      'answered',       'under'],
+  ['verify',     'agent',     'held',          'held back',      'back'],
 ];
 
 const N = Object.fromEntries(NODES.map(n => [n.id, n]));
-const c = n => ({ x: n.x + n.w / 2, y: n.y + n.h / 2 });
-
-const LOOP_Y = 604;   // return traffic, clear of every zone
-const BASE_Y = 646;   // the deterministic path to approval, lower still
+const inPort = n => ({x: n.x, y: n.y + H / 2});
+const outPort = n => ({x: n.x + W, y: n.y + H / 2});
 
 function path(a, b, kind) {
-  const A = N[a], B = N[b], ca = c(A), cb = c(B);
+  const A = N[a], B = N[b], p = outPort(A), q = inPort(B);
   switch (kind) {
-    case 'v':
-      return `M ${ca.x} ${A.y + A.h} L ${cb.x} ${B.y}`;
-    case 'elbow':    // two boxes side by side, both feeding the one below
-      return `M ${ca.x} ${A.y + A.h} V ${(A.y + A.h + B.y) / 2} H ${cb.x} V ${B.y}`;
-    case 'h': {
-      const x1 = A.x + A.w, x2 = B.x, m = (x1 + x2) / 2;
-      return `M ${x1} ${ca.y} C ${m} ${ca.y}, ${m} ${cb.y}, ${x2} ${cb.y}`;
+    case 'fwd': {
+      const d = Math.max(40, (q.x - p.x) / 2);
+      return `M ${p.x} ${p.y} C ${p.x + d} ${p.y}, ${q.x - d} ${q.y}, ${q.x} ${q.y}`;
     }
-    // Every lane that has to get past a box goes outside it. A line crossing a
-    // box reads as a line into it, which would say the agent hands refusals to
-    // the citation checker, and it does not.
-    case 'skirtR': {  // agent -> refused, down the outside of its own column
-      const lane = A.x + A.w + 12;
-      return `M ${A.x + A.w} ${ca.y + 18} H ${lane} V ${cb.y} H ${B.x + B.w}`;
+    case 'over':   // the lookup half going straight to the signature, over the top
+      return `M ${p.x} ${p.y} C ${p.x + 420} ${p.y - 70}, ${q.x + 150} ${q.y - 230}, ${q.x + W / 2} ${q.y - H / 2 - 6}`;
+    case 'down': {  // a refusal dropping to the desk it belongs on, under the row
+      const drop = Math.max(p.y, q.y) + 40;
+      return `M ${A.x + W / 2} ${A.y + H} C ${A.x + W / 2} ${drop}, ${q.x - 120} ${q.y}, ${q.x} ${q.y}`;
     }
-    case 'loopL':    // citation check -> agent, a short retry hop up the left
-      return `M ${A.x + 26} ${A.y} V ${B.y + B.h + 16} H ${B.x + 26} V ${B.y + B.h}`;
-    case 'backL': {  // the answered question going back to the agent, up the gutter
-      const lane = A.x - 22;
-      return `M ${A.x} ${ca.y + 12} H ${lane} V ${cb.y + 12} H ${B.x + B.w}`;
-    }
-    case 'baseline': { // settled -> approved, along the very bottom
-      const lane = B.x - 14;
-      return `M ${ca.x} ${A.y + A.h} V ${BASE_Y} H ${lane} V ${cb.y} H ${B.x}`;
-    }
+    case 'under':  // the answered question coming back, below everything
+      return `M ${A.x} ${A.y + H / 2} C ${A.x - 400} ${A.y + 190}, ${B.x - 50} ${B.y + 210}, ${B.x - 6} ${B.y + H / 2 + 4}`;
+    case 'back':   // a failed citation check going back for another attempt
+      return `M ${A.x} ${A.y + 16} C ${A.x - 70} ${A.y - 70}, ${B.x + W + 70} ${B.y - 70}, ${B.x + W} ${B.y + 16}`;
     default:
-      return `M ${ca.x} ${ca.y} L ${cb.x} ${cb.y}`;
+      return `M ${p.x} ${p.y} L ${q.x} ${q.y}`;
+  }
+}
+
+function labelPoint(a, b, kind) {
+  const A = N[a], B = N[b], p = outPort(A), q = inPort(B);
+  switch (kind) {
+    // Above the boxes, not between them: the gap between two nodes is 74px and
+    // no useful label is that short.
+    case 'fwd':   return {x: (p.x + q.x) / 2, y: Math.min(A.y, B.y) - 12, anchor: 'middle'};
+    case 'over':  return {x: (p.x + q.x) / 2 + 120, y: Math.min(p.y, q.y) - 118, anchor: 'middle'};
+    case 'down':  return {x: (A.x + W / 2 + q.x) / 2, y: Math.max(p.y, q.y) + 34, anchor: 'middle'};
+    case 'under': return {x: (A.x + B.x) / 2, y: A.y + 176, anchor: 'middle'};
+    case 'back':  return {x: (A.x + B.x + W) / 2, y: Math.min(A.y, B.y) - 46, anchor: 'middle'};
+    default:      return {x: (p.x + q.x) / 2, y: (p.y + q.y) / 2, anchor: 'middle'};
   }
 }
 
@@ -202,9 +196,8 @@ function tally(flow) {
     held:          e('VERIFY_FAILED->CLASSIFYING'),
     approvedDet:   e('SETTLED->APPROVED'),
     approvedAgent: e('READY->APPROVED'),
-    // What the compliance pass did, from the findings themselves rather than
-    // from a state: closing a duty question is not a state change, which is
-    // exactly why it was invisible until now.
+    // Closing a duty question is not a state change, which is exactly why the
+    // compliance work was invisible until it was counted from the findings.
     settledHere:   (flow.dispositions || {}).settled_here || 0,
     forAPerson:    (flow.dispositions || {}).for_a_person || 0,
   };
@@ -215,116 +208,78 @@ const occupancy = f => ({
   settled: f.states.SETTLED, agent: f.states.CLASSIFYING,
   verify: f.states.VERIFY_FAILED, needs: f.states.NEEDS_INPUT,
   ready: f.states.READY, approved: f.states.APPROVED,
-  // The compliance box shows what it closed, which is a count of work done
-  // rather than of cases parked: nothing waits here.
   compliance: (f.dispositions || {}).settled_here || 0,
 });
 
-function labelPoint(a, b, kind) {
-  const A = N[a], B = N[b], ca = c(A), cb = c(B);
-  switch (kind) {
-    case 'v':
-      return { x: ca.x + 10, y: (A.y + A.h + B.y) / 2 + 4, anchor: 'start' };
-    case 'elbow':
-      return { x: (ca.x + cb.x) / 2, y: A.y + A.h + 18, anchor: 'middle' };
-    case 'h':
-      // Halfway between the two boxes in both directions, which is the gutter
-      // between columns. Level with the higher box put it behind that box.
-      return { x: (A.x + A.w + B.x) / 2 + 8, y: (ca.y + cb.y) / 2 + 8, anchor: 'middle' };
-    case 'skirtR':
-      return { x: A.x + A.w - 34, y: B.y - 28, anchor: 'end' };
-    case 'loopL':
-      return { x: A.x + 36, y: B.y + B.h + 30, anchor: 'start' };
-    case 'loopB':
-      return { x: (ca.x + B.x) / 2, y: LOOP_Y - 10, anchor: 'middle' };
-    case 'baseline':
-      return { x: (ca.x + cb.x) / 2, y: BASE_Y - 10, anchor: 'middle' };
-    default:
-      return { x: (ca.x + cb.x) / 2, y: (ca.y + cb.y) / 2, anchor: 'middle' };
-  }
-}
-
-//: Cases sitting at a node right now, drawn where they are sitting. Most of a
-//: batch is parked at any moment, and that is the honest picture: waiting for a
-//: signature is not the same as being in transit.
+//: Cases sitting at a node right now, drawn where they sit. Most of a batch is
+//: parked at any moment, and that is the honest picture.
 function parkedDots(node, n, colour) {
   if (!n) return '';
-  const shown = Math.min(n, 12), r = 3.4, gap = 9;
-  const y = node.y + node.h - 10;
+  const shown = Math.min(n, 10), gap = 9;
+  const y = node.y + H - 9;
   let out = '';
-  for (let i = 0; i < shown; i++) {
-    out += `<circle cx="${node.x + 14 + i * gap}" cy="${y}" r="${r}"
-                    fill="${colour}" opacity=".55"/>`;
-  }
-  if (n > shown) out += `<text x="${node.x + 14 + shown * gap}" y="${y + 4}"
-                               class="ns">+${n - shown}</text>`;
+  for (let i = 0; i < shown; i++)
+    out += `<circle cx="${node.x + 58 + i * gap}" cy="${y}" r="3.2" fill="${colour}" opacity=".5"/>`;
+  if (n > shown)
+    out += `<text x="${node.x + 58 + shown * gap}" y="${y + 4}" class="ns">+${n - shown}</text>`;
   return out;
 }
 
-//: The gate badge. Signed in as the role that owns a node, it reads as a desk with
-//: your name on it; signed in as anyone else, it is locked. Switching role has to
-//: change the picture, because the difference between the roles is the point: the
-//: engineer who answers the question is not the person who may sign.
+//: Signed in as the role that owns a gate, it carries your name; as anyone else
+//: it is locked. Switching role has to change the picture, because the whole
+//: point is that the engineer who answers is not the person who may sign.
 function gateBadge(node, role) {
   const owner = OWNER[node.id];
   if (!owner) return '';
   const mine = owner === role;
-  // Bottom right, inside the box: the parked dots start from the left edge and
-  // the occupancy count sits top right, so this is the corner nothing else uses.
-  const x = node.x + node.w - 10, y = node.y + node.h - 8;
   const text = `${mine ? '' : '🔒 '}${ROLE_LABEL[owner]}`;
-  const w = text.length * 6.4 + 16;
+  const w = text.length * 6.4 + 16, x = node.x + W - 8, y = node.y + H + 15;
   return `<g class="gate ${mine ? 'mine' : ''}">
-    <rect x="${x - w}" y="${y - 15}" width="${w}" height="18" rx="9"
-          fill="${mine ? '#d97706' : '#fff'}" stroke="#d97706"
-          stroke-width="1.2" opacity="${mine ? 1 : .65}"/>
-    <text x="${x - w / 2}" y="${y - 2}" text-anchor="middle" class="gb"
+    <rect x="${x - w}" y="${y - 14}" width="${w}" height="18" rx="9"
+          fill="${mine ? '#d97706' : '#fff'}" stroke="#d97706" stroke-width="1.2"
+          opacity="${mine ? 1 : .7}"/>
+    <text x="${x - w / 2}" y="${y - 1}" text-anchor="middle" class="gb"
           fill="${mine ? '#fff' : '#b45309'}">${text}</text></g>`;
 }
 
 export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
-  // `trace` follows one item: the nodes it has stood at, and where it is now.
   const visited = new Set(trace?.nodes || []);
   const travelled = new Set(trace?.edges || []);
   const t = tally(flow), occ = occupancy(flow), out = [];
 
   out.push(`<defs>
-    <marker id="tipOff" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5"
-            markerHeight="6.5" orient="auto-start-reverse">
-      <path d="M0 0 L10 5 L0 10 z" fill="#b6bfcc"/></marker>
-    <marker id="tipOn" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6.5"
-            markerHeight="6.5" orient="auto-start-reverse">
-      <path d="M0 0 L10 5 L0 10 z" fill="#0f172a"/></marker>
-    <marker id="tipTrace" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7"
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.1" fill="#d9e0ea"/></pattern>
+    <marker id="tipOff" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6"
+            markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#c3ccd8"/></marker>
+    <marker id="tipOn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6"
+            markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#475569"/></marker>
+    <marker id="tipTrace" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
             markerHeight="7" orient="auto-start-reverse">
       <path d="M0 0 L10 5 L0 10 z" fill="#7c3aed"/></marker>
-  </defs>`);
+  </defs>
+  <rect x="0" y="0" width="100%" height="100%" fill="url(#dots)"/>`);
 
-  for (const z of ZONES) {
-    out.push(`<g class="zone">
-      <rect x="${z.x}" y="${z.y}" width="${z.w}" height="${z.h}" rx="14"
-            fill="${z.tint}" stroke="${z.colour}" stroke-width="1.6"
-            stroke-dasharray="7 5" opacity=".95"/>
-      <text x="${z.x + 16}" y="${z.y + 24}" class="zl"
-            fill="${z.colour}">${z.label}</text>
-      <text x="${z.x + 16}" y="${z.y + 41}" class="zn">${z.note}</text>
-    </g>`);
+  // The legend replaces the three boxes that used to enclose everything.
+  let lx = 40;
+  for (const [kind, meta] of Object.entries(KIND)) {
+    out.push(`<g><circle cx="${lx}" cy="26" r="6" fill="${meta.colour}"/>
+      <text x="${lx + 14}" y="30" class="lg">${meta.what}</text></g>`);
+    lx += meta.what.length * 7.4 + 60;
   }
 
-  for (const [a, b, key, step, text, kind] of EDGES) {
-    const n = key ? (t[key] || 0) : (t.received > 0 ? 1 : 0);
+  for (const [a, b, key, text, kind] of EDGES) {
+    const n = key ? (t[key] || 0) : 0;
     const on = n > 0;
     const d = path(a, b, kind);
     const walked = travelled.has(`${a}->${b}`);
     out.push(`<path d="${d}" fill="none"
-      stroke="${walked ? '#7c3aed' : on ? '#334155' : '#cbd5e1'}"
-      stroke-width="${walked ? 3.2 : on ? 1.9 : 1.3}"
-      stroke-dasharray="${walked ? 'none' : '6 4'}"
-      opacity="${trace && !walked ? .25 : 1}"
+      stroke="${walked ? '#7c3aed' : on ? '#64748b' : '#cdd5e0'}"
+      stroke-width="${walked ? 3 : on ? 2 : 1.4}"
+      opacity="${trace && !walked ? .2 : 1}"
       marker-end="url(#${walked ? 'tipTrace' : on ? 'tipOn' : 'tipOff'})"/>`);
-    // Motion is reserved for transitions that actually happened since the last
-    // look. An edge that carried work an hour ago is drawn thicker; it is not
-    // drawn moving, because nothing is moving along it.
     for (const m of (moves || [])) {
       if (`${STATE_NODE[m.from] || 'intake'}->${STATE_NODE[m.to]}` !== `${a}->${b}`) continue;
       out.push(`<circle r="5" fill="#0ea5e9">
@@ -334,34 +289,58 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
     }
     if (walked) out.push(`<circle r="5.5" fill="#7c3aed">
       <animateMotion dur="3s" repeatCount="indefinite" path="${d}"/></circle>`);
-
     const p = labelPoint(a, b, kind);
-    const count = key && t[key] ? `  (${t[key]})` : '';
     out.push(`<text x="${p.x}" y="${p.y}" text-anchor="${p.anchor}"
-      class="el ${on ? 'on' : ''}"><tspan class="es">${step}.</tspan> ${text}${count}</text>`);
+      class="el ${on ? 'on' : ''}">${text}${n ? ` (${n})` : ''}</text>`);
+  }
+
+  // Sub-nodes hang below their parent on a short dashed tether.
+  for (const sub of SUBS) {
+    const parent = N[sub.of];
+    const calls = sub.tool ? (flow.tools_used || {})[sub.tool] || 0 : 0;
+    const colour = KIND[parent.kind].colour;
+    out.push(`<path d="M ${parent.x + W / 2} ${parent.y + H} C ${parent.x + W / 2} ${parent.y + H + 40},
+                       ${sub.x} ${sub.y - 40}, ${sub.x} ${sub.y - 22}"
+      fill="none" stroke="${calls ? colour : '#cdd5e0'}" stroke-width="1.4"
+      stroke-dasharray="4 4" opacity="${trace ? .2 : 1}"/>
+    <g class="sub">
+      <circle cx="${sub.x}" cy="${sub.y}" r="21" fill="#fff"
+              stroke="${calls ? colour : '#cdd5e0'}" stroke-width="${calls ? 2 : 1.4}"/>
+      <text x="${sub.x}" y="${sub.y + 5}" text-anchor="middle" class="subn"
+            fill="${calls ? colour : '#94a3b8'}">${calls || '·'}</text>
+      <text x="${sub.x}" y="${sub.y + 38}" text-anchor="middle" class="ns">${sub.label}</text>
+    </g>`);
   }
 
   for (const node of NODES) {
     const n = occ[node.id] || 0;
-    const zone = ZONES.find(z => z.id === node.zone);
+    const meta = KIND[node.kind];
     const here = trace && trace.at === node.id;
     const stood = visited.has(node.id);
     const locked = OWNER[node.id] && OWNER[node.id] !== role;
     out.push(`<g class="node ${n > 0 ? 'on' : ''} ${stood ? 'stood' : ''} ${here ? 'here' : ''}
                  ${locked ? 'locked' : OWNER[node.id] ? 'mine' : ''}"
                  data-id="${node.id}"
-                 style="--zc:${zone.colour}; opacity:${trace && !stood ? .45 : 1}">
-      ${here ? `<rect x="${node.x - 7}" y="${node.y - 7}" width="${node.w + 14}"
-                      height="${node.h + 14}" rx="14" fill="none" stroke="#7c3aed"
-                      stroke-width="2.4" opacity=".55">
+                 style="--zc:${meta.colour}; opacity:${trace && !stood ? .4 : 1}">
+      ${here ? `<rect x="${node.x - 7}" y="${node.y - 7}" width="${W + 14}" height="${H + 14}"
+                      rx="15" fill="none" stroke="#7c3aed" stroke-width="2.4" opacity=".55">
                   <animate attributeName="opacity" values=".15;.7;.15" dur="1.6s"
                            repeatCount="indefinite"/></rect>` : ''}
-      <rect x="${node.x}" y="${node.y}" width="${node.w}" height="${node.h}" rx="10"/>
-      <text x="${node.x + 14}" y="${node.y + (node.sub ? 27 : 28)}" class="nl">${node.label}</text>
-      ${node.sub ? `<text x="${node.x + 14}" y="${node.y + 45}" class="ns">${node.sub}</text>` : ''}
-      ${n > 0 ? `<text x="${node.x + node.w - 13}" y="${node.y + 30}" class="nn"
-                       fill="${zone.colour}">${n}</text>` : ''}
-      ${parkedDots(node, n, zone.colour)}
+      <rect x="${node.x}" y="${node.y}" width="${W}" height="${H}" rx="11"/>
+      <rect x="${node.x + 10}" y="${node.y + 13}" width="42" height="42" rx="9"
+            fill="${meta.tint}" stroke="${meta.colour}" stroke-width="1.2"/>
+      <text x="${node.x + 31}" y="${node.y + 41}" text-anchor="middle" class="ni"
+            fill="${meta.colour}">${node.icon}</text>
+      <text x="${node.x + 60}" y="${node.y + 30}" class="nl">${node.label}</text>
+      <text x="${node.x + 60}" y="${node.y + 47}" class="ns">${node.sub}</text>
+      ${n > 0 ? `<g><circle cx="${node.x + W - 4}" cy="${node.y + 4}" r="15"
+                           fill="${meta.colour}"/>
+                    <text x="${node.x + W - 4}" y="${node.y + 10}" text-anchor="middle"
+                          class="nn">${n}</text></g>` : ''}
+      <circle cx="${node.x}" cy="${node.y + H / 2}" r="4.5" fill="#fff"
+              stroke="${meta.colour}" stroke-width="1.6"/>
+      <circle cx="${node.x + W}" cy="${node.y + H / 2}" r="4.5" fill="${meta.colour}"/>
+      ${parkedDots(node, n, meta.colour)}
       ${gateBadge(node, role)}
     </g>`);
   }
@@ -372,6 +351,10 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
     g.addEventListener('mouseenter', () => onHover && onHover(g.dataset.id));
   });
 }
+
+//: Metadata for the explanation panel, keyed the same way as the nodes.
+export const NODE_INFO = Object.fromEntries(
+  NODES.map(n => [n.id, { label: n.label, what: n.what, why: n.why }]));
 
 export function flowSummary(flow) {
   const a = flow.agent || {};
