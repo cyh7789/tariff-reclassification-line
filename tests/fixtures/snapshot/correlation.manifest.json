@@ -1,0 +1,13 @@
+{
+  "source": "correlation",
+  "url": "https://unstats.un.org/unsd/classifications/Econ/tables/HS2022toHS2017ConversionAndCorrelationTables.xlsx",
+  "fetched_at": "2026-08-17T10:03:01Z",
+  "revision": null,
+  "row_count": 68,
+  "bytes": 2221,
+  "sha256": "852e8e8d09cd400260b9526cc5e239b6bdf81ff22b8095559c62d918e4bb52eb",
+  "min_rows": 34,
+  "min_bytes": 1110,
+  "status": "ok",
+  "staleness_days": 0
+}

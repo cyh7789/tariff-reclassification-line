@@ -1,1 +1,11 @@
-{"snapshot_id":"fixture-2026-08-17","status":"ok","sources":["hts","correlation"]}
+{
+  "snapshot_id": "2026-08-18",
+  "created_at": "2026-08-17T10:02:39Z",
+  "sources": [
+    "hts",
+    "cross",
+    "csl",
+    "correlation"
+  ],
+  "status": "ok"
+}

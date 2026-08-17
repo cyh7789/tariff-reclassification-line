@@ -1,0 +1,13 @@
+{
+  "source": "csl",
+  "url": "https://data.trade.gov/downloadable_consolidated_screening_list/v1/consolidated.csv",
+  "fetched_at": "2026-08-17T10:02:53Z",
+  "revision": null,
+  "row_count": 200,
+  "bytes": 232881,
+  "sha256": "c5c0ffee0b263017c8e5bcb5354d5aadbc6fdcb0b47ff1be6baf0fbd8059caa9",
+  "min_rows": 100,
+  "min_bytes": 116440,
+  "status": "ok",
+  "staleness_days": 0
+}

@@ -1,0 +1,13 @@
+{
+  "source": "cross",
+  "url": "https://rulings.cbp.gov/api/search",
+  "fetched_at": "2026-08-17T10:02:52Z",
+  "revision": "2026-08-06",
+  "row_count": 200,
+  "bytes": 68464,
+  "sha256": "6b5d3b328dc1a028d9bfb3415d069e5413b1dde6aca23f02d706ad64f42cb7a9",
+  "min_rows": 100,
+  "min_bytes": 34232,
+  "status": "ok",
+  "staleness_days": 0
+}

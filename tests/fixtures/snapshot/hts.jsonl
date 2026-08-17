@@ -1,6 +1,400 @@
-{"htsno":"0101","indent":0,"description":"Live horses","general":"","special":"","other":"","row_index":0}
-{"htsno":null,"indent":1,"description":"Horses","general":"","special":"","other":"","row_index":1}
-{"htsno":"01012100","indent":2,"description":"Purebred breeding animals","general":"Free","special":"","other":"Free","row_index":2}
-{"htsno":"21069098","indent":2,"description":"Other food preparations","general":"6.4%","special":"Free (A)","other":"20%","row_index":3}
-{"htsno":"85437098","indent":2,"description":"Other electrical machines","general":"2.6%","special":"Free (A)","other":"35%","row_index":4}
-{"htsno":"0101300000","indent":1,"description":"Asses","general":"6.8%","special":"Free (A)","other":"15%","row_index":5}
+{"htsno": "0101", "indent": 0, "description": "Live horses, asses, mules and hinnies:", "general": "", "special": "", "other": "", "units": [], "row_index": 0}
+{"htsno": null, "indent": 1, "description": "Horses:", "general": "", "special": "", "other": "", "units": [], "row_index": 1}
+{"htsno": "01012100", "indent": 2, "description": "Purebred breeding animals", "general": "Free", "special": "", "other": "Free", "units": [], "row_index": 2}
+{"htsno": "0101210010", "indent": 3, "description": "Males", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 3}
+{"htsno": "0101210020", "indent": 3, "description": "Females", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 4}
+{"htsno": "01012900", "indent": 2, "description": "Other", "general": "Free", "special": "", "other": "20%", "units": [], "row_index": 5}
+{"htsno": "0101290010", "indent": 3, "description": "Imported for immediate slaughter", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 6}
+{"htsno": "0101290090", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 7}
+{"htsno": "0101300000", "indent": 1, "description": "Asses", "general": "6.8%", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "15%", "units": ["No."], "row_index": 8}
+{"htsno": "010190", "indent": 1, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 9}
+{"htsno": "0101903000", "indent": 2, "description": "Imported for immediate slaughter", "general": "Free", "special": "", "other": "Free", "units": ["No."], "row_index": 10}
+{"htsno": "0101904000", "indent": 2, "description": "Other", "general": "4.5%", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "20%", "units": ["No."], "row_index": 11}
+{"htsno": "0102", "indent": 0, "description": "Live bovine animals:", "general": "", "special": "", "other": "", "units": [], "row_index": 12}
+{"htsno": null, "indent": 1, "description": "Cattle:", "general": "", "special": "", "other": "", "units": [], "row_index": 13}
+{"htsno": "01022100", "indent": 2, "description": "Purebred breeding animals", "general": "Free", "special": "", "other": "Free", "units": [], "row_index": 14}
+{"htsno": null, "indent": 3, "description": "Dairy:", "general": "", "special": "", "other": "", "units": [], "row_index": 15}
+{"htsno": "0102210010", "indent": 4, "description": "Male", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 16}
+{"htsno": "0102210020", "indent": 4, "description": "Female", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 17}
+{"htsno": null, "indent": 3, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 18}
+{"htsno": "0102210030", "indent": 4, "description": "Male", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 19}
+{"htsno": "0102210050", "indent": 4, "description": "Female", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 20}
+{"htsno": "010229", "indent": 2, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 21}
+{"htsno": "01022920", "indent": 3, "description": "Cows imported specially for dairy purposes", "general": "Free", "special": "", "other": "6.6¢/kg", "units": [], "row_index": 22}
+{"htsno": "0102292011", "indent": 4, "description": "Weighing less than 90 kg each", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 23}
+{"htsno": "0102292012", "indent": 4, "description": "Weighing 90 kg or more each", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 24}
+{"htsno": "01022940", "indent": 3, "description": "Other", "general": "1¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "5.5¢/kg", "units": [], "row_index": 25}
+{"htsno": null, "indent": 4, "description": "Weighing less than 90 kg each:", "general": "", "special": "", "other": "", "units": [], "row_index": 26}
+{"htsno": "0102294024", "indent": 5, "description": "Male", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 27}
+{"htsno": "0102294028", "indent": 5, "description": "Female", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 28}
+{"htsno": null, "indent": 4, "description": "Weighing 90 kg or more but less than 200 kg each:", "general": "", "special": "", "other": "", "units": [], "row_index": 29}
+{"htsno": "0102294034", "indent": 5, "description": "Male", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 30}
+{"htsno": "0102294038", "indent": 5, "description": "Female", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 31}
+{"htsno": null, "indent": 4, "description": "Weighing 200 kg or more but less than 320 kg each:", "general": "", "special": "", "other": "", "units": [], "row_index": 32}
+{"htsno": "0102294054", "indent": 5, "description": "Male", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 33}
+{"htsno": "0102294058", "indent": 5, "description": "Female", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 34}
+{"htsno": null, "indent": 4, "description": "Weighing 320 kg or more each:", "general": "", "special": "", "other": "", "units": [], "row_index": 35}
+{"htsno": null, "indent": 5, "description": "For immediate slaughter:", "general": "", "special": "", "other": "", "units": [], "row_index": 36}
+{"htsno": "0102294062", "indent": 6, "description": "Steers", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 37}
+{"htsno": "0102294064", "indent": 6, "description": "Bulls", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 38}
+{"htsno": "0102294066", "indent": 6, "description": "Cows", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 39}
+{"htsno": "0102294068", "indent": 6, "description": "Heifers", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 40}
+{"htsno": null, "indent": 5, "description": "For breeding:", "general": "", "special": "", "other": "", "units": [], "row_index": 41}
+{"htsno": "0102294072", "indent": 6, "description": "Male", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 42}
+{"htsno": "0102294074", "indent": 6, "description": "Female", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 43}
+{"htsno": null, "indent": 5, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 44}
+{"htsno": "0102294082", "indent": 6, "description": "Male", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 45}
+{"htsno": "0102294084", "indent": 6, "description": "Female", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 46}
+{"htsno": null, "indent": 1, "description": "Buffalo:", "general": "", "special": "", "other": "", "units": [], "row_index": 47}
+{"htsno": "01023100", "indent": 2, "description": "Purebred breeding animals", "general": "Free", "special": "", "other": "Free", "units": [], "row_index": 48}
+{"htsno": "0102310010", "indent": 3, "description": "Male", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 49}
+{"htsno": "0102310020", "indent": 3, "description": "Female", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 50}
+{"htsno": "01023900", "indent": 2, "description": "Other", "general": "1¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "5.5¢/kg", "units": [], "row_index": 51}
+{"htsno": "0102390010", "indent": 3, "description": "Bison", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 52}
+{"htsno": null, "indent": 3, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 53}
+{"htsno": null, "indent": 4, "description": "Weighing less than 90 kg each:", "general": "", "special": "", "other": "", "units": [], "row_index": 54}
+{"htsno": "0102390024", "indent": 5, "description": "Male", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 55}
+{"htsno": "0102390028", "indent": 5, "description": "Female", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 56}
+{"htsno": null, "indent": 4, "description": "Weighing 90 kg or more but less than 200 kg each:", "general": "", "special": "", "other": "", "units": [], "row_index": 57}
+{"htsno": "0102390034", "indent": 5, "description": "Male", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 58}
+{"htsno": "0102390038", "indent": 5, "description": "Female", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 59}
+{"htsno": null, "indent": 4, "description": "Weighing 200 kg or more but less than 320 kg each:", "general": "", "special": "", "other": "", "units": [], "row_index": 60}
+{"htsno": "0102390054", "indent": 5, "description": "Male", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 61}
+{"htsno": "0102390058", "indent": 5, "description": "Female", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 62}
+{"htsno": null, "indent": 4, "description": "Weighing 320 kg or more each:", "general": "", "special": "", "other": "", "units": [], "row_index": 63}
+{"htsno": "0102390061", "indent": 5, "description": "For immediate slaughter", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 64}
+{"htsno": null, "indent": 5, "description": "For breeding:", "general": "", "special": "", "other": "", "units": [], "row_index": 65}
+{"htsno": "0102390072", "indent": 6, "description": "Male", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 66}
+{"htsno": "0102390074", "indent": 6, "description": "Female", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 67}
+{"htsno": null, "indent": 5, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 68}
+{"htsno": "0102390082", "indent": 6, "description": "Male", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 69}
+{"htsno": "0102390084", "indent": 6, "description": "Female", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 70}
+{"htsno": "0102900000", "indent": 1, "description": "Other", "general": "1¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "5.5¢/kg", "units": ["No.", "kg"], "row_index": 71}
+{"htsno": "0103", "indent": 0, "description": "Live swine:", "general": "", "special": "", "other": "", "units": [], "row_index": 72}
+{"htsno": "0103100000", "indent": 1, "description": "Purebred breeding animals", "general": "Free", "special": "", "other": "Free", "units": ["No."], "row_index": 73}
+{"htsno": null, "indent": 1, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 74}
+{"htsno": "01039100", "indent": 2, "description": "Weighing less than 50 kg each", "general": "Free", "special": "", "other": "4.4¢/kg", "units": [], "row_index": 75}
+{"htsno": "0103910010", "indent": 3, "description": "Weighing less than 7 kg each", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 76}
+{"htsno": "0103910020", "indent": 3, "description": "Weighing 7 kg or more but less than 23 kg each", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 77}
+{"htsno": "0103910030", "indent": 3, "description": "Weighing 23 kg or more but less than 50 kg each", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 78}
+{"htsno": "01039200", "indent": 2, "description": "Weighing 50 kg or more each", "general": "Free", "special": "", "other": "4.4¢/kg", "units": [], "row_index": 79}
+{"htsno": "0103920010", "indent": 3, "description": "Imported for immediate slaughter", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 80}
+{"htsno": "0103920020", "indent": 3, "description": "Breeding animals other than purebred breeding animals", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 81}
+{"htsno": "0103920091", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["No.", "kg"], "row_index": 82}
+{"htsno": "0104", "indent": 0, "description": "Live sheep and goats:", "general": "", "special": "", "other": "", "units": [], "row_index": 83}
+{"htsno": "0104100000", "indent": 1, "description": "Sheep", "general": "Free", "special": "", "other": "$3/head", "units": ["No.", "kg"], "row_index": 84}
+{"htsno": "0104200000", "indent": 1, "description": "Goats", "general": "68¢/head", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA, PE,S,SG)", "other": "$3/head", "units": ["No."], "row_index": 85}
+{"htsno": "0105", "indent": 0, "description": "Live poultry of the following kinds: Chickens, ducks, geese, turkeys and guineas:", "general": "", "special": "", "other": "", "units": [], "row_index": 86}
+{"htsno": null, "indent": 1, "description": "Weighing not more than 185 g:", "general": "", "special": "", "other": "", "units": [], "row_index": 87}
+{"htsno": "01051100", "indent": 2, "description": "Chickens", "general": "0.9¢ each", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR, MA,OM, P,PA,PE,S,SG)", "other": "4¢ each", "units": [], "row_index": 88}
+{"htsno": null, "indent": 3, "description": "Breeding stock, whether or not purebred:", "general": "", "special": "", "other": "", "units": [], "row_index": 89}
+{"htsno": "0105110010", "indent": 4, "description": "Layer-type (egg-type)", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 90}
+{"htsno": "0105110020", "indent": 4, "description": "Broiler-type (meat-type)", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 91}
+{"htsno": "0105110040", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 92}
+{"htsno": "0105120000", "indent": 2, "description": "Turkeys", "general": "0.9¢ each", "special": "Free (A+,AU,BH, CL,CO,D,E, IL,JO,KR,MA,OM,P,PA, PE,S,SG)", "other": "4¢ each", "units": ["No."], "row_index": 93}
+{"htsno": "0105130000", "indent": 2, "description": "Ducks", "general": "0.9¢ each", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "4¢ each", "units": ["No."], "row_index": 94}
+{"htsno": "0105140000", "indent": 2, "description": "Geese", "general": "0.9¢ each", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA, OM,P,PA,PE,S,SG)", "other": "4¢ each", "units": ["No."], "row_index": 95}
+{"htsno": "0105150000", "indent": 2, "description": "Guinea fowls", "general": "0.9¢ each", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA, OM,P,PA,PE,S,SG)", "other": "4¢ each", "units": ["No."], "row_index": 96}
+{"htsno": null, "indent": 1, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 97}
+{"htsno": "0105940000", "indent": 2, "description": "Chickens", "general": "2¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA, OM,P,PA,PE,S,SG)", "other": "17.6¢/kg", "units": ["No.", "kg"], "row_index": 98}
+{"htsno": "0105990000", "indent": 2, "description": "Other", "general": "2¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA, OM,P,PA,PE,S,SG)", "other": "17.6¢/kg", "units": ["No.", "kg"], "row_index": 99}
+{"htsno": "0106", "indent": 0, "description": "Other live animals:", "general": "", "special": "", "other": "", "units": [], "row_index": 100}
+{"htsno": null, "indent": 1, "description": "Mammals:", "general": "", "special": "", "other": "", "units": [], "row_index": 101}
+{"htsno": "0106110000", "indent": 2, "description": "Primates", "general": "Free", "special": "", "other": "15%", "units": ["No."], "row_index": 102}
+{"htsno": "0106120100", "indent": 2, "description": "Whales, dolphins and porpoises (mammals of the order Cetacea); manatees and dugongs (mammals of the order Sirenia); seals, sea lions and walruses (mammals of the suborder Pinnipedia)", "general": "Free", "special": "", "other": "15%", "units": ["No."], "row_index": 103}
+{"htsno": "0106130000", "indent": 2, "description": "Camels and other camelids (Camelidae)", "general": "Free", "special": "", "other": "15%", "units": ["No."], "row_index": 104}
+{"htsno": "0106140000", "indent": 2, "description": "Rabbits and hares", "general": "Free", "special": "", "other": "15%", "units": ["No."], "row_index": 105}
+{"htsno": "010619", "indent": 2, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 106}
+{"htsno": "0106193000", "indent": 3, "description": "Foxes", "general": "4.8%", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA, OM,P,PA,PE,S,SG)", "other": "15%", "units": ["No."], "row_index": 107}
+{"htsno": "01061991", "indent": 3, "description": "Other", "general": "Free", "special": "", "other": "15%", "units": [], "row_index": 108}
+{"htsno": "0106199120", "indent": 4, "description": "Dogs", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 109}
+{"htsno": "0106199195", "indent": 4, "description": "Other", "general": "", "special": "", "other": "", "units": ["No."], "row_index": 110}
+{"htsno": "0106200000", "indent": 1, "description": "Reptiles (including snakes and turtles)", "general": "Free", "special": "", "other": "15%", "units": ["No."], "row_index": 111}
+{"htsno": null, "indent": 1, "description": "Birds:", "general": "", "special": "", "other": "", "units": [], "row_index": 112}
+{"htsno": "0106310000", "indent": 2, "description": "Birds of prey", "general": "1.8%", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["No."], "row_index": 113}
+{"htsno": "0106320000", "indent": 2, "description": "Psittaciformes (including parrots, parakeets, macaws and cockatoos)", "general": "1.8%", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["No."], "row_index": 114}
+{"htsno": "0106330000", "indent": 2, "description": "Ostriches; emus (Dromaius novaehollandiae)", "general": "1.8%", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["No."], "row_index": 115}
+{"htsno": "0106390100", "indent": 2, "description": "Other", "general": "1.8%", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["No."], "row_index": 116}
+{"htsno": null, "indent": 1, "description": "Insects:", "general": "", "special": "", "other": "", "units": [], "row_index": 117}
+{"htsno": "0106410000", "indent": 2, "description": "Bees", "general": "Free", "special": "", "other": "15%", "units": ["kg"], "row_index": 118}
+{"htsno": "01064900", "indent": 2, "description": "Other", "general": "Free", "special": "", "other": "15%", "units": [], "row_index": 119}
+{"htsno": "0106490010", "indent": 3, "description": "Leaf cutter bee larvae", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 120}
+{"htsno": "0106490090", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 121}
+{"htsno": "01069001", "indent": 1, "description": "Other", "general": "Free", "special": "", "other": "15%", "units": [], "row_index": 122}
+{"htsno": "0106900110", "indent": 2, "description": "Worms", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 123}
+{"htsno": "0106900120", "indent": 2, "description": "Bait (other than worms)", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 124}
+{"htsno": "0106900180", "indent": 2, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 125}
+{"htsno": "0201", "indent": 0, "description": "Meat of bovine animals, fresh or chilled:", "general": "", "special": "", "other": "", "units": [], "row_index": 126}
+{"htsno": "020110", "indent": 1, "description": "Carcasses and half-carcasses:", "general": "", "special": "", "other": "", "units": [], "row_index": 127}
+{"htsno": "02011005", "indent": 2, "description": "Described in general note 15 of the tariff schedule and entered pursuant to its provisions", "general": "4.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E*, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "13.2¢/kg", "units": [], "row_index": 128}
+{"htsno": "0201100510", "indent": 3, "description": "Veal", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 129}
+{"htsno": "0201100590", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 130}
+{"htsno": "02011010", "indent": 2, "description": "Described in additional U.S. note 3 to this chapter and entered pursuant to its provisions", "general": "4.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "13.2¢/kg", "units": [], "row_index": 131}
+{"htsno": "0201101010", "indent": 3, "description": "Veal", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 132}
+{"htsno": "0201101090", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 133}
+{"htsno": "02011050", "indent": 2, "description": "Other ", "general": "26.4%", "special": "Free (BH,CL,CO,JO,KR,MA,OM,P,PE,S,SG) See 9822.04.01-9822.04.03 (AU) See 9919.02.01-9919.02.02 (PA)", "other": "31.1%", "units": [], "row_index": 134}
+{"htsno": "0201105010", "indent": 3, "description": "Veal", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 135}
+{"htsno": "0201105090", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 136}
+{"htsno": "020120", "indent": 1, "description": "Other cuts with bone in:", "general": "", "special": "", "other": "", "units": [], "row_index": 137}
+{"htsno": null, "indent": 2, "description": "Described in general note 15 of the tariff schedule and entered pursuant to its provisions:", "general": "", "special": "", "other": "", "units": [], "row_index": 138}
+{"htsno": null, "indent": 3, "description": "Processed:", "general": "", "special": "", "other": "", "units": [], "row_index": 139}
+{"htsno": "0201200200", "indent": 4, "description": "High-quality beef cuts", "general": "4%", "special": "Free (A+,AU,BH,CL,CO,D,E*, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "20%", "units": ["kg"], "row_index": 140}
+{"htsno": "0201200400", "indent": 4, "description": "Other", "general": "10%", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 141}
+{"htsno": "0201200600", "indent": 3, "description": "Other", "general": "4.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E*, IL,JO,KR,MA,OM,P,PA, PE,S,SG)", "other": "13.2¢/kg", "units": ["kg"], "row_index": 142}
+{"htsno": null, "indent": 2, "description": "Described in additional U.S. note 3 to this chapter and entered pursuant to its provisions:", "general": "", "special": "", "other": "", "units": [], "row_index": 143}
+{"htsno": null, "indent": 3, "description": "Processed:", "general": "", "special": "", "other": "", "units": [], "row_index": 144}
+{"htsno": "0201201000", "indent": 4, "description": "High-quality beef cuts", "general": "4%", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 145}
+{"htsno": "0201203000", "indent": 4, "description": "Other", "general": "10%", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 146}
+{"htsno": "02012050", "indent": 3, "description": "Other", "general": "4.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "13.2¢/kg", "units": [], "row_index": 147}
+{"htsno": "0201205015", "indent": 4, "description": "Fresh or chilled bone in veal cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 148}
+{"htsno": null, "indent": 4, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 149}
+{"htsno": "0201205025", "indent": 5, "description": "Rib cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 150}
+{"htsno": "0201205035", "indent": 5, "description": "Chuck cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 151}
+{"htsno": "0201205045", "indent": 5, "description": "Loin cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 152}
+{"htsno": "0201205065", "indent": 5, "description": "Hip cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 153}
+{"htsno": "0201205075", "indent": 5, "description": "Flank or plate cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 154}
+{"htsno": "0201205091", "indent": 5, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 155}
+{"htsno": "02012080", "indent": 2, "description": "Other ", "general": "26.4%", "special": "Free (BH,CL,CO,JO,KR,MA,OM,P,PE,S,SG) See 9822.04.01-9822.04.03 (AU) See 9919.02.01-9919.02.02 (PA)", "other": "31.1%", "units": [], "row_index": 156}
+{"htsno": "0201208010", "indent": 3, "description": "Bison", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 157}
+{"htsno": "0201208090", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 158}
+{"htsno": "020130", "indent": 1, "description": "Boneless:", "general": "", "special": "", "other": "", "units": [], "row_index": 159}
+{"htsno": null, "indent": 2, "description": "Described in general note 15 of the tariff schedule and entered pursuant to its provisions:", "general": "", "special": "", "other": "", "units": [], "row_index": 160}
+{"htsno": null, "indent": 3, "description": "Processed:", "general": "", "special": "", "other": "", "units": [], "row_index": 161}
+{"htsno": "0201300200", "indent": 4, "description": "High-quality beef cuts", "general": "4%", "special": "Free (A+,AU,BH,CL,CO,D,E*, IL,JO,KR,MA,OM, P,PA, PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 162}
+{"htsno": "0201300400", "indent": 4, "description": "Other", "general": "10%", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 163}
+{"htsno": "0201300600", "indent": 3, "description": "Other", "general": "4.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E*, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "13.2¢/kg", "units": ["kg"], "row_index": 164}
+{"htsno": null, "indent": 2, "description": "Described in additional U.S. note 3 to this chapter and entered pursuant to its provisions:", "general": "", "special": "", "other": "", "units": [], "row_index": 165}
+{"htsno": null, "indent": 3, "description": "Processed:", "general": "", "special": "", "other": "", "units": [], "row_index": 166}
+{"htsno": "0201301000", "indent": 4, "description": "High-quality beef cuts", "general": "4%", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 167}
+{"htsno": "0201303000", "indent": 4, "description": "Other", "general": "10%", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 168}
+{"htsno": "02013050", "indent": 3, "description": "Other", "general": "4.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "13.2¢/kg", "units": [], "row_index": 169}
+{"htsno": "0201305015", "indent": 4, "description": "Fresh or chilled boneless veal cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 170}
+{"htsno": null, "indent": 4, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 171}
+{"htsno": "0201305025", "indent": 5, "description": "Rib cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 172}
+{"htsno": "0201305035", "indent": 5, "description": "Chuck cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 173}
+{"htsno": "0201305045", "indent": 5, "description": "Loin cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 174}
+{"htsno": "0201305055", "indent": 5, "description": "Brisket cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 175}
+{"htsno": "0201305065", "indent": 5, "description": "Hip cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 176}
+{"htsno": "0201305075", "indent": 5, "description": "Flank or plate cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 177}
+{"htsno": null, "indent": 5, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 178}
+{"htsno": "0201305091", "indent": 6, "description": "Certified organic", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 179}
+{"htsno": "0201305097", "indent": 6, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 180}
+{"htsno": "02013080", "indent": 2, "description": "Other ", "general": "26.4%", "special": "Free (BH,CL,CO,JO,KR,MA,OM,P,PE,S,SG) See 9822.04.01-9822.04.03 (AU) See 9919.02.01-9919.02.02 (PA)", "other": "31.1%", "units": [], "row_index": 181}
+{"htsno": "0201308010", "indent": 3, "description": "Bison", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 182}
+{"htsno": "0201308090", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 183}
+{"htsno": "0202", "indent": 0, "description": "Meat of bovine animals, frozen:", "general": "", "special": "", "other": "", "units": [], "row_index": 184}
+{"htsno": "020210", "indent": 1, "description": "Carcasses and half-carcasses:", "general": "", "special": "", "other": "", "units": [], "row_index": 185}
+{"htsno": "02021005", "indent": 2, "description": "Described in general note 15 of the tariff schedule and entered pursuant to its provisions", "general": "4.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E*, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "13.2¢/kg", "units": [], "row_index": 186}
+{"htsno": "0202100510", "indent": 3, "description": "Veal", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 187}
+{"htsno": "0202100590", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 188}
+{"htsno": "02021010", "indent": 2, "description": "Described in additional U.S. note 3 to this chapter and entered pursuant to its provisions", "general": "4.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "13.2¢/kg", "units": [], "row_index": 189}
+{"htsno": "0202101010", "indent": 3, "description": "Veal", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 190}
+{"htsno": "0202101090", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 191}
+{"htsno": "02021050", "indent": 2, "description": "Other ", "general": "26.4%", "special": "Free (BH,CL,CO,JO,KR,MA,OM,P,PE,S,SG) See 9822.04.01-9822.04.03 (AU) See 9919.02.01-9919.02.02 (PA)", "other": "31.1%", "units": [], "row_index": 192}
+{"htsno": "0202105010", "indent": 3, "description": "Veal", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 193}
+{"htsno": "0202105090", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 194}
+{"htsno": "020220", "indent": 1, "description": "Other cuts with bone in:", "general": "", "special": "", "other": "", "units": [], "row_index": 195}
+{"htsno": null, "indent": 2, "description": "Described in general note 15 of the tariff schedule and entered pursuant to its provisions:", "general": "", "special": "", "other": "", "units": [], "row_index": 196}
+{"htsno": null, "indent": 3, "description": "Processed:", "general": "", "special": "", "other": "", "units": [], "row_index": 197}
+{"htsno": "0202200200", "indent": 4, "description": "High-quality beef cuts", "general": "4%", "special": "Free (A+,AU,BH,CL,CO,D,E*, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "20%", "units": ["kg"], "row_index": 198}
+{"htsno": "0202200400", "indent": 4, "description": "Other", "general": "10%", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 199}
+{"htsno": "0202200600", "indent": 3, "description": "Other", "general": "4.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E*, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "13.2¢/kg", "units": ["kg"], "row_index": 200}
+{"htsno": null, "indent": 2, "description": "Described in additional U.S. note 3 to this chapter and entered pursuant to its provisions:", "general": "", "special": "", "other": "", "units": [], "row_index": 201}
+{"htsno": null, "indent": 3, "description": "Processed:", "general": "", "special": "", "other": "", "units": [], "row_index": 202}
+{"htsno": "0202201000", "indent": 4, "description": "High-quality beef cuts", "general": "4%", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 203}
+{"htsno": "0202203000", "indent": 4, "description": "Other", "general": "10%", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 204}
+{"htsno": "02022050", "indent": 3, "description": "Other", "general": "4.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "13.2¢/kg", "units": [], "row_index": 205}
+{"htsno": "0202205025", "indent": 4, "description": "Rib cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 206}
+{"htsno": "0202205035", "indent": 4, "description": "Chuck cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 207}
+{"htsno": "0202205045", "indent": 4, "description": "Loin cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 208}
+{"htsno": "0202205090", "indent": 4, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 209}
+{"htsno": "0202208000", "indent": 2, "description": "Other ", "general": "26.4%", "special": "Free (BH,CL,CO,JO,KR,MA,OM,P,PE,S,SG) See 9822.04.01-9822.04.03 (AU) See 9919.02.01-9919.02.02 (PA)", "other": "31.1%", "units": ["kg"], "row_index": 210}
+{"htsno": "020230", "indent": 1, "description": "Boneless:", "general": "", "special": "", "other": "", "units": [], "row_index": 211}
+{"htsno": null, "indent": 2, "description": "Described in general note 15 of the tariff schedule and entered pursuant to its provisions:", "general": "", "special": "", "other": "", "units": [], "row_index": 212}
+{"htsno": null, "indent": 3, "description": "Processed:", "general": "", "special": "", "other": "", "units": [], "row_index": 213}
+{"htsno": "0202300200", "indent": 4, "description": "High-quality beef cuts", "general": "4%", "special": "Free (A,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 214}
+{"htsno": "0202300400", "indent": 4, "description": "Other", "general": "10%", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 215}
+{"htsno": "0202300600", "indent": 3, "description": "Other", "general": "4.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E*, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "13.2¢/kg", "units": ["kg"], "row_index": 216}
+{"htsno": null, "indent": 2, "description": "Described in additional U.S. note 3 to this chapter and entered pursuant to its provisions:", "general": "", "special": "", "other": "", "units": [], "row_index": 217}
+{"htsno": null, "indent": 3, "description": "Processed:", "general": "", "special": "", "other": "", "units": [], "row_index": 218}
+{"htsno": "0202301000", "indent": 4, "description": "High-quality beef cuts", "general": "4%", "special": "Free (A*,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 219}
+{"htsno": "0202303000", "indent": 4, "description": "Other", "general": "10%", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 220}
+{"htsno": "02023050", "indent": 3, "description": "Other", "general": "4.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E*,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "13.2¢/kg", "units": [], "row_index": 221}
+{"htsno": "0202305015", "indent": 4, "description": "Frozen boneless veal cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 222}
+{"htsno": null, "indent": 4, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 223}
+{"htsno": "0202305025", "indent": 5, "description": "Rib cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 224}
+{"htsno": "0202305035", "indent": 5, "description": "Chuck cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 225}
+{"htsno": "0202305045", "indent": 5, "description": "Loin cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 226}
+{"htsno": "0202305055", "indent": 5, "description": "Brisket cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 227}
+{"htsno": "0202305065", "indent": 5, "description": "Hip cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 228}
+{"htsno": "0202305075", "indent": 5, "description": "Flank or plate cuts", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 229}
+{"htsno": null, "indent": 5, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 230}
+{"htsno": "0202305091", "indent": 6, "description": "Certified organic", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 231}
+{"htsno": "0202305097", "indent": 6, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 232}
+{"htsno": "02023080", "indent": 2, "description": "Other ", "general": "26.4%", "special": "Free (BH,CL,CO,JO,KR,MA,OM,P,PE,S,SG) See 9822.04.01-9822.04.03 (AU) See 9919.02.01-9919.02.02 (PA)", "other": "31.1%", "units": [], "row_index": 233}
+{"htsno": "0202308015", "indent": 3, "description": "Certified organic", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 234}
+{"htsno": "0202308025", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 235}
+{"htsno": "0203", "indent": 0, "description": "Meat of swine, fresh, chilled, or frozen:", "general": "", "special": "", "other": "", "units": [], "row_index": 236}
+{"htsno": null, "indent": 1, "description": "Fresh or chilled:", "general": "", "special": "", "other": "", "units": [], "row_index": 237}
+{"htsno": "0203110000", "indent": 2, "description": "Carcasses and half-carcasses", "general": "Free", "special": "", "other": "5.5¢/kg", "units": ["kg"], "row_index": 238}
+{"htsno": "020312", "indent": 2, "description": "Hams, shoulders and cuts thereof, with bone in:", "general": "", "special": "", "other": "", "units": [], "row_index": 239}
+{"htsno": "02031210", "indent": 3, "description": "Processed", "general": "1.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "7.2¢/kg", "units": [], "row_index": 240}
+{"htsno": "0203121010", "indent": 4, "description": "Hams and cuts thereof", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 241}
+{"htsno": "0203121020", "indent": 4, "description": "Shoulders and cuts thereof", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 242}
+{"htsno": "02031290", "indent": 3, "description": "Other", "general": "Free", "special": "", "other": "5.5¢/kg", "units": [], "row_index": 243}
+{"htsno": "0203129010", "indent": 4, "description": "Hams and cuts thereof", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 244}
+{"htsno": "0203129020", "indent": 4, "description": "Shoulders and cuts thereof", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 245}
+{"htsno": "020319", "indent": 2, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 246}
+{"htsno": "02031920", "indent": 3, "description": "Processed", "general": "1.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "7.2¢/kg", "units": [], "row_index": 247}
+{"htsno": "0203192010", "indent": 4, "description": "Spare ribs", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 248}
+{"htsno": "0203192090", "indent": 4, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 249}
+{"htsno": "02031940", "indent": 3, "description": "Other", "general": "Free", "special": "", "other": "5.5¢/kg", "units": [], "row_index": 250}
+{"htsno": "0203194010", "indent": 4, "description": "Bellies", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 251}
+{"htsno": "0203194090", "indent": 4, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 252}
+{"htsno": null, "indent": 1, "description": "Frozen:", "general": "", "special": "", "other": "", "units": [], "row_index": 253}
+{"htsno": "0203210000", "indent": 2, "description": "Carcasses and half-carcasses", "general": "Free", "special": "", "other": "5.5¢/kg", "units": ["kg"], "row_index": 254}
+{"htsno": "020322", "indent": 2, "description": "Hams, shoulders and cuts thereof, with bone in:", "general": "", "special": "", "other": "", "units": [], "row_index": 255}
+{"htsno": "0203221000", "indent": 3, "description": "Processed", "general": "1.4¢/kg", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "7.2¢/kg", "units": ["kg"], "row_index": 256}
+{"htsno": "0203229000", "indent": 3, "description": "Other", "general": "Free", "special": "", "other": "5.5¢/kg", "units": ["kg"], "row_index": 257}
+{"htsno": "020329", "indent": 2, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 258}
+{"htsno": "0203292000", "indent": 3, "description": "Processed", "general": "1.4¢/kg", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "7.2¢/kg", "units": ["kg"], "row_index": 259}
+{"htsno": "0203294000", "indent": 3, "description": "Other", "general": "Free", "special": "", "other": "5.5¢/kg", "units": ["kg"], "row_index": 260}
+{"htsno": "0204", "indent": 0, "description": "Meat of sheep or goats, fresh, chilled or frozen:", "general": "", "special": "", "other": "", "units": [], "row_index": 261}
+{"htsno": "0204100000", "indent": 1, "description": "Carcasses and half-carcasses of lamb, fresh or chilled", "general": "0.7¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "15.4¢/kg", "units": ["kg"], "row_index": 262}
+{"htsno": null, "indent": 1, "description": "Other meat of sheep, fresh or chilled:", "general": "", "special": "", "other": "", "units": [], "row_index": 263}
+{"htsno": "0204210000", "indent": 2, "description": "Carcasses and half-carcasses ", "general": "2.8¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR, MA,OM,P,PA,PE,S, SG)", "other": "11¢/kg", "units": ["kg"], "row_index": 264}
+{"htsno": "020422", "indent": 2, "description": "Other cuts with bone in:", "general": "", "special": "", "other": "", "units": [], "row_index": 265}
+{"htsno": "02042220", "indent": 3, "description": "Lamb", "general": "0.7¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "15.4¢/kg", "units": [], "row_index": 266}
+{"htsno": "0204222010", "indent": 4, "description": "Shoulders", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 267}
+{"htsno": "0204222020", "indent": 4, "description": "Legs", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 268}
+{"htsno": "0204222030", "indent": 4, "description": "Loins", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 269}
+{"htsno": "0204222090", "indent": 4, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 270}
+{"htsno": "0204224000", "indent": 3, "description": "Other ", "general": "2.8¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "11¢/kg", "units": ["kg"], "row_index": 271}
+{"htsno": "020423", "indent": 2, "description": "Boneless:", "general": "", "special": "", "other": "", "units": [], "row_index": 272}
+{"htsno": "0204232000", "indent": 3, "description": "Lamb", "general": "0.7¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "15.4¢/kg", "units": ["kg"], "row_index": 273}
+{"htsno": "0204234000", "indent": 3, "description": "Other ", "general": "2.8¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "11¢/kg", "units": ["kg"], "row_index": 274}
+{"htsno": "0204300000", "indent": 1, "description": "Carcasses and half-carcasses of lamb, frozen", "general": "0.7¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "15.4¢/kg", "units": ["kg"], "row_index": 275}
+{"htsno": null, "indent": 1, "description": "Other meat of sheep, frozen:", "general": "", "special": "", "other": "", "units": [], "row_index": 276}
+{"htsno": "0204410000", "indent": 2, "description": "Carcasses and half-carcasses ", "general": "2.8¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "11¢/kg", "units": ["kg"], "row_index": 277}
+{"htsno": "020442", "indent": 2, "description": "Other cuts with bone in:", "general": "", "special": "", "other": "", "units": [], "row_index": 278}
+{"htsno": "02044220", "indent": 3, "description": "Lamb", "general": "0.7¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "15.4¢/kg", "units": [], "row_index": 279}
+{"htsno": "0204422010", "indent": 4, "description": "Shoulders", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 280}
+{"htsno": "0204422020", "indent": 4, "description": "Legs", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 281}
+{"htsno": "0204422030", "indent": 4, "description": "Loins", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 282}
+{"htsno": "0204422090", "indent": 4, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 283}
+{"htsno": "0204424000", "indent": 3, "description": "Other ", "general": "2.8¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "11¢/kg", "units": ["kg"], "row_index": 284}
+{"htsno": "020443", "indent": 2, "description": "Boneless:", "general": "", "special": "", "other": "", "units": [], "row_index": 285}
+{"htsno": "0204432000", "indent": 3, "description": "Lamb", "general": "0.7¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "15.4¢/kg", "units": ["kg"], "row_index": 286}
+{"htsno": "0204434000", "indent": 3, "description": "Other ", "general": "2.8¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "11¢/kg", "units": ["kg"], "row_index": 287}
+{"htsno": "0204500000", "indent": 1, "description": "Meat of goats", "general": "Free", "special": "", "other": "11¢/kg", "units": ["kg"], "row_index": 288}
+{"htsno": "0205000000", "indent": 0, "description": "Meat of horses, asses, mules or hinnies, fresh, chilled or frozen", "general": "Free", "special": "", "other": "Free", "units": ["kg"], "row_index": 289}
+{"htsno": "0206", "indent": 0, "description": "Edible offal of bovine animals, swine, sheep, goats, horses, asses, mules or hinnies, fresh, chilled or frozen:", "general": "", "special": "", "other": "", "units": [], "row_index": 290}
+{"htsno": "0206100000", "indent": 1, "description": "Of bovine animals, fresh or chilled", "general": "Free", "special": "", "other": "30%", "units": ["kg"], "row_index": 291}
+{"htsno": null, "indent": 1, "description": "Of bovine animals, frozen:", "general": "", "special": "", "other": "", "units": [], "row_index": 292}
+{"htsno": "0206210000", "indent": 2, "description": "Tongues", "general": "Free", "special": "", "other": "30%", "units": ["kg"], "row_index": 293}
+{"htsno": "0206220000", "indent": 2, "description": "Livers", "general": "Free", "special": "", "other": "30%", "units": ["kg"], "row_index": 294}
+{"htsno": "0206290000", "indent": 2, "description": "Other", "general": "Free", "special": "", "other": "30%", "units": ["kg"], "row_index": 295}
+{"htsno": "0206300000", "indent": 1, "description": "Of swine, fresh or chilled", "general": "Free", "special": "", "other": "30%", "units": ["kg"], "row_index": 296}
+{"htsno": null, "indent": 1, "description": "Of swine, frozen:", "general": "", "special": "", "other": "", "units": [], "row_index": 297}
+{"htsno": "0206410000", "indent": 2, "description": "Livers", "general": "Free", "special": "", "other": "30%", "units": ["kg"], "row_index": 298}
+{"htsno": "0206490000", "indent": 2, "description": "Other", "general": "Free", "special": "", "other": "30%", "units": ["kg"], "row_index": 299}
+{"htsno": "0206800000", "indent": 1, "description": "Other, fresh or chilled", "general": "Free", "special": "", "other": "30%", "units": ["kg"], "row_index": 300}
+{"htsno": "02069000", "indent": 1, "description": "Other, frozen", "general": "Free", "special": "", "other": "30%", "units": [], "row_index": 301}
+{"htsno": "0206900020", "indent": 2, "description": "Of sheep (including lamb)", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 302}
+{"htsno": "0206900040", "indent": 2, "description": "Of goats, horses, asses, mules or hinnies", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 303}
+{"htsno": "0207", "indent": 0, "description": "Meat and edible offal, of the poultry of heading 0105, fresh, chilled or frozen:", "general": "", "special": "", "other": "", "units": [], "row_index": 304}
+{"htsno": null, "indent": 1, "description": "Of chickens:", "general": "", "special": "", "other": "", "units": [], "row_index": 305}
+{"htsno": "02071100", "indent": 2, "description": "Not cut in pieces, fresh or chilled", "general": "8.8¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "22¢/kg", "units": [], "row_index": 306}
+{"htsno": "0207110020", "indent": 3, "description": "Young (broilers, fryers, roasters and capons)", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 307}
+{"htsno": "0207110040", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 308}
+{"htsno": "02071200", "indent": 2, "description": "Not cut in pieces, frozen", "general": "8.8¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": [], "row_index": 309}
+{"htsno": "0207120020", "indent": 3, "description": "Young (broilers, fryers, roasters and capons)", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 310}
+{"htsno": "0207120040", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 311}
+{"htsno": "0207130000", "indent": 2, "description": "Cuts and offal, fresh or chilled", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 312}
+{"htsno": "02071400", "indent": 2, "description": "Cuts and offal, frozen", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": [], "row_index": 313}
+{"htsno": "0207140020", "indent": 3, "description": "Livers", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 314}
+{"htsno": "0207140040", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 315}
+{"htsno": null, "indent": 1, "description": "Of turkeys:", "general": "", "special": "", "other": "", "units": [], "row_index": 316}
+{"htsno": "0207240000", "indent": 2, "description": "Not cut in pieces, fresh or chilled", "general": "15¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 317}
+{"htsno": "020725", "indent": 2, "description": "Not cut in pieces, frozen:", "general": "", "special": "", "other": "", "units": [], "row_index": 318}
+{"htsno": "0207252000", "indent": 3, "description": "Valued less than 88¢/kg", "general": "8.8¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 319}
+{"htsno": "0207254000", "indent": 3, "description": "Valued 88¢ or more per kg", "general": "10%", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "25%", "units": ["kg"], "row_index": 320}
+{"htsno": "0207260000", "indent": 2, "description": "Cuts and offal, fresh or chilled", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 321}
+{"htsno": "02072700", "indent": 2, "description": "Cuts and offal, frozen", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": [], "row_index": 322}
+{"htsno": "0207270020", "indent": 3, "description": "Livers", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 323}
+{"htsno": "0207270040", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 324}
+{"htsno": null, "indent": 1, "description": "Of ducks:", "general": "", "special": "", "other": "", "units": [], "row_index": 325}
+{"htsno": "0207410000", "indent": 2, "description": "Not cut in pieces, fresh or chilled", "general": "8.8¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA, OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 326}
+{"htsno": "0207420000", "indent": 2, "description": "Not cut in pieces, frozen", "general": "8.8¢/kg", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 327}
+{"htsno": "0207430000", "indent": 2, "description": "Fatty livers, fresh or chilled", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 328}
+{"htsno": "0207440000", "indent": 2, "description": "Other, fresh or chilled", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA, OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 329}
+{"htsno": "02074500", "indent": 2, "description": "Other, frozen", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": [], "row_index": 330}
+{"htsno": "0207450020", "indent": 3, "description": "Livers", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 331}
+{"htsno": "0207450040", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 332}
+{"htsno": null, "indent": 1, "description": "Of geese:", "general": "", "special": "", "other": "", "units": [], "row_index": 333}
+{"htsno": "0207510000", "indent": 2, "description": "Not cut in pieces, fresh or chilled", "general": "8.8¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 334}
+{"htsno": "0207520000", "indent": 2, "description": "Not cut in pieces, frozen", "general": "8.8¢/kg", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 335}
+{"htsno": "0207530000", "indent": 2, "description": "Fatty livers, fresh or chilled", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 336}
+{"htsno": "0207540000", "indent": 2, "description": "Other, fresh or chilled", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 337}
+{"htsno": "02075500", "indent": 2, "description": "Other, frozen", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": [], "row_index": 338}
+{"htsno": "0207550020", "indent": 3, "description": "Livers", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 339}
+{"htsno": "0207550040", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 340}
+{"htsno": "020760", "indent": 1, "description": "Of guinea fowls:", "general": "", "special": "", "other": "", "units": [], "row_index": 341}
+{"htsno": "0207601000", "indent": 2, "description": "Not cut in pieces, fresh or chilled", "general": "8.8¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA, OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 342}
+{"htsno": "0207602000", "indent": 2, "description": "Not cut in pieces, frozen", "general": "8.8¢/kg", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 343}
+{"htsno": "0207603000", "indent": 2, "description": "Fatty livers, fresh or chilled", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 344}
+{"htsno": "0207604000", "indent": 2, "description": "Other, fresh or chilled", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 345}
+{"htsno": "02076060", "indent": 2, "description": "Other, frozen", "general": "17.6¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": [], "row_index": 346}
+{"htsno": "0207606020", "indent": 3, "description": "Livers", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 347}
+{"htsno": "0207606040", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 348}
+{"htsno": "0208", "indent": 0, "description": "Other meat and edible meat offal, fresh, chilled or frozen:", "general": "", "special": "", "other": "", "units": [], "row_index": 349}
+{"htsno": "0208100000", "indent": 1, "description": "Of rabbits or hares", "general": "6.4%", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 350}
+{"htsno": "0208300000", "indent": 1, "description": "Of primates", "general": "6.4%", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 351}
+{"htsno": "0208400100", "indent": 1, "description": "Of whales, dolphins and porpoises (mammals of the order Cetacea); of manatees and dugongs (mammals of the order Sirenia); of seals, sea lions and walruses (mammals of the suborder Pinnipedia).", "general": "6.4%", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 352}
+{"htsno": "0208500000", "indent": 1, "description": "Of reptiles (including snakes and turtles)", "general": "6.4%", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 353}
+{"htsno": "0208600000", "indent": 1, "description": "Of camels and other camelids (Camelidae)", "general": "6.4%", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 354}
+{"htsno": "020890", "indent": 1, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 355}
+{"htsno": "0208902000", "indent": 2, "description": "Deer", "general": "Free", "special": "", "other": "13.2¢/kg", "units": ["kg"], "row_index": 356}
+{"htsno": "0208902500", "indent": 2, "description": "Frogsʼ legs", "general": "Free", "special": "", "other": "10%", "units": ["kg"], "row_index": 357}
+{"htsno": "0208903000", "indent": 2, "description": "Quail, eviscerated, not in pieces", "general": "7¢/kg", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "22¢/kg", "units": ["kg"], "row_index": 358}
+{"htsno": "0208909100", "indent": 2, "description": "Other", "general": "6.4%", "special": "Free (A+,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 359}
+{"htsno": "0209", "indent": 0, "description": "Pig fat, free of lean meat, and poultry fat, not rendered or otherwise extracted, fresh, chilled, frozen, salted, in brine, dried or smoked:", "general": "", "special": "", "other": "", "units": [], "row_index": 360}
+{"htsno": "0209100000", "indent": 1, "description": "Of pigs", "general": "3.2%", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 361}
+{"htsno": "0209900000", "indent": 1, "description": "Other", "general": "3.2%", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 362}
+{"htsno": "0210", "indent": 0, "description": "Meat and edible meat offal, salted, in brine, dried or smoked; edible flours and meals of meat or meat offal:", "general": "", "special": "", "other": "", "units": [], "row_index": 363}
+{"htsno": null, "indent": 1, "description": "Meat of swine:", "general": "", "special": "", "other": "", "units": [], "row_index": 364}
+{"htsno": "02101100", "indent": 2, "description": "Hams, shoulders and cuts thereof, with bone in", "general": "1.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "7.2¢/kg", "units": [], "row_index": 365}
+{"htsno": "0210110010", "indent": 3, "description": "Hams and cuts thereof", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 366}
+{"htsno": "0210110020", "indent": 3, "description": "Shoulders and cuts thereof", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 367}
+{"htsno": "02101200", "indent": 2, "description": "Bellies (streaky) and cuts thereof", "general": "1.4¢/kg", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "7.2¢/kg", "units": [], "row_index": 368}
+{"htsno": "0210120020", "indent": 3, "description": "Bacon", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 369}
+{"htsno": "0210120040", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 370}
+{"htsno": "02101900", "indent": 2, "description": "Other", "general": "1.4¢/kg", "special": "Free (A+,AU,BH,CL,CO,D,E, IL,JO,KR,MA,OM,P,PA,PE,S, SG)", "other": "7.2¢/kg", "units": [], "row_index": 371}
+{"htsno": "0210190010", "indent": 3, "description": "Canadian style bacon", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 372}
+{"htsno": "0210190090", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 373}
+{"htsno": "0210200000", "indent": 1, "description": "Meat of bovine animals", "general": "Free", "special": "", "other": "30%", "units": ["kg"], "row_index": 374}
+{"htsno": null, "indent": 1, "description": "Other, including edible flours and meals of meat or meat offal:", "general": "", "special": "", "other": "", "units": [], "row_index": 375}
+{"htsno": "0210910000", "indent": 2, "description": "Of primates", "general": "2.3%", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 376}
+{"htsno": "0210920100", "indent": 2, "description": "Of whales, dolphins and porpoises (mammals of the order Cetacea); of manatees and dugongs (mammals of the order Sirenia); of seals, sea lions and walruses (mammals of the suborder Pinnipedia)", "general": "2.3%", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 377}
+{"htsno": "0210930000", "indent": 2, "description": "Of reptiles (including snakes and turtles)", "general": "2.3%", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 378}
+{"htsno": "021099", "indent": 2, "description": "Other:", "general": "", "special": "", "other": "", "units": [], "row_index": 379}
+{"htsno": "0210992000", "indent": 3, "description": "Meat of poultry of heading 0105", "general": "2.3%", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 380}
+{"htsno": "0210999100", "indent": 3, "description": "Other", "general": "2.3%", "special": "Free (A,AU,BH,CL,CO,D,E,IL,JO,KR,MA,OM,P,PA,PE,S,SG)", "other": "20%", "units": ["kg"], "row_index": 381}
+{"htsno": "0301", "indent": 0, "description": "Live fish:", "general": "", "special": "", "other": "", "units": [], "row_index": 382}
+{"htsno": null, "indent": 1, "description": "Ornamental fish:", "general": "", "special": "", "other": "", "units": [], "row_index": 383}
+{"htsno": "03011100", "indent": 2, "description": "Freshwater", "general": "Free", "special": "", "other": "Free", "units": [], "row_index": 384}
+{"htsno": "0301110010", "indent": 3, "description": "Koi (common) carp (Cyprinus carpio)", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 385}
+{"htsno": "0301110020", "indent": 3, "description": "Goldfish( Carassius auratus), Crucian carp (Carassius carassius)", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 386}
+{"htsno": "0301110090", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 387}
+{"htsno": "0301190000", "indent": 2, "description": "Other", "general": "Free", "special": "", "other": "Free", "units": ["kg"], "row_index": 388}
+{"htsno": null, "indent": 1, "description": "Other live fish:", "general": "", "special": "", "other": "", "units": [], "row_index": 389}
+{"htsno": "0301910000", "indent": 2, "description": "Trout (Salmo trutta, Oncorhynchus mykiss, Oncorhynchus clarki, Oncorhynchus aguabonita, Oncorhynchus gilae, Oncorhynchus apache and Oncorhynchus chrysogaster)", "general": "Free", "special": "", "other": "Free", "units": ["kg"], "row_index": 390}
+{"htsno": "0301920000", "indent": 2, "description": "Eels (Anguilla spp.)", "general": "Free", "special": "", "other": "Free", "units": ["kg"], "row_index": 391}
+{"htsno": "03019302", "indent": 2, "description": "Carp (Cyprinus spp., Carassius spp., Ctenopharyngodon idellus, Hypophthalmichthys spp., Cirrhinus spp., Mylopharyngodon piceus, Catla catla, Labeo spp., Osteochilus hasselti, Leptobarbus hoeveni, Megalobrama spp.)", "general": "Free", "special": "", "other": "Free", "units": [], "row_index": 392}
+{"htsno": "0301930210", "indent": 3, "description": "Grass carp (Ctenopharyngodon idellus), silver carp (Hypophthalmichthys molitrix) and bighead carp (Aristichthys nobilis)", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 393}
+{"htsno": "0301930290", "indent": 3, "description": "Other", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 394}
+{"htsno": "0301940100", "indent": 2, "description": "Atlantic and Pacific bluefin tunas (Thunnus thynnus, Thunnus orientalis)", "general": "Free", "special": "", "other": "Free", "units": ["kg"], "row_index": 395}
+{"htsno": "0301950000", "indent": 2, "description": "Southern Bluefin tunas (Thunnus maccoyii)", "general": "Free", "special": "", "other": "Free", "units": ["kg"], "row_index": 396}
+{"htsno": "03019903", "indent": 2, "description": "Other", "general": "Free", "special": "", "other": "Free", "units": [], "row_index": 397}
+{"htsno": "0301990310", "indent": 3, "description": "Tench (Tinca tinca), sheatfish (Silurus glanis)", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 398}
+{"htsno": "0301990315", "indent": 3, "description": "Bighead carp (Aristichthys nobilis)", "general": "", "special": "", "other": "", "units": ["kg"], "row_index": 399}

@@ -5,7 +5,9 @@ from fleet.triage.engine import triage
 from fleet.triage.types import Bucket, LineItem, Route
 
 
-FIXTURE = Path(__file__).parent / "fixtures" / "snapshot"
+# Hand-built edge cases, kept apart from the real-snapshot fixture the gate
+# tests use: routing rules are easier to read against codes chosen for them.
+FIXTURE = Path(__file__).parent / "fixtures" / "triage"
 
 
 def run_triage(*items: LineItem):

@@ -1,0 +1,5 @@
+hs2017,hs2022,relationship,n_hs2022_candidates,is_ex,unsd_relationship,in_wco_table2,is_sweep
+010129,010130,1:1,1,0,1:1,1,0
+210690,210690,n:n,2,0,n:n,1,0
+210690,240491,n:n,2,1,n:n,1,0
+854370,854370,1:n,1,1,1:n,1,0
