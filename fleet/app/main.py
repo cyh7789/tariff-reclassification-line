@@ -31,7 +31,8 @@ from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from fleet.workflow.store import CaseState, IllegalTransition, Store
+from fleet.workflow.store import (CaseState, IllegalTransition, Store,
+                                  UndecidedFinding)
 from fleet.workflow.worker import Worker
 
 HERE = Path(__file__).parent
@@ -284,6 +285,7 @@ def get_case(case_id: str, x_role: str = Header(None), x_tenant: str = Header(No
         raise HTTPException(404, "no such case for this product line")
     return {"case": case.__dict__ | {"state": str(case.state)},
             "events": store.events(case_id),
+            "facts": store.facts(case_id),
             # Every attempt, not just the last one. The refusal and the decision
             # that followed it are two different pieces of reasoning and the
             # person signing is entitled to both.
@@ -307,9 +309,12 @@ async def supply_fact(case_id: str, body: Fact, x_role: str = Header(None),
         raise HTTPException(409, f"case is {case.state}, not waiting for a fact")
 
     detail = f"{case.missing_property} -> {body.value}"
+    # Stored before the re-run is scheduled, so every later run of this case sees
+    # it too, not just the one this request kicked off.
+    store.add_fact(case_id, case.missing_property or "", body.value, role)
     store.transition(case_id, CaseState.CLASSIFYING, role,
                      f"fact:{case_id}:{len(store.events(case_id))}", detail=detail)
-    asyncio.create_task(asyncio.to_thread(worker.run_case, case_id, body.value))
+    asyncio.create_task(asyncio.to_thread(worker.run_case, case_id))
     return {"ok": True}
 
 
@@ -331,8 +336,11 @@ async def advance_case(case_id: str, x_role: str = Header(None),
 
     if case.state in (CaseState.READY, CaseState.SETTLED):
         require(role, "approver")
-        store.transition(case_id, CaseState.APPROVED, role,
-                         f"approve-one:{case_id}", detail="approved individually")
+        try:
+            store.transition(case_id, CaseState.APPROVED, role,
+                             f"approve-one:{case_id}", detail="approved individually")
+        except UndecidedFinding as exc:
+            raise HTTPException(409, str(exc))
         return {"state": "APPROVED"}
 
     # A case left CLASSIFYING by a worker that died is stranded: nothing will ever

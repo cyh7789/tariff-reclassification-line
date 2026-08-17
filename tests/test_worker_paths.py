@@ -83,3 +83,43 @@ def test_a_clean_classification_carries_its_compliance_findings(running):
     assert settled.selected_code == "6201204011"
     kinds = {f["kind"] for f in settled.findings}
     assert "DUTY_NOT_COMPUTABLE" in kinds
+
+
+def test_a_supplied_fact_survives_a_restart_that_carried_no_arguments(running):
+    """Engineering answers once. Every later run of the case has to see it.
+
+    It used to arrive as an argument to the endpoint that triggered the re-run,
+    so a restart after a crash, or a re-run after a failed citation check, showed
+    the agent the original description and asked the same question again.
+    """
+    store, worker, case = running
+    store.transition(case.case_id, CaseState.NEEDS_INPUT, "classifier", "r1",
+                     missing_property="are the sleeves long or is it sleeveless?",
+                     ask_department="engineering")
+    store.add_fact(case.case_id, "sleeves", "long, hemmed sleeves", "contributor")
+    store.transition(case.case_id, CaseState.CLASSIFYING, "contributor", "r2")
+
+    seen = {}
+
+    def capture(self, item, on_event=None):
+        seen["description"] = item.description
+        return answer()
+
+    with patch.object(type(worker.runner), "classify", capture):
+        worker.run_case(case.case_id)          # no fact passed in, as a restart would
+
+    assert "long, hemmed sleeves" in seen["description"]
+    assert "sleeves" in seen["description"]
+
+
+def test_facts_accumulate_rather_than_replace(running):
+    store, worker, case = running
+    store.add_fact(case.case_id, "sleeves", "long, hemmed", "contributor")
+    store.add_fact(case.case_id, "net weight", "1,000 kg", "logistics")
+
+    seen = {}
+    with patch.object(type(worker.runner), "classify",
+                      lambda self, item, on_event=None: seen.update(d=item.description) or answer()):
+        worker.run_case(case.case_id)
+
+    assert "long, hemmed" in seen["d"] and "1,000 kg" in seen["d"]

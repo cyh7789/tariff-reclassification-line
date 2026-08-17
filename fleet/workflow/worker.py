@@ -160,17 +160,27 @@ class Worker:
         with ThreadPoolExecutor(max_workers=4) as pool:
             list(pool.map(self.run_case, queued))
 
-    def run_case(self, case_id: str, extra_fact: str | None = None) -> None:
-        """Classify one case and record the outcome, whatever it is."""
+    def run_case(self, case_id: str) -> None:
+        """Classify one case and record the outcome, whatever it is.
+
+        Facts somebody supplied are read from the store, not passed in. They used
+        to arrive as an argument from the endpoint that triggered the re-run,
+        which meant every other way of re-running a case, a failed citation check
+        or a restart after a crash, showed the agent the original description and
+        asked engineering a question it had already answered.
+        """
         case = self.store.case(case_id)
         if case is None:
             return
         attempt = len(self.store.events(case_id))
         description = case.description
-        if extra_fact:
-            # The answer engineering gave is part of the description now, so the
-            # agent sees it the way it would have seen it in the first place.
-            description = f"{description}\n\nAdditional information: {extra_fact}"
+        supplied = self.store.facts(case_id)
+        if supplied:
+            answers = "\n".join(
+                f"- {f['property']}: {f['value']}" if f["property"] else f"- {f['value']}"
+                for f in supplied)
+            description = (f"{description}\n\nAdditional information supplied by the "
+                           f"company:\n{answers}")
 
         self.active[case_id] = {"item_id": case.item_id, "bucket": case.bucket,
                                 "tool": "starting", "calls": 0}

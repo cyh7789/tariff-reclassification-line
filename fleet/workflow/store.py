@@ -65,6 +65,15 @@ class IllegalTransition(Exception):
     """Raised when a move is not in `LEGAL`. Never caught to 'recover'."""
 
 
+class UndecidedFinding(Exception):
+    """Raised when a signature would carry a question nobody answered.
+
+    Enforced at the transition rather than at each approval path. There are two
+    doors into APPROVED, the batch signature and the single-case one, and a gate
+    on one door is a gate on neither.
+    """
+
+
 @dataclass
 class Case:
     case_id: str
@@ -186,6 +195,21 @@ CREATE TABLE IF NOT EXISTS case_attempts (
 );
 
 CREATE INDEX IF NOT EXISTS attempts_by_case ON case_attempts(case_id, attempt_id);
+
+-- Facts somebody supplied because the agent asked for them. Append-only, and the
+-- reason it is a table: an answer that lives only in the call that triggered the
+-- re-run is lost the moment anything else re-runs the case, and engineering gets
+-- asked a question it already answered.
+CREATE TABLE IF NOT EXISTS case_facts (
+    fact_id     INTEGER PRIMARY KEY AUTOINCREMENT,
+    case_id     TEXT NOT NULL REFERENCES cases(case_id),
+    at          TEXT NOT NULL,
+    property    TEXT NOT NULL DEFAULT '',
+    value       TEXT NOT NULL,
+    supplied_by TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS facts_by_case ON case_facts(case_id, fact_id);
 """
 
 
@@ -283,6 +307,15 @@ class Store:
                 current = CaseState(row["state"])
                 if to_state not in LEGAL[current]:
                     raise IllegalTransition(f"{current} -> {to_state} is not a legal move")
+                if to_state is CaseState.APPROVED:
+                    found = db.execute("SELECT findings FROM cases WHERE case_id = ?",
+                                       (case_id,)).fetchone()
+                    undecided = [f for f in json.loads(found["findings"] or "[]")
+                                 if f.get("severity") == 0 and not f.get("decision")]
+                    if undecided:
+                        raise UndecidedFinding(
+                            f"{case_id} carries a finding only a person can settle: "
+                            f"{undecided[0].get('headline', 'unnamed')}")
 
                 sets, values = ["state = ?", "updated_at = ?"], [to_state, now()]
                 for column, value in fields.items():
@@ -334,6 +367,8 @@ class Store:
             # party was sailing through the batch signature with no record that
             # anybody had looked, which is the one thing this system claims not
             # to do.
+            # The transition refuses these outright; listing them here is what
+            # turns a refusal into a report of what was left behind and why.
             undecided = [f for f in json.loads(row["findings"] or "[]")
                          if f.get("severity") == 0 and not f.get("decision")]
             if undecided and state in (CaseState.READY, CaseState.SETTLED):
@@ -432,6 +467,18 @@ class Store:
         with self.connect() as db:
             return [dict(r) for r in db.execute(
                 "SELECT * FROM case_events WHERE case_id = ? ORDER BY event_id", (case_id,))]
+
+    def add_fact(self, case_id: str, prop: str, value: str, actor: str) -> None:
+        """Record an answer to the question the agent asked."""
+        with self.connect() as db:
+            db.execute("INSERT INTO case_facts (case_id, at, property, value, supplied_by)"
+                       " VALUES (?,?,?,?,?)", (case_id, now(), prop, value, actor))
+
+    def facts(self, case_id: str) -> list[dict]:
+        """Everything supplied for this case, oldest first."""
+        with self.connect() as db:
+            return [dict(r) for r in db.execute(
+                "SELECT * FROM case_facts WHERE case_id = ? ORDER BY fact_id", (case_id,))]
 
     def attempts(self, case_id: str) -> list[dict]:
         """Every attempt at this case, oldest first, each with its own transcript."""

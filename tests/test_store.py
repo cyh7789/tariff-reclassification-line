@@ -6,7 +6,8 @@ rather than recorded, and a retried worker does not produce a second result.
 
 import pytest
 
-from fleet.workflow.store import CaseState, IllegalTransition, Store
+from fleet.workflow.store import (CaseState, IllegalTransition, Store,
+                                  UndecidedFinding)
 
 
 ITEMS = [
@@ -241,3 +242,15 @@ def test_a_computed_finding_is_not_a_person_s_to_decide(store, batch):
 
     with pytest.raises(ValueError, match="settled by the machine"):
         store.decide_finding(case.case_id, 0, "cleared", "approver")
+
+
+def test_both_doors_into_approved_are_the_same_gate(store, batch):
+    """The batch signature and the single-case approval are two doors. A gate on
+    one door is a gate on neither, so it lives at the transition."""
+    case = _flagged(store, batch)
+
+    with pytest.raises(UndecidedFinding, match="only a person can settle"):
+        store.transition(case.case_id, CaseState.APPROVED, "approver", "one-off")
+
+    store.decide_finding(case.case_id, 0, "cleared", "approver", "different owner")
+    assert store.transition(case.case_id, CaseState.APPROVED, "approver", "one-off-2")
