@@ -323,12 +323,23 @@ class Store:
         approved, held = [], []
         with self.connect() as db:
             rows = db.execute(
-                "SELECT case_id, state FROM cases WHERE batch_id = ?", (batch_id,)
+                "SELECT case_id, state, findings FROM cases WHERE batch_id = ?", (batch_id,)
             ).fetchall()
         for row in rows:
             if only is not None and row["case_id"] not in only:
                 continue
             state = CaseState(row["state"])
+            # A finding the machine would not decide cannot be signed off by an
+            # action that decides nothing. A supplier resembling a sanctioned
+            # party was sailing through the batch signature with no record that
+            # anybody had looked, which is the one thing this system claims not
+            # to do.
+            undecided = [f for f in json.loads(row["findings"] or "[]")
+                         if f.get("severity") == 0 and not f.get("decision")]
+            if undecided and state in (CaseState.READY, CaseState.SETTLED):
+                held.append({"case_id": row["case_id"], "state": str(state),
+                             "why": undecided[0].get("headline", "a person has to decide")})
+                continue
             if state in (CaseState.READY, CaseState.SETTLED):
                 self.transition(row["case_id"], CaseState.APPROVED, actor,
                                 f"approve:{batch_id}:{row['case_id']}",
@@ -337,6 +348,39 @@ class Store:
             elif state != CaseState.APPROVED:
                 held.append({"case_id": row["case_id"], "state": str(state)})
         return {"approved": len(approved), "held": held}
+
+    def decide_finding(self, case_id: str, index: int, decision: str, actor: str,
+                       note: str = "") -> dict:
+        """Record what a person decided about a finding only a person can decide.
+
+        The decision is written onto the finding and into the append-only trail,
+        so "cleared" carries a name and a time. Clearing a screening match without
+        that is indistinguishable from never having looked.
+        """
+        if decision not in ("cleared", "held"):
+            raise ValueError(f"a finding is cleared or held, not {decision!r}")
+        case = self.case(case_id)
+        if case is None:
+            raise KeyError(f"no case {case_id}")
+        findings = list(case.findings)
+        if not 0 <= index < len(findings):
+            raise IndexError(f"case {case_id} has no finding {index}")
+        if findings[index].get("severity") != 0:
+            raise ValueError("that finding was settled by the machine; there is "
+                             "nothing for a person to decide")
+        findings[index] = findings[index] | {
+            "decision": decision, "decided_by": actor, "decided_at": now(), "note": note}
+        with self.connect() as db:
+            db.execute("UPDATE cases SET findings = ?, updated_at = ? WHERE case_id = ?",
+                       (json.dumps(findings, ensure_ascii=False), now(), case_id))
+            db.execute(
+                "INSERT INTO case_events (case_id, at, from_state, to_state, actor,"
+                " detail, idempotency_key) VALUES (?,?,?,?,?,?,?)",
+                (case_id, now(), str(case.state), str(case.state), actor,
+                 f"{decision}: {findings[index].get('headline', '')}"
+                 + (f" — {note}" if note else ""),
+                 f"decide:{case_id}:{index}:{decision}:{now()}"))
+        return findings[index]
 
     # ---- reading -----------------------------------------------------------
 

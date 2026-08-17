@@ -68,6 +68,12 @@ class Fact(BaseModel):
     value: str
 
 
+class Decision(BaseModel):
+    #: cleared or held. Both are decisions; neither is the machine's to make.
+    decision: str
+    note: str = ""
+
+
 class Approval(BaseModel):
     #: Omitted means the whole batch. A list means exactly those.
     case_ids: list[str] | None = None
@@ -366,6 +372,26 @@ async def restart_stranded(batch_id: str, x_role: str = Header(None),
             asyncio.create_task(asyncio.to_thread(worker.run_case, case.case_id))
             restarted.append(case.case_id)
     return {"restarted": len(restarted)}
+
+
+@app.post("/api/cases/{case_id}/findings/{index}/decide")
+def decide_finding(case_id: str, index: int, body: Decision,
+                   x_role: str = Header(None), x_tenant: str = Header(None)):
+    """Record what a person decided about the one thing a program will not.
+
+    A screening match is a question about who somebody is, and the batch
+    signature holds any case carrying an undecided one. Clearing it is a
+    deliberate act with a name on it, which is the only form of clearance worth
+    having.
+    """
+    role, tenant = identity(x_role, x_tenant)
+    require(role, "approver")
+    if not store.case(case_id, tenant):
+        raise HTTPException(404, "no such case for this product line")
+    try:
+        return store.decide_finding(case_id, index, body.decision, role, body.note)
+    except (ValueError, IndexError) as exc:
+        raise HTTPException(400, str(exc))
 
 
 @app.post("/api/batches/{batch_id}/approve")

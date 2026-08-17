@@ -188,3 +188,56 @@ def test_a_transition_with_no_transcript_does_not_open_an_attempt(store, batch):
     store.transition(case.case_id, CaseState.CLASSIFYING, "worker", "b1")
 
     assert store.attempts(case.case_id) == []
+
+
+def _flagged(store, batch, **kw):
+    case = store.cases(batch)[0]
+    store.transition(case.case_id, CaseState.SETTLED, "triage", "f1",
+                     selected_code="62046200",
+                     findings=[{"kind": "SCREENING_MATCH", "severity": 0,
+                                "headline": "Possible match on the SDN list",
+                                "detail": "resembles a listed party"} | kw])
+    return case
+
+
+def test_a_batch_signature_does_not_clear_what_only_a_person_can_decide(store, batch):
+    """A supplier resembling a sanctioned party was being approved by an action
+    that decides nothing, with no record that anybody had looked."""
+    case = _flagged(store, batch)
+
+    result = store.approve_batch(batch, "approver")
+
+    assert result["approved"] == 0
+    # The batch also holds its untouched second case, so find ours rather than
+    # relying on the order the rows came back in.
+    ours = next(h for h in result["held"] if h["case_id"] == case.case_id)
+    assert "SDN" in ours["why"]
+    assert store.case(case.case_id).state is CaseState.SETTLED
+
+
+def test_a_decision_carries_a_name_and_a_time_and_then_it_signs(store, batch):
+    case = _flagged(store, batch)
+
+    decided = store.decide_finding(case.case_id, 0, "cleared", "approver",
+                                   "different address, same trading name")
+    assert decided["decision"] == "cleared"
+    assert decided["decided_by"] == "approver" and decided["decided_at"]
+    assert any("cleared" in e["detail"] for e in store.events(case.case_id))
+
+    assert store.approve_batch(batch, "approver")["approved"] == 1
+
+
+def test_holding_it_is_a_decision_too_and_still_holds_the_case(store, batch):
+    case = _flagged(store, batch)
+    store.decide_finding(case.case_id, 0, "held", "approver", "waiting on the licence")
+
+    # Decided, so the signature is no longer blocked by an unexamined finding:
+    # the officer chose to hold it, and holding is theirs to lift.
+    assert store.approve_batch(batch, "approver")["approved"] == 1
+
+
+def test_a_computed_finding_is_not_a_person_s_to_decide(store, batch):
+    case = _flagged(store, batch, severity=1)
+
+    with pytest.raises(ValueError, match="settled by the machine"):
+        store.decide_finding(case.case_id, 0, "cleared", "approver")

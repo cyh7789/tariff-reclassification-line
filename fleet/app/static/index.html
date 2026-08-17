@@ -867,6 +867,21 @@ window.openCase = async (id) => {
       ['Effort', k.tool_calls ? `${k.tool_calls} tool calls · ${k.seconds}s${
           (k.tools_used||[]).length ? ' · '+k.tools_used.map(t=>`${t[0]} ${t[1]}`).join(', ') : ''}`
         : '<span class="muted">settled without a model</span>'],
+      (k.findings || []).length ? ['Compliance', k.findings.map((f, i) => {
+        const human = f.severity === 0;
+        const decided = f.decision
+          ? `<div class="muted">${f.decision} by ${esc(f.decided_by)} ·
+             ${(f.decided_at||'').replace('T',' ').slice(0,19)}${
+             f.note ? ` · ${esc(f.note)}` : ''}</div>`
+          : human && $('#role').value === 'approver'
+            ? `<div style="margin-top:5px">
+                 <button class="mini2" onclick="window.decide('${k.case_id}',${i},'cleared')">Clear it</button>
+                 <button class="mini2" onclick="window.decide('${k.case_id}',${i},'held')">Hold it</button></div>`
+            : human ? '<div class="muted">an approver has to decide this</div>' : '';
+        return `<div class="cite" style="border-left-color:${human ? '#d97706' : '#e2e8f0'}">
+          <strong>${esc(f.headline)}</strong>
+          <div class="muted">${esc(f.detail)}</div>${decided}</div>`;
+      }).join('')] : null,
       k.missing_property ? ['Missing', `${k.missing_property}<br><span class="muted">ask ${k.ask_department||'?'}</span>`] : null,
       k.verify_reason ? ['Verifier', `<span class="err">${k.verify_reason}</span>`] : null,
       ['How it got there', (attempts || []).length > 1
@@ -907,6 +922,23 @@ window.openCase = async (id) => {
     $('#detail').showModal();
   } catch (e) { note(e.message,'bad'); }
 };
+
+//: The one decision the system will not make. It is offered where the finding
+//: is, and it costs a note, because "cleared" without a reason is the same
+//: sentence whether somebody looked or not.
+window.decide = async (caseId, index, decision) => {
+  const note = prompt(decision === 'cleared'
+    ? 'What settles it? (address, ownership, the document you checked)'
+    : 'Why is it being held?');
+  if (note === null) return;
+  try {
+    await api(`/api/cases/${caseId}/findings/${index}/decide`, {method: 'POST',
+      body: JSON.stringify({decision, note})});
+    $('#detail').close();
+    note_ok(`Recorded: ${decision}. The batch signature can carry this case now.`);
+  } catch (e) { alertBox('That decision was not recorded', e.message, 'bad'); }
+};
+const note_ok = (t) => note(t, 'good');
 
 window.sendFact = async (id) => {
   try {
