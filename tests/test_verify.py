@@ -172,3 +172,109 @@ def test_line_wrapping_does_not_break_a_faithful_quote():
 
 def test_typographic_quotes_do_not_break_a_faithful_quote():
     assert normalize_words('the term “poplin” means') == 'the term "poplin" means'
+
+
+# ---------------------------------------------------------------------------
+# Faithful quotes that the first version of the verifier wrongly rejected.
+# All three came out of the first development run; none is a paraphrase.
+# ---------------------------------------------------------------------------
+
+HTS_ROWS = [
+    {"htsno": "6201", "indent": 0, "row_index": 0,
+     "description": "Men's or boys' overcoats, carcoats, capes, cloaks, anoraks "
+                    "(including ski jackets), windbreakers and similar articles "
+                    "(including padded, sleeveless jackets), other than those of heading 6203:"},
+    {"htsno": None, "indent": 1, "row_index": 1, "description": "Of man-made fibers:"},
+    {"htsno": "62014075", "indent": 2, "row_index": 2, "description": "Other"},
+    {"htsno": "6201407510", "indent": 3, "row_index": 3, "description": "Men's (634)"},
+]
+
+
+class FakeHtsSnapshot:
+    hts = HTS_ROWS
+    notes = {"74": "1.   In this chapter the following expressions have the meanings\n"
+                   "     hereby assigned to them:\n\n"
+                   "     (b) Copper alloys\n\n"
+                   "          Metallic substances other than unrefined copper in which\n"
+                   "          copper predominates by weight over each of the other elements,\n"
+                   "          provided that:\n",
+             "42": '1.   For the purposes of heading 4202, the expression “travel, sports\n'
+                   '     and similar bags” means goods of a kind described there.\n'}
+
+
+@pytest.fixture(scope="module")
+def hts_verifier():
+    return CitationVerifier(snapshot=FakeHtsSnapshot(), known_rulings=set())
+
+
+def test_a_tariff_line_quoted_with_its_inherited_text_resolves(hts_verifier):
+    """A line's legal description is its ancestors' text plus its own.
+
+    CBP writes them that way: `Mechanical appliances ...: Agricultural or
+    horticultural sprayers: Other`. Comparing only against the leaf row, whose
+    description is the single word `Other`, rejects the correct form of citation.
+    """
+    result = hts_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "tariff_line", "ref": "6201.40.75",
+                    "quote": "Men's or boys' overcoats, carcoats, capes, cloaks, anoraks "
+                             "(including ski jackets), windbreakers and similar articles: "
+                             "Of man-made fibers: Other"}],
+    ))
+
+    assert result.passed, result.reason
+
+
+def test_a_heading_joined_to_its_body_by_a_colon_resolves(hts_verifier):
+    """`(b) Copper alloys` and its definition sit in separate paragraphs."""
+    result = hts_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "chapter_note", "ref": "Note 1 to Chapter 74",
+                    "quote": "Copper alloys: Metallic substances other than unrefined "
+                             "copper in which copper predominates by weight over each "
+                             "of the other elements"}],
+    ))
+
+    assert result.passed, result.reason
+
+
+def test_a_different_quote_mark_style_resolves(hts_verifier):
+    """The schedule uses typographic double quotes; models often write single."""
+    result = hts_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "chapter_note", "ref": "Note 1 to Chapter 42",
+                    "quote": "the expression 'travel, sports and similar bags' means goods"}],
+    ))
+
+    assert result.passed, result.reason
+
+
+def test_paraphrase_still_fails_after_all_that_loosening(hts_verifier):
+    """The point of the three tests above is not to stop checking."""
+    result = hts_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "chapter_note", "ref": "Note 1 to Chapter 74",
+                    "quote": "Copper alloys are mixtures where copper is the main "
+                             "component by mass compared with every other element"}],
+    ))
+
+    assert not result.passed
+    assert "not found in the cited source" in result.reason
+
+
+def test_a_paraphrase_that_contains_a_colon_still_fails(hts_verifier):
+    """Splitting on colons is the one place this check was loosened.
+
+    A paraphrase carrying a colon gets split the same way a legitimate join does,
+    so each piece gets its own chance to be found. It still has to fail, because
+    the words inside each piece were altered.
+    """
+    result = hts_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "chapter_note", "ref": "Note 1 to Chapter 74",
+                    "quote": "Copper alloys: mixtures in which copper outweighs every "
+                             "other constituent element by mass"}],
+    ))
+
+    assert not result.passed
+    assert "not found in the cited source" in result.reason

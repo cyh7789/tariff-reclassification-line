@@ -72,21 +72,48 @@ class VerificationResult:
 
 
 def normalize_words(text: str) -> str:
-    """Collapse whitespace and drop quote-mark variants, keep everything else.
+    """Collapse whitespace and flatten every quote mark to one character.
 
     PDF extraction breaks lines mid-sentence and the schedule uses typographic
-    quotes, so a faithful quote fails a naive comparison for reasons that have
-    nothing to do with honesty. Nothing else is normalized: dropping punctuation
-    or case would start forgiving actual paraphrase.
+    double quotes where a model tends to write straight single ones. Both are
+    differences in how the same words were transcribed. Nothing else is
+    normalized: dropping punctuation or case would start forgiving paraphrase.
     """
-    text = text.replace("“", '"').replace("”", '"')
-    text = text.replace("‘", "'").replace("’", "'")
+    text = re.sub(r"[\u201c\u201d\u2018\u2019\"']", "\u0022", text)
     return re.sub(r"\s+", " ", text).strip().lower()
 
 
+# A fragment shorter than this carries too little to prove anything: "of other
+# materials" appears all over the schedule.
+MIN_FRAGMENT_WORDS = 5
+
+
+def quote_fragments(quote: str) -> list[str]:
+    """Split a quote where a quoter joins text the source keeps apart.
+
+    A citation legitimately stitches a heading to its body, or one indent level to
+    the next, with a colon or an ellipsis: `Copper alloys: Metallic substances
+    other than unrefined copper ...`. The source has a paragraph break there, so
+    the joined string appears nowhere in it while every piece appears verbatim.
+
+    Requiring each substantial fragment to be present keeps the check honest.
+    Paraphrase alters words inside a fragment, and an altered fragment is not
+    found no matter where the splits fall.
+    """
+    parts = [p.strip() for p in re.split(r"[:;\u2026]|\.\.\.|\s\u2014\s", quote)]
+    fragments = [p for p in parts if len(p.split()) >= MIN_FRAGMENT_WORDS]
+    return fragments or [quote.strip()]
+
+
+def quote_is_present(quote: str, source: str) -> bool:
+    haystack = normalize_words(source)
+    return all(normalize_words(f) in haystack for f in quote_fragments(quote))
+
+
 class CitationVerifier:
-    def __init__(self, snapshot_dir: Path, known_rulings: set[str] | None = None):
-        self.snapshot = Snapshot(snapshot_dir)
+    def __init__(self, snapshot_dir: Path | None = None, known_rulings: set[str] | None = None,
+                 *, snapshot=None):
+        self.snapshot = snapshot if snapshot is not None else Snapshot(snapshot_dir)
         if known_rulings is None:
             known_rulings = set()
             with (Path(snapshot_dir) / "cross.jsonl").open(encoding="utf-8") as fh:
@@ -121,13 +148,37 @@ class CitationVerifier:
                                   "no row in the current schedule")
         if not quote:
             return CitationResult("tariff_line", ref, True, None, detail)
-        want = normalize_words(quote)
-        for row in self.snapshot.hts:
-            if _digits(row.get("htsno")).startswith(code):
-                if want in normalize_words(row.get("description") or ""):
-                    return CitationResult("tariff_line", ref, True, True, detail)
+        for text in self._description_paths(code):
+            if quote_is_present(quote, text):
+                return CitationResult("tariff_line", ref, True, True, detail)
         return CitationResult("tariff_line", ref, True, False,
                               "quote is not the description of that line")
+
+    def _description_paths(self, code: str) -> list[str]:
+        """Every full description a line under `code` could legitimately be quoted as.
+
+        A tariff line's legal description is the chain of its ancestors' text plus
+        its own, which is how CBP writes them in a ruling. The leaf row on its own
+        usually reads `Other`, so comparing against that alone rejects the only
+        form a customs professional would recognise.
+        """
+        rows = self.snapshot.hts
+        paths = []
+        for i, row in enumerate(rows):
+            if not _digits(row.get("htsno")).startswith(code):
+                continue
+            chain = [(row.get("description") or "").strip()]
+            ceiling = int(row.get("indent") or 0)
+            for j in range(i - 1, -1, -1):
+                indent = int(rows[j].get("indent") or 0)
+                if indent >= ceiling:
+                    continue
+                ceiling = indent
+                chain.append((rows[j].get("description") or "").strip())
+                if ceiling == 0:
+                    break
+            paths.append(" ".join(reversed(chain)))
+        return paths
 
     def _check_chapter_note(self, ref: str, quote: str | None) -> CitationResult:
         match = NOTE_REF.search(ref)
@@ -144,7 +195,7 @@ class CitationVerifier:
                                   f"chapter {chapter} has no note {number}")
         if not quote:
             return CitationResult("chapter_note", ref, True, None, "note exists")
-        if normalize_words(quote) in normalize_words(notes):
+        if quote_is_present(quote, notes):
             return CitationResult("chapter_note", ref, True, True, "quote found in chapter")
         return CitationResult("chapter_note", ref, True, False,
                               "quote is not in that chapter's notes")
