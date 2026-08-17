@@ -111,6 +111,20 @@ TOOL_DECLARATIONS = [
         },
     },
     {
+        "name": "get_ruling",
+        "description": (
+            "Read what the goods in a prior ruling actually were. A subject line cannot "
+            "settle whether a precedent is comparable to the item in hand; the merchandise "
+            "description can. Covers rulings from 2022 onwards."
+        ),
+        "parameters": {
+            "type": "OBJECT",
+            "required": ["ruling_number"],
+            "properties": {"ruling_number": {"type": "STRING",
+                                             "description": "e.g. 'N337247' or 'NY N337247'"}},
+        },
+    },
+    {
         "name": "search_precedents",
         "description": (
             "Find prior CBP rulings. Give keywords, or a tariff prefix, or both. A prefix "
@@ -246,6 +260,12 @@ class Runner:
                     since=args.get("since"),
                 )
                 return {"rulings": [asdict(hit) for hit in hits]}
+
+            if name == "get_ruling":
+                number = args.get("ruling_number")
+                if not number:
+                    return {"error": "get_ruling needs a ruling_number, e.g. 'N337247'"}
+                return {"description": tools.get_ruling(self.snapshot, self.index, str(number))}
 
             return {"error": f"no tool named {name}"}
         except Exception as exc:  # noqa: BLE001

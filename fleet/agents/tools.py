@@ -61,6 +61,7 @@ class Snapshot:
         self._notes: dict[str, str] | None = None
         self._section_notes: dict[str, str] | None = None
         self._chapter_sections: dict[str, str] | None = None
+        self._ruling_text: dict[str, dict] | None = None
 
     @property
     def hts(self) -> list[dict]:
@@ -95,6 +96,25 @@ class Snapshot:
         if self._section_notes is None:
             self._load_notes()
         return self._section_notes
+
+    @property
+    def ruling_text(self) -> dict[str, dict]:
+        """Full text of the rulings issued under the current nomenclature.
+
+        Only 2022 onwards: those are the ones whose codes mean what they say
+        today. Older rulings stay searchable by subject and code, which is all a
+        citation needs, but their text is not carried.
+        """
+        if self._ruling_text is None:
+            self._ruling_text = {}
+            path = self.dir / "ruling_text.jsonl"
+            if path.exists():
+                with path.open(encoding="utf-8") as fh:
+                    for line in fh:
+                        if line.strip():
+                            row = json.loads(line)
+                            self._ruling_text[row["rulingNumber"].upper()] = row
+        return self._ruling_text
 
     @property
     def chapter_sections(self) -> dict[str, str]:
@@ -195,6 +215,30 @@ def get_tariff_lines(snapshot, prefix: str, limit: int = 120) -> list[TariffLine
     return ancestors + subtree
 
 
+DEAR_RE = re.compile(r"Dear\s+[^\n\r]{0,120}?:", re.IGNORECASE)
+SUBHEADING_RE = re.compile(r"The applicable subheading", re.IGNORECASE)
+
+
+def merchandise_description(text: str) -> str | None:
+    """The goods, as the importer described them, cut out of a ruling letter.
+
+    A ruling opens with a salutation and reaches its conclusion at "The applicable
+    subheading"; what sits between is the description of the goods. Handing back
+    the whole letter would bury the one part that decides comparability under the
+    duty-rate boilerplate every ruling carries.
+    """
+    if not text:
+        return None
+    flat = text.replace("\r\n", "\n").replace("\r", "\n")
+    dear, sub = DEAR_RE.search(flat), SUBHEADING_RE.search(flat)
+    if not dear or not sub or sub.start() <= dear.end():
+        return None
+    body = re.sub(r"[ \t]+", " ", flat[dear.end():sub.start()])
+    body = "\n".join(line.strip() for line in body.split("\n"))
+    body = re.sub(r"\n{2,}", "\n\n", body).strip()
+    return body or None
+
+
 @dataclass(frozen=True)
 class Precedent:
     ruling_number: str
@@ -277,3 +321,26 @@ class PrecedentIndex:
             ))
         hits.sort(key=lambda p: (-p.score, p.ruling_date < "2022", p.ruling_number))
         return hits[:limit]
+
+
+def get_ruling(snapshot: Snapshot, index: "PrecedentIndex", ruling_number: str) -> str:
+    """The merchandise description of one prior ruling.
+
+    Comparability is the whole question a precedent answers, and a one-line
+    subject cannot settle it: "Shrimp Shell Powder" and "Lobster Powder" are the
+    same argument or two different ones depending on what the goods actually are.
+
+    The exclusion list is consulted here for the same reason it exists in search.
+    An evaluation item whose own ruling could be read has no answer key left.
+    """
+    number = re.sub(r"^(?:NY|HQ)\s+", "", ruling_number.strip(), flags=re.IGNORECASE).upper()
+    if number in index.excluded:
+        return f"{number} is not available in this snapshot."
+    row = snapshot.ruling_text.get(number)
+    if row is None:
+        return (f"{number} has no cached text: only rulings issued from 2022 onwards "
+                "are carried. Its subject and codes are still in the search results.")
+    description = merchandise_description(row.get("text") or "")
+    if not description:
+        return f"{number} has no extractable merchandise description."
+    return description

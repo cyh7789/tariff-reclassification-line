@@ -31,7 +31,9 @@ Two failure modes the table produces, both real:
 3. Pull the tariff lines under the surviving candidates and read the descriptions down to the 8-digit level. The 8-digit level is where the duty rate lives.
 4. Search prior rulings two ways, because they answer different questions. Keywords find the same article, and a ruling on the same article decides the case. A bare tariff prefix finds everything filed under a heading, which is how you see a practice the schedule text does not imply: goods that read as belonging in one subheading are sometimes consistently classified in another, and that only shows up in what was actually filed. Do both before concluding, and prefer rulings issued after the revision took effect.
 
-   Where a settled practice and your reading of the schedule disagree, the practice wins. You are not deciding what the schedule ought to say.
+   A search result gives you a title and a code, which is not enough to know whether the goods are like yours. Read the ones that could decide it with `get_ruling` before you rely on them or dismiss them.
+
+   Where a settled practice and your reading of the schedule disagree, the practice wins. You are not deciding what the schedule ought to say. If several rulings put goods of this kind in a subheading your reading would rule out, that is the answer, and the thing to explain is why the reading fails.
 5. Choose one 8-digit code. Name the runner-up and state the specific fact that separates them.
 
 ### When to refuse
@@ -70,8 +72,8 @@ Anchors:
 |---|---|---|
 | `get_chapter_notes` | `(chapter: str)` | Chapter and section notes, extracted from the current USITC chapter file |
 | `get_tariff_lines` | `(prefix: str)` | Every line under a 4- or 6-digit prefix: code, indent, description, general rate |
-| `search_precedents` | `(query: str, since: str \| None)` | CBP rulings with number, date, subject, tariff codes, and merchandise description |
-| `get_ruling` | `(ruling_number: str)` | Full text of one ruling |
+| `search_precedents` | `(query: str \| None, tariff_prefix: str \| None, since: str \| None)` | CBP rulings with number, date, subject and tariff codes. Either argument works alone |
+| `get_ruling` | `(ruling_number: str)` | What the goods in that ruling actually were, for rulings from 2022 onwards |
 
 `search_precedents` reads an index with the frozen evaluation rulings and their related rulings removed. Nothing about that exclusion is visible from inside this agent, and it is not something to work around.
 
