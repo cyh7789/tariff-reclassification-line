@@ -96,7 +96,10 @@ async def create_batch(body: NewBatch, x_role: str = Header(None),
 
 #: What a catalog export has to contain. Everything else in the file is ignored,
 #: because an ERP export carries thirty columns and only three of them matter here.
-REQUIRED_COLUMNS = ("item_id", "prior_code", "description")
+#: The filed code is not one of them: a line nobody has ever classified is the
+#: ordinary case in a broker's inbox, and triage routes it to the agent to be
+#: classified from first principles rather than turning it away at the door.
+REQUIRED_COLUMNS = ("item_id", "description")
 COLUMN_ALIASES = {
     "item_id": {"item", "sku", "part", "part_number", "item_number", "material"},
     "prior_code": {"code", "hts", "hts_code", "tariff", "tariff_code", "hs_code",
@@ -131,17 +134,22 @@ def read_catalog_csv(raw: bytes) -> list[dict]:
 
     items, skipped = [], 0
     for row in reader:
-        code = re.sub(r"\D", "", (row.get(found["prior_code"]) or ""))
+        raw_code = row.get(found["prior_code"]) if "prior_code" in found else ""
+        code = re.sub(r"\D", "", raw_code or "")
         description = (row.get(found["description"]) or "").strip()
         item_id = (row.get(found["item_id"]) or "").strip()
-        if len(code) < 6 or not description or not item_id:
+        if not description or not item_id:
             skipped += 1
             continue
-        items.append({"item_id": item_id, "prior_code": code,
+        # A code shorter than a subheading cannot be looked up in the correlation
+        # table, and a half-code would send triage looking for a heading that was
+        # never filed. Dropping it says the same thing more honestly: nothing to
+        # carry forward, classify it.
+        items.append({"item_id": item_id, "prior_code": code if len(code) >= 6 else "",
                       "description": description[:4000]})
     if not items:
-        raise HTTPException(400, f"no usable rows: every line was missing an item, "
-                                 f"a 6-digit code, or a description ({skipped} skipped)")
+        raise HTTPException(400, f"no usable rows: every line was missing an item "
+                                 f"or a description ({skipped} skipped)")
     return items
 
 

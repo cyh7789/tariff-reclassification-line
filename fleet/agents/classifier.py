@@ -224,6 +224,14 @@ def load_candidates(snapshot_dir: Path) -> dict[str, list[dict]]:
 
 
 def render_item(item: Item) -> str:
+    # A line nobody has classified before has no filed code and therefore no
+    # correlation candidates. Rendering that as an empty list under a heading
+    # that promises candidates reads as a lookup that failed; it is not, it is a
+    # classification with no starting point, which is a different job.
+    if not item.prior_hs6:
+        return ("prior_code: none. This line has never been classified, so there is no "
+                "correlation entry and no candidate list. Work from the goods.\n\n"
+                f"description:\n{item.description}")
     lines = [
         f"prior_code: {item.prior_hs6}",
         "",
