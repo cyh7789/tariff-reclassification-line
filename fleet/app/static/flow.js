@@ -338,7 +338,7 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
                       rx="15" fill="none" stroke="#7c3aed" stroke-width="2.4" opacity=".55">
                   <animate attributeName="opacity" values=".15;.7;.15" dur="1.6s"
                            repeatCount="indefinite"/></rect>` : ''}
-      <rect x="${node.x}" y="${node.y}" width="${W}" height="${H}" rx="11"/>
+      <rect class="box" x="${node.x}" y="${node.y}" width="${W}" height="${H}" rx="11"/>
       <rect x="${node.x + 10}" y="${node.y + 13}" width="42" height="42" rx="9"
             fill="${meta.tint}" stroke="${meta.colour}" stroke-width="1.2"/>
       <text x="${node.x + 31}" y="${node.y + 41}" text-anchor="middle" class="ni"

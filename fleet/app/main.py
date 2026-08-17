@@ -254,6 +254,22 @@ def get_timeline(batch_id: str, x_role: str = Header(None), x_tenant: str = Head
             "events": events}
 
 
+@app.get("/api/batches/{batch_id}/audit")
+def get_audit(batch_id: str, x_role: str = Header(None), x_tenant: str = Header(None)):
+    """Everything that happened to this batch, newest first, with who did it.
+
+    This is the record the officer's signature sits on top of, so it includes the
+    attempts that failed: a trail that only shows successes is not a trail. It is
+    read-only for every role, because an audit trail somebody can curate is not
+    one either.
+    """
+    _, tenant = identity(x_role, x_tenant)
+    batch = store.batch(batch_id)
+    if not batch or batch["tenant"] != tenant:
+        raise HTTPException(404, "no such batch for this product line")
+    return {"batch": batch, "events": store.audit(batch_id)}
+
+
 @app.get("/api/cases/{case_id}")
 def get_case(case_id: str, x_role: str = Header(None), x_tenant: str = Header(None)):
     _, tenant = identity(x_role, x_tenant)

@@ -62,13 +62,14 @@
   #flowCard:fullscreen #replayBar { font-size: 15px; padding: 12px 8px; }
   #flow .zl { font: 700 16px ui-sans-serif, system-ui; letter-spacing: .2px; }
   #flow .zn { font: 12.5px ui-sans-serif, system-ui; fill: #94a3b8; }
-  /* Direct child only. The gate badge is a rect too, and a blanket rule painted
-     it white on white, which is why "operator" was an empty pill. */
-  #flow .node > rect:first-of-type { fill: #fff; stroke: #dbe2ec; stroke-width: 1.5;
-                       filter: drop-shadow(0 2px 5px rgba(15,23,42,.08)); }
-  #flow .node.on > rect:first-of-type { stroke: var(--zc); stroke-width: 2.2; }
+  /* Named, not positional. The node's own rect is one of several: the badge is a
+     rect, and so is the highlight drawn around a traced node, which took the
+     first-of-type rule with it and left the node itself filled black. */
+  #flow .node rect.box { fill: #fff; stroke: #dbe2ec; stroke-width: 1.5;
+                         filter: drop-shadow(0 2px 5px rgba(15,23,42,.08)); }
+  #flow .node.on rect.box { stroke: var(--zc); stroke-width: 2.2; }
   #flow .node { cursor: pointer; }
-  #flow .node:hover > rect:first-of-type { stroke: var(--zc); }
+  #flow .node:hover rect.box { stroke: var(--zc); }
   #flow .nl { font: 640 15.5px ui-sans-serif, system-ui; fill: #0f172a; }
   #flow .ni { font: 700 20px ui-sans-serif, system-ui; }
   #flow .lg { font: 12.5px ui-sans-serif, system-ui; fill: #64748b; }
@@ -79,8 +80,8 @@
   #flow .gb { font: 700 10.5px ui-sans-serif, system-ui; letter-spacing: .2px; }
   /* A gate somebody else holds is drawn as a gate, not as a disabled control:
      the work is really waiting there, it is just not yours to release. */
-  #flow .node.locked > rect:first-of-type { stroke-dasharray: 6 4; }
-  #flow .node.mine > rect:first-of-type { stroke: #d97706; stroke-width: 2.2; }
+  #flow .node.locked rect.box { stroke-dasharray: 6 4; }
+  #flow .node.mine rect.box { stroke: #d97706; stroke-width: 2.2; }
   #flow .el { font: 13px ui-sans-serif, system-ui; fill: #9aa5b4;
               paint-order: stroke; stroke: #fff; stroke-width: 3.5px;
               stroke-linejoin: round; }
@@ -207,6 +208,12 @@
   .banner.good { background: var(--ok-soft); border-color: #c3e6cd; color: #17683a; }
   /* A refusal is the system working, so it gets said properly instead of being a
      line of colour the eye slides past. */
+  #auditBox { max-width: 1080px; }
+  #auditBody table { font-size: 12.5px; }
+  #auditBody td, #auditBody th { padding: 6px 10px; }
+  #auditBody .who { font-weight: 600; }
+  #auditBody tr.human td { background: #fffbeb; }
+  #auditBody tr.failed td { background: var(--bad-soft); }
   #alert { max-width: 520px; }
   #alert .ah { display: flex; align-items: center; gap: 10px; padding: 18px 22px 6px; }
   #alert .icon { width: 30px; height: 30px; border-radius: 50%; display: grid;
@@ -238,6 +245,7 @@
   <button id="new">New batch</button>
   <label class="fileBtn">Import CSV<input type="file" id="csv" accept=".csv,text/csv"></label>
   <a class="sub" href="/api/sample.csv" download style="text-decoration:none">sample file</a>
+  <button id="audit">Audit trail</button>
   <button id="replay">▶ Replay</button>
 </header>
 
@@ -305,6 +313,13 @@
   <div class="ah"><span class="icon" id="alertIcon"></span><h3 id="alertTitle"></h3></div>
   <div class="ab" id="alertBody"></div>
   <div class="af" id="alertActions"></div>
+</dialog>
+
+<dialog id="auditBox">
+  <div class="dh"><strong>Audit trail</strong><span class="sub" id="auditNote"></span>
+    <span class="grow"></span>
+    <button onclick="document.getElementById('auditBox').close()">Close</button></div>
+  <div class="db" id="auditBody"></div>
 </dialog>
 
 <dialog id="detail">
@@ -876,6 +891,39 @@ window.sendFact = async (id) => {
       body: JSON.stringify({value: $('#factVal').value})});
     $('#detail').close(); note('Sent to the queue. The case re-runs with that fact.','good');
   } catch (e) { note(e.message,'bad'); }
+};
+
+//: The record the signature sits on top of. Failed attempts included, because a
+//: trail that shows only what worked is not evidence of anything.
+$('#audit').onclick = async () => {
+  if (!batchId) return;
+  try {
+    const {batch, events} = await api(`/api/batches/${batchId}/audit`);
+    $('#auditNote').textContent =
+      `${batch.label} · ${events.length} event(s) · snapshot ${batch.snapshot_id}`;
+    $('#auditBody').innerHTML = `<table><thead><tr>
+        <th style="width:150px">When</th><th style="width:96px">Item</th>
+        <th style="width:190px">Move</th><th style="width:110px">By</th>
+        <th>What it did</th></tr></thead><tbody>` +
+      events.map(e => {
+        const failed = e.to_state === 'VERIFY_FAILED' || e.to_state === 'BLOCKED';
+        const human = e.to_state === 'NEEDS_INPUT' || e.actor === 'approver'
+                      || e.actor === 'contributor';
+        const found = (e.findings || []).map(f =>
+          `<div class="${f.severity === 0 ? 'err' : 'muted'}">${esc(f.headline)}</div>`).join('');
+        const tools = (e.tools_used || []).map(t => `${t[0]} ${t[1]}`).join(', ');
+        return `<tr class="${failed ? 'failed' : human ? 'human' : ''}">
+          <td class="muted">${e.at.replace('T', ' ').slice(0, 19)}</td>
+          <td><code>${esc(e.item_id)}</code></td>
+          <td><span class="pill ${e.to_state}">${e.from_state.toLowerCase()} →
+              ${e.to_state.toLowerCase().replace('_', ' ')}</span></td>
+          <td class="who">${esc(e.actor)}</td>
+          <td>${esc((e.detail || '').slice(0, 220))}
+            ${tools ? `<div class="muted">${esc(tools)}</div>` : ''}${found}</td>
+        </tr>`;
+      }).join('') + '</tbody></table>';
+    $('#auditBox').showModal();
+  } catch (e) { alertBox('The audit trail did not load', e.message, 'bad'); }
 };
 
 // ---- replay -------------------------------------------------------------
