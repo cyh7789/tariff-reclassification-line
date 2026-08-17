@@ -31,7 +31,7 @@ from fleet.agents.tools import PrecedentIndex, Snapshot
 MODEL = "gemini-3.7-flash"
 PROJECT = "yuhina-496113"
 LOCATION = "global"
-MAX_TOOL_TURNS = 12
+MAX_TOOL_TURNS = 16
 CONFIDENCE_FLOOR = 0.80
 
 PROMPT_PATH = Path(__file__).parent / "prompts" / "classifier.md"
@@ -206,10 +206,12 @@ class Runner:
                 tool_calls.append({"name": call.name, "args": args})
                 parts.append(types.Part.from_function_response(name=call.name, response=result))
             contents.append(types.Content(role="user", parts=parts))
-        else:
-            return self._failure(item, "tool budget exhausted", tool_calls, started)
 
-        # The tool loop is over; ask for the structured answer in one final turn.
+        # Running out of turns is not a reason to discard the research. The final
+        # turn below asks for a conclusion either way; an item that genuinely
+        # cannot be settled comes back as NEEDS_INPUT on its own merits rather
+        # than because a counter ran out.
+        exhausted = len(tool_calls) and turn == MAX_TOOL_TURNS - 1
         contents.append(types.Content(role="user", parts=[types.Part(
             text="Give your answer now, in the required JSON shape."
         )]))
@@ -247,6 +249,7 @@ class Runner:
             answer["selected_code_8"] = answer["selected_code_8"][:8]
 
         answer["item_id"] = item.item_id
+        answer["tool_budget_exhausted"] = bool(exhausted)
         answer["truth_hts8"] = item.truth_hts8
         answer["stratum"] = item.stratum
         answer["tool_calls"] = tool_calls
