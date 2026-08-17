@@ -35,7 +35,7 @@
   /* flow diagram, explainer style: coloured zones, numbered steps */
   #flowCard { padding: 6px 10px 10px; margin-bottom: 10px; overflow-x: auto;
               position: relative; }
-  svg#flow { width: 100%; min-width: 1180px; height: clamp(470px, 52vh, 820px);
+  svg#flow { width: 100%; min-width: 900px; height: clamp(520px, 62vh, 900px);
              display: block; }
   #fsBtn { position: absolute; top: 10px; right: 14px; z-index: 2; opacity: .75;
            font-size: 12px; padding: 5px 10px; }
@@ -50,22 +50,22 @@
   #flowCard:fullscreen .worker { font-size: 15px; padding: 7px 18px; }
   #flowCard:fullscreen .flowNote { font-size: 15px; }
   #flowCard:fullscreen #replayBar { font-size: 15px; padding: 12px 8px; }
-  #flow .zl { font: 700 12.5px ui-sans-serif, system-ui; letter-spacing: .3px; }
-  #flow .zn { font: 11px ui-sans-serif, system-ui; fill: #94a3b8; }
+  #flow .zl { font: 700 16px ui-sans-serif, system-ui; letter-spacing: .2px; }
+  #flow .zn { font: 12.5px ui-sans-serif, system-ui; fill: #94a3b8; }
   #flow .node rect { fill: #fff; stroke: #d7dee8; stroke-width: 1.5;
                      filter: drop-shadow(0 1px 2px rgba(15,23,42,.06)); }
   #flow .node.on rect { stroke: var(--zc); stroke-width: 2.2; }
   #flow .node { cursor: pointer; }
   #flow .node:hover rect { stroke: var(--zc); }
-  #flow .nl { font: 620 13px ui-sans-serif, system-ui; fill: #0f172a; }
-  #flow .ns { font: 11.5px ui-sans-serif, system-ui; fill: #7c8798; }
-  #flow .nn { font: 700 20px ui-sans-serif, system-ui; text-anchor: end; }
+  #flow .nl { font: 640 17px ui-sans-serif, system-ui; fill: #0f172a; }
+  #flow .ns { font: 13px ui-sans-serif, system-ui; fill: #7c8798; }
+  #flow .nn { font: 700 28px ui-sans-serif, system-ui; text-anchor: end; }
   #flow .gb { font: 700 10.5px ui-sans-serif, system-ui; letter-spacing: .2px; }
   /* A gate somebody else holds is drawn as a gate, not as a disabled control:
      the work is really waiting there, it is just not yours to release. */
   #flow .node.locked rect { stroke-dasharray: 5 4; }
   #flow .node.mine rect { stroke: #d97706; stroke-width: 2.2; }
-  #flow .el { font: 11.5px ui-sans-serif, system-ui; fill: #b0b9c6; }
+  #flow .el { font: 13px ui-sans-serif, system-ui; fill: #aab4c2; }
   #flow .el.on { fill: #475569; }
   #flow .es { font-weight: 700; fill: #0ea5e9; }
   .flowNote { color: var(--dim); font-size: 12.5px; padding: 2px 12px 2px; }
@@ -224,7 +224,7 @@
 
   <div class="card" id="flowCard">
     <button id="fsBtn">⤢ Full screen</button>
-    <svg id="flow" viewBox="0 0 1270 590" preserveAspectRatio="xMinYMin meet"></svg>
+    <svg id="flow" viewBox="0 0 1242 672" preserveAspectRatio="xMinYMin meet"></svg>
     <div id="explain" class="blank">Hover any box to see what it does. Click a row below to follow one item.</div>
     <div id="trace"></div>
     <div id="live"></div>

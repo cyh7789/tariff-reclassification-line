@@ -11,21 +11,24 @@
 // was refused, answered by engineering and re-run leaves its whole path visible
 // instead of only its destination.
 
+// Three blocks, because there are three answers to "who did this work": a table
+// settled it, an agent judged it, or a person signed it. Everything else on this
+// screen is detail hanging off that one distinction, so the blocks are the
+// biggest thing on the page and the boxes inside them are readable from across a
+// room.
 const ZONES = [
-  { id: 'z-src',   x:  26, y:  96, w: 224, h: 350, label: 'Official sources',
-    note: 'fetched, hashed, gated',      colour: '#64748b', tint: '#f1f5f9' },
-  { id: 'z-det',   x: 286, y:  96, w: 248, h: 350, label: 'Deterministic layer',
-    note: 'no model is involved here',   colour: '#0284c7', tint: '#eff8ff' },
-  { id: 'z-agent', x: 570, y:  58, w: 336, h: 424, label: 'Agent fleet',
-    note: 'judgment, with citations',    colour: '#059669', tint: '#ecfdf5' },
-  { id: 'z-human', x: 942, y:  58, w: 300, h: 424, label: 'People',
-    note: 'one approval, one exception', colour: '#d97706', tint: '#fffbeb' },
+  { id: 'z-det',   x:  20, y:  84, w: 386, h: 486, colour: '#0284c7', tint: '#eff8ff',
+    label: '1 · Machines settle what they can', note: 'no model is involved here' },
+  { id: 'z-agent', x: 428, y:  84, w: 386, h: 486, colour: '#059669', tint: '#ecfdf5',
+    label: '2 · Agents judge the rest',         note: 'every claim carries a citation' },
+  { id: 'z-human', x: 836, y:  84, w: 386, h: 486, colour: '#d97706', tint: '#fffbeb',
+    label: '3 · People decide',                 note: 'one signature, one exception' },
 ];
 
 //: Who can act at each node. Most of the pipeline answers "nobody, it moves on
-//: its own", and that is the product: the three places a person is needed are the
-//: ones worth drawing, and each belongs to one role. These are the same rules the
-//: API enforces, so a badge here and a 403 there cannot drift apart.
+//: its own", and that is the product: the places a person is needed are the ones
+//: worth drawing, and each belongs to one role. These are the same rules the API
+//: enforces, so a badge here and a 403 there cannot drift apart.
 const OWNER = {
   gate: 'operator', intake: 'operator',
   needs: 'contributor', dept: 'contributor',
@@ -35,85 +38,79 @@ const OWNER = {
 const ROLE_LABEL = {operator: 'operator', contributor: 'engineering', approver: 'approver'};
 
 const NODES = [
-  { id: 'sources', x: 58, y: 176, w: 160, h: 68, zone: 'z-src',
-    label: 'Snapshot', sub: 'HTS · notes · rulings',
-    what: 'A dated, frozen copy of the law: the 35,791-line tariff schedule, the '
-        + 'legal notes of all 98 chapters, 218,606 past customs rulings, and the '
-        + 'official correlation table.',
-    why:  'Classifications have to be reproducible months later. A snapshot means '
-        + 'the same batch re-run tomorrow gets the same answer, and every citation '
-        + 'points at a version that still exists.' },
+  { id: 'gate', x: 44, y: 146, w: 174, h: 88, zone: 'z-det',
+    label: 'Snapshot', sub: 'dated · hashed · gated',
+    what: 'A frozen copy of the law, checked before use: the 35,791-line tariff '
+        + 'schedule, the legal notes of all 98 chapters, 218,606 past customs '
+        + 'rulings, the official correlation table. Row counts, sizes, hashes and '
+        + 'age are verified before anything is allowed to read it.',
+    why:  'Two reasons in one box. A classification has to be reproducible months '
+        + 'later, so the citations point at a version that still exists. And these '
+        + 'government endpoints answer a wrong URL with HTTP 200 and an empty body: '
+        + 'an empty screening list passes every party, so the line stops rather than '
+        + 'working from a file that only looks fine.' },
 
-  { id: 'gate', x: 58, y: 314, w: 160, h: 68, zone: 'z-src',
-    label: 'Health gate', sub: 'halts on a bad source',
-    what: 'Checks row counts, byte sizes, hashes and age before anything is allowed '
-        + 'to read the snapshot.',
-    why:  'These government endpoints answer a wrong URL with HTTP 200 and an empty '
-        + 'body. An empty screening list means every party passes screening, so the '
-        + 'line stops rather than working from a file that only looks fine.' },
-
-  { id: 'intake', x: 312, y: 152, w: 196, h: 66, zone: 'z-det',
-    label: 'Catalog batch', sub: 'codes filed in 2017',
-    what: 'The product lines as the company filed them, before the nomenclature '
-        + 'revision.',
+  { id: 'intake', x: 232, y: 146, w: 130, h: 88, zone: 'z-det',
+    label: 'Batch in', sub: 'CSV or catalog',
+    what: 'The lines to be classified, as exported from the ERP. Codes filed under '
+        + 'the 2017 nomenclature, or no code at all for a line nobody has filed yet.',
     why:  'Nobody re-files a catalog for fun. The codes sat correct for years and '
         + 'became wrong without anybody touching them.' },
 
-  { id: 'triage', x: 312, y: 280, w: 196, h: 66, zone: 'z-det',
-    label: 'Triage', sub: 'survived · dead · scope',
-    what: 'Plain set arithmetic against the current schedule. Sorts every item into '
-        + 'code still valid, code withdrawn, or code valid but its coverage changed.',
-    why:  'This is the part that needs no judgment at all, so it must not cost a '
-        + 'model call. It also decides what the agent is measured on.' },
+  { id: 'triage', x: 44, y: 288, w: 318, h: 92, zone: 'z-det',
+    label: 'Triage', sub: 'survived · dead · scope changed',
+    what: 'Plain set arithmetic against the current schedule. Sorts every line into '
+        + 'code still valid, code withdrawn, or code valid but its coverage moved.',
+    why:  'This part needs no judgment at all, so it must not cost a model call. It '
+        + 'also decides what the agent is measured on.' },
 
-  { id: 'settled', x: 312, y: 382, w: 196, h: 50, zone: 'z-det',
+  { id: 'settled', x: 44, y: 434, w: 318, h: 82, zone: 'z-det',
     label: 'Settled by lookup', sub: 'never reaches an agent',
-    what: 'Items whose code is unchanged, plus dead codes the official table maps '
-        + 'one-to-one. Answered by table lookup and closed.',
+    what: 'Lines whose code is unchanged, plus withdrawn codes the official table '
+        + 'maps one-to-one. Answered by table lookup and closed.',
     why:  'Sending these to a model would pad the autonomy figure with free wins. '
         + 'Keeping them out is what makes the remaining number mean something.' },
 
-  { id: 'agent', x: 602, y: 152, w: 272, h: 84, zone: 'z-agent',
-    label: 'Classifier agent', sub: 'reads notes, lines, precedents',
+  { id: 'agent', x: 452, y: 146, w: 338, h: 106, zone: 'z-agent',
+    label: 'Classifier agent', sub: 'notes · tariff lines · precedents',
     what: 'Gemini reading the chapter and section notes, the tariff lines under each '
-        + 'candidate, and prior rulings on comparable goods, then choosing one '
-        + '8-digit code and saying what separates it from the runner-up.',
-    why:  'The correlation table states that it "has no legal status" and is "a '
-        + 'guide only". It says where to look. Deciding needs the notes, the '
-        + 'precedents, and the product in front of you.' },
+        + 'candidate and prior rulings on comparable goods, then choosing one 8-digit '
+        + 'code, naming the runner-up, and accounting for every candidate it dropped.',
+    why:  'The correlation table states that it "has no legal status" and is "a guide '
+        + 'only". It says where to look. Deciding needs the notes, the precedents and '
+        + 'the product in front of you.' },
 
-  { id: 'verify', x: 602, y: 298, w: 272, h: 68, zone: 'z-agent',
+  { id: 'verify', x: 452, y: 300, w: 338, h: 92, zone: 'z-agent',
     label: 'Citation check', sub: 'every reference re-resolved',
-    what: 'A program, not a model. Takes each citation the agent produced and goes '
-        + 'and looks: does the ruling exist, does the note number exist, are the '
-        + 'quoted words really in it.',
+    what: 'A program, not a model. Takes each citation and goes and looks: does the '
+        + 'ruling exist, does the note number exist, are the quoted words really in it.',
     why:  'On Vertex the Pro line stops at 3.1, below this project\'s floor, so '
         + '"have a stronger model check it" is not available. Trust has to come from '
         + 'something that cannot be talked round. A model that never read the note '
         + 'paraphrases it, and a paraphrase fails a substring check.' },
 
-  { id: 'needs', x: 602, y: 402, w: 272, h: 62, zone: 'z-agent',
+  { id: 'needs', x: 452, y: 440, w: 338, h: 82, zone: 'z-agent',
     label: 'Refused', sub: 'names the fact and the department',
     what: 'The agent stops instead of choosing, and states which property is missing '
         + 'and who inside the company holds it.',
     why:  'Filing on a guess costs the duty difference plus penalties, and the person '
         + 'who signed owes it. Asking is cheaper than being wrong.' },
 
-  { id: 'ready', x: 970, y: 152, w: 244, h: 68, zone: 'z-human',
+  { id: 'ready', x: 860, y: 146, w: 338, h: 106, zone: 'z-human',
     label: 'Ready to sign', sub: 'evidence pack attached',
     what: 'Selected code, runner-up, the fact that separates them, the duty rate and '
-        + 'where it came from, chapter notes and rulings, all verified.',
+        + 'where it came from, the notes and rulings behind it, all verified.',
     why:  'The licensed person is signing a legal declaration. What they need is not '
         + 'a shortlist to work through but a decision they can check.' },
 
-  { id: 'approved', x: 970, y: 298, w: 244, h: 68, zone: 'z-human',
+  { id: 'approved', x: 860, y: 300, w: 338, h: 92, zone: 'z-human',
     label: 'Approved', sub: 'one action, whole batch',
     what: 'One deliberate signature releases everything that passed. Anything refused '
         + 'or unverified is held back and named.',
     why:  'Signing row by row is the hand-holding this system exists to remove. '
         + 'Deciding to sign at all is the part that cannot be delegated.' },
 
-  { id: 'dept', x: 970, y: 402, w: 244, h: 62, zone: 'z-human',
+  { id: 'dept', x: 860, y: 440, w: 338, h: 82, zone: 'z-human',
     label: 'Engineering', sub: 'answers, cannot approve',
     what: 'Whoever holds the missing fact answers the one question, and the case '
         + 're-runs with it.',
@@ -130,44 +127,54 @@ export const NODE_INFO = Object.fromEntries(
 // a line into it. The two approval edges are numbered apart so they do not print
 // the same label twice in the same place.
 const EDGES = [
-  ['sources', 'gate',    null,            '1',  'verify',            'v'],
-  ['gate',    'triage',  'received',      '2',  'release snapshot',  'h'],
-  ['intake',  'triage',  'received',      '3',  'set difference',    'v'],
-  ['triage',  'settled', 'deterministic', '4a', 'code unchanged',    'v'],
-  ['triage',  'agent',   'agent',         '4b', 'needs judgment',    'h'],
-  ['agent',   'verify',  'classified',    '5',  'proposed code',     'v'],
-  ['agent',   'needs',   'refused',       '5b', 'will not guess',    'skirtR'],
-  ['verify',  'ready',   'verified',      '6',  'citations resolve', 'h'],
-  ['verify',  'agent',   'held',          '6b', 'held back',         'loopL'],
-  ['needs',   'dept',    'refused',       '7',  'asks',              'h'],
-  ['dept',    'agent',   'requeued',      '8',  'fact supplied',     'loopB'],
-  ['ready',   'approved','approvedAgent', '9a', 'sign',              'v'],
-  ['settled', 'approved','approvedDet',   '9b', 'sign',              'baseline'],
+  ['gate',    'triage',  null,            '1',  'released',          'elbow'],
+  ['intake',  'triage',  'received',      '2',  'set difference',    'elbow'],
+  ['triage',  'settled', 'deterministic', '3a', 'code unchanged',    'v'],
+  ['triage',  'agent',   'agent',         '3b', 'needs judgment',    'h'],
+  ['agent',   'verify',  'classified',    '4',  'proposed code',     'v'],
+  ['agent',   'needs',   'refused',       '4b', 'will not guess',    'skirtR'],
+  ['verify',  'ready',   'verified',      '5',  'citations resolve', 'h'],
+  ['verify',  'agent',   'held',          '5b', 'held back',         'loopL'],
+  ['needs',   'dept',    'refused',       '6',  'asks',              'h'],
+  ['dept',    'agent',   'requeued',      '7',  'fact supplied',     'loopB'],
+  ['ready',   'approved','approvedAgent', '8a', 'sign',              'v'],
+  ['settled', 'approved','approvedDet',   '8b', 'sign',              'baseline'],
 ];
 
 const N = Object.fromEntries(NODES.map(n => [n.id, n]));
 const c = n => ({ x: n.x + n.w / 2, y: n.y + n.h / 2 });
 
-const LOOP_Y = 512;   // return traffic, clear of every zone
-const BASE_Y = 556;   // the deterministic path to approval, lower still
+const LOOP_Y = 604;   // return traffic, clear of every zone
+const BASE_Y = 646;   // the deterministic path to approval, lower still
 
 function path(a, b, kind) {
   const A = N[a], B = N[b], ca = c(A), cb = c(B);
   switch (kind) {
     case 'v':
       return `M ${ca.x} ${A.y + A.h} L ${cb.x} ${B.y}`;
+    case 'elbow':    // two boxes side by side, both feeding the one below
+      return `M ${ca.x} ${A.y + A.h} V ${(A.y + A.h + B.y) / 2} H ${cb.x} V ${B.y}`;
     case 'h': {
       const x1 = A.x + A.w, x2 = B.x, m = (x1 + x2) / 2;
       return `M ${x1} ${ca.y} C ${m} ${ca.y}, ${m} ${cb.y}, ${x2} ${cb.y}`;
     }
-    case 'skirtR':   // agent -> refused, down the right-hand side of the zone
-      return `M ${A.x + A.w - 26} ${A.y + A.h} V ${B.y - 20} H ${B.x + B.w - 26} V ${B.y}`;
-    case 'loopL':    // verify -> agent, a short retry hop on the left
+    // Every lane that has to get past a box goes outside it. A line crossing a
+    // box reads as a line into it, which would say the agent hands refusals to
+    // the citation checker, and it does not.
+    case 'skirtR': {  // agent -> refused, down the outside of its own column
+      const lane = A.x + A.w + 12;
+      return `M ${A.x + A.w} ${ca.y + 18} H ${lane} V ${cb.y} H ${B.x + B.w}`;
+    }
+    case 'loopL':    // citation check -> agent, a short retry hop up the left
       return `M ${A.x + 26} ${A.y} V ${B.y + B.h + 16} H ${B.x + 26} V ${B.y + B.h}`;
-    case 'loopB':    // engineering -> agent, the long way back underneath
-      return `M ${ca.x} ${A.y + A.h} V ${LOOP_Y} H ${B.x + 44} V ${B.y + B.h}`;
-    case 'baseline': // settled -> approved, along the very bottom
-      return `M ${ca.x} ${A.y + A.h} V ${BASE_Y} H ${cb.x} V ${B.y + B.h}`;
+    case 'loopB': {  // engineering -> agent, the long way back underneath
+      const lane = B.x - 14;
+      return `M ${ca.x} ${A.y + A.h} V ${LOOP_Y} H ${lane} V ${cb.y} H ${B.x}`;
+    }
+    case 'baseline': { // settled -> approved, along the very bottom
+      const lane = B.x - 14;
+      return `M ${ca.x} ${A.y + A.h} V ${BASE_Y} H ${lane} V ${cb.y} H ${B.x}`;
+    }
     default:
       return `M ${ca.x} ${ca.y} L ${cb.x} ${cb.y}`;
   }
@@ -191,7 +198,7 @@ function tally(flow) {
 }
 
 const occupancy = f => ({
-  sources: 0, gate: f.states.BLOCKED, intake: 0, triage: f.states.RECEIVED,
+  gate: f.states.BLOCKED, intake: 0, triage: f.states.RECEIVED,
   settled: f.states.SETTLED, agent: f.states.CLASSIFYING,
   verify: f.states.VERIFY_FAILED, needs: f.states.NEEDS_INPUT,
   ready: f.states.READY, approved: f.states.APPROVED, dept: 0,
@@ -202,6 +209,8 @@ function labelPoint(a, b, kind) {
   switch (kind) {
     case 'v':
       return { x: ca.x + 10, y: (A.y + A.h + B.y) / 2 + 4, anchor: 'start' };
+    case 'elbow':
+      return { x: ca.x + 8, y: A.y + A.h + 16, anchor: 'start' };
     case 'h':
       return { x: (A.x + A.w + B.x) / 2, y: Math.min(ca.y, cb.y) - 14, anchor: 'middle' };
     case 'skirtR':
@@ -242,7 +251,9 @@ function gateBadge(node, role) {
   const owner = OWNER[node.id];
   if (!owner) return '';
   const mine = owner === role;
-  const x = node.x + node.w, y = node.y - 7;
+  // Bottom right, inside the box: the parked dots start from the left edge and
+  // the occupancy count sits top right, so this is the corner nothing else uses.
+  const x = node.x + node.w - 10, y = node.y + node.h - 8;
   const text = `${mine ? '' : '🔒 '}${ROLE_LABEL[owner]}`;
   const w = text.length * 6.4 + 16;
   return `<g class="gate ${mine ? 'mine' : ''}">
@@ -380,5 +391,5 @@ export const NEXT_STEP = {
 export const NODE_STATES = {
   gate: ['BLOCKED'], triage: ['RECEIVED'], settled: ['SETTLED'],
   agent: ['CLASSIFYING'], verify: ['VERIFY_FAILED'], needs: ['NEEDS_INPUT'],
-  ready: ['READY'], approved: ['APPROVED'], sources: [], intake: [], dept: [],
+  ready: ['READY'], approved: ['APPROVED'], intake: [], dept: [],
 };
