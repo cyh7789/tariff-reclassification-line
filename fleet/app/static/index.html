@@ -655,7 +655,12 @@ function render(data, flow, moves) {
   window.__ready = ready;
   updateApprove();
   $('#selAll').checked = ready > 0 && selected.size === ready;
-  const stranded = data.cases.filter(x => x.state === 'CLASSIFYING').length;
+  // A case is stranded when no worker is holding it, not merely because it is
+  // classifying. Counting every busy case as stuck made the screen cry for help
+  // at exactly the moment the system was working hardest.
+  const working = new Set((flow.active || []).map(w => w.case_id));
+  const stranded = data.cases.filter(
+    x => x.state === 'CLASSIFYING' && !working.has(x.case_id)).length;
   $('#approveHint').innerHTML =
     ($('#role').value !== 'approver' ? 'signed in as ' + $('#role').value + ' · ' : '') +
     `${ready} ready to sign${held ? `, ${held} held back` : ''}` +
