@@ -31,6 +31,7 @@ from fleet.triage.engine import triage
 from fleet.triage.types import LineItem, Route
 from fleet.verify.citations import CitationVerifier
 from fleet.workflow.store import CaseState, Store
+from fleet.workflow.transcript import steps as transcript_steps
 
 
 class Worker:
@@ -88,7 +89,13 @@ class Worker:
                     selected_code=result.selected_code or case.prior_code,
                     duty_rate=result.current_duty.general if result.current_duty else None,
                     reasoning=result.reason,
-                    candidates=[c.hs_code for c in result.candidates])
+                    candidates=[c.hs_code for c in result.candidates],
+                    # A settled case gets a transcript too, saying what settled
+                    # it. "Nothing to decide" is a finding, and an empty panel
+                    # would read as a case nobody worked.
+                    steps=[{"kind": "settle", "actor": "lookup",
+                            "text": f"settled without a model: {result.bucket}",
+                            "detail": result.reason}])
             else:
                 self.store.transition(
                     case.case_id, CaseState.CLASSIFYING, "triage", f"triage:{case.case_id}",
@@ -132,7 +139,10 @@ class Worker:
                 case_id, CaseState.NEEDS_INPUT, "worker", f"error:{case_id}:{attempt}",
                 detail=f"{type(exc).__name__}: {exc}\n{traceback.format_exc()[-400:]}",
                 missing_property="the classifier could not complete; a person should look",
-                ask_department="compliance")
+                ask_department="compliance",
+                steps=[{"kind": "error", "actor": "worker",
+                        "text": f"the run stopped: {type(exc).__name__}",
+                        "detail": str(exc)[:200]}])
             return
 
         self.active.pop(case_id, None)
@@ -145,7 +155,11 @@ class Worker:
         effort = {"tool_calls": answer.get("tool_call_count", 0),
                   "tools_used": sorted(used.items()),
                   "seconds": answer.get("seconds", 0.0),
-                  "attempts": attempt}
+                  "attempts": attempt,
+                  # A refusal produced no classification to check, so naming the
+                  # checker there would credit it with work it never did.
+                  "steps": transcript_steps(
+                      answer, None if answer.get("status") == "NEEDS_INPUT" else verdict)}
 
         if answer.get("status") == "NEEDS_INPUT":
             self.store.transition(

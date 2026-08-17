@@ -96,6 +96,9 @@ class Case:
     annual_value: float | None = None
     findings: list = field(default_factory=list)
     tool_calls: int = 0
+    #: The ordered record of how this case was worked: every lookup, every
+    #: candidate ruled out, the decision, the citation check.
+    steps: list = field(default_factory=list)
     tools_used: list = field(default_factory=list)
     seconds: float = 0.0
     attempts: int = 0
@@ -138,6 +141,7 @@ CREATE TABLE IF NOT EXISTS cases (
     annual_value       REAL,
     findings           TEXT NOT NULL DEFAULT '[]',
     tool_calls         INTEGER NOT NULL DEFAULT 0,
+    steps              TEXT NOT NULL DEFAULT '[]',
     tools_used         TEXT NOT NULL DEFAULT '[]',
     seconds            REAL NOT NULL DEFAULT 0,
     attempts           INTEGER NOT NULL DEFAULT 0,
@@ -176,6 +180,7 @@ MIGRATIONS = [
     ("cases", "annual_value", "REAL"),
     ("cases", "findings", "TEXT NOT NULL DEFAULT '[]'"),
     ("cases", "tool_calls", "INTEGER NOT NULL DEFAULT 0"),
+    ("cases", "steps", "TEXT NOT NULL DEFAULT '[]'"),
     ("cases", "tools_used", "TEXT NOT NULL DEFAULT '[]'"),
     ("cases", "seconds", "REAL NOT NULL DEFAULT 0"),
     ("cases", "attempts", "INTEGER NOT NULL DEFAULT 0"),
@@ -310,6 +315,7 @@ class Store:
         data["citations"] = json.loads(data.get("citations") or "[]")
         data["candidates"] = json.loads(data.get("candidates") or "[]")
         data["tools_used"] = json.loads(data.get("tools_used") or "[]")
+        data["steps"] = json.loads(data.get("steps") or "[]")
         data["findings"] = json.loads(data.get("findings") or "[]")
         return Case(**{k: v for k, v in data.items() if k in Case.__dataclass_fields__})
 
@@ -399,10 +405,16 @@ class Store:
             rows = db.execute(
                 "SELECT e.event_id, e.case_id, e.at, e.from_state, e.to_state,"
                 " e.actor, e.detail, c.item_id, c.bucket, c.route, c.tool_calls,"
-                " c.seconds, c.selected_code, c.missing_property, c.ask_department"
+                " c.seconds, c.selected_code, c.missing_property, c.ask_department,"
+                " c.steps"
                 " FROM case_events e JOIN cases c ON c.case_id = e.case_id"
                 " WHERE c.batch_id = ? ORDER BY e.event_id", (batch_id,)).fetchall()
-        return [dict(r) for r in rows]
+        out = []
+        for r in rows:
+            row = dict(r)
+            row["steps"] = json.loads(row.get("steps") or "[]")
+            out.append(row)
+        return out
 
     def audit(self, batch_id: str) -> list[dict]:
         """Everything that happened to this batch, in order, with who did it.

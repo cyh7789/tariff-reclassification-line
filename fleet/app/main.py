@@ -208,7 +208,11 @@ def get_flow(batch_id: str, since: int = 0,
         {"case_id": c.case_id, "item_id": c.item_id, "state": str(c.state),
          "route": c.route, "bucket": c.bucket, "tool_calls": c.tool_calls,
          "seconds": c.seconds, "selected_code": c.selected_code,
-         "missing_property": c.missing_property, "ask_department": c.ask_department}
+         "missing_property": c.missing_property, "ask_department": c.ask_department,
+         # The transcript travels with the case rather than behind another
+         # request: the feed has to append a case's lines the moment it lands,
+         # and a second round trip per case would arrive after the animation.
+         "steps": c.steps}
         for c in store.cases(batch_id, tenant)]
     return flow
 

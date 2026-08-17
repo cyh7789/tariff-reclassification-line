@@ -144,3 +144,17 @@ def test_a_selection_that_names_a_blocked_case_does_not_force_it_through(store, 
     assert result["approved"] == 1
     assert [h["state"] for h in result["held"]] == ["NEEDS_INPUT"]
     assert store.case(blocked.case_id).state is CaseState.NEEDS_INPUT
+
+
+def test_the_transcript_survives_the_round_trip_and_reaches_replay(store, batch):
+    """The tape and the replay both read this column, so an empty one is a blank
+    screen rather than a visible error."""
+    case = store.cases(batch)[0]
+    rows = [{"kind": "reject", "actor": "agent", "text": "852411 ruled out",
+             "detail": "sweep heading for display modules", "ref": "Note 7 to Chapter 85"}]
+    store.transition(case.case_id, CaseState.CLASSIFYING, "worker", "t1")
+    store.transition(case.case_id, CaseState.READY, "worker", "t2", steps=rows)
+
+    assert store.case(case.case_id).steps == rows
+    landed = [e for e in store.timeline(batch) if e["to_state"] == "READY"]
+    assert landed[0]["steps"] == rows
