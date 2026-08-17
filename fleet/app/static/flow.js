@@ -31,7 +31,7 @@ const ZONES = [
 //: enforces, so a badge here and a 403 there cannot drift apart.
 const OWNER = {
   gate: 'operator', intake: 'operator',
-  needs: 'contributor', dept: 'contributor',
+  needs: 'contributor',
   settled: 'approver', ready: 'approver',
 };
 
@@ -42,18 +42,19 @@ const NODES = [
     label: 'Snapshot', sub: 'dated · hashed · gated',
     what: 'A frozen copy of the law, checked before use: the 35,791-line tariff '
         + 'schedule, the legal notes of all 98 chapters, 218,606 past customs '
-        + 'rulings, the official correlation table. Row counts, sizes, hashes and '
-        + 'age are verified before anything is allowed to read it.',
-    why:  'Two reasons in one box. A classification has to be reproducible months '
-        + 'later, so the citations point at a version that still exists. And these '
-        + 'government endpoints answer a wrong URL with HTTP 200 and an empty body: '
-        + 'an empty screening list passes every party, so the line stops rather than '
-        + 'working from a file that only looks fine.' },
+        + 'rulings, the screening list, the official correlation table. Row counts, '
+        + 'sizes, hashes and age are verified before anything may read it.',
+    why:  'A classification has to be reproducible months later, so its citations '
+        + 'point at a version that still exists. And these government endpoints '
+        + 'answer a wrong URL with HTTP 200 and an empty body: an empty screening '
+        + 'list passes every party, so the line stops rather than working from a '
+        + 'file that only looks fine.' },
 
   { id: 'intake', x: 232, y: 146, w: 130, h: 88, zone: 'z-det',
     label: 'Batch in', sub: 'CSV or catalog',
-    what: 'The lines to be classified, as exported from the ERP. Codes filed under '
-        + 'the 2017 nomenclature, or no code at all for a line nobody has filed yet.',
+    what: 'The lines to classify, as exported from the ERP: filed code, goods, and '
+        + 'whatever else the export carries. Quantity, origin and supplier are '
+        + 'picked up when present because the duty and the screening need them.',
     why:  'Nobody re-files a catalog for fun. The codes sat correct for years and '
         + 'became wrong without anybody touching them.' },
 
@@ -89,33 +90,39 @@ const NODES = [
         + 'something that cannot be talked round. A model that never read the note '
         + 'paraphrases it, and a paraphrase fails a substring check.' },
 
-  { id: 'needs', x: 452, y: 440, w: 338, h: 82, zone: 'z-agent',
-    label: 'Refused', sub: 'names the fact and the department',
-    what: 'The agent stops instead of choosing, and states which property is missing '
-        + 'and who inside the company holds it.',
-    why:  'Filing on a guess costs the duty difference plus penalties, and the person '
-        + 'who signed owes it. Asking is cheaper than being wrong.' },
+  { id: 'compliance', x: 452, y: 440, w: 338, h: 82, zone: 'z-agent',
+    label: 'Compliance pass', sub: 'duty · chapter 99 · screening',
+    what: 'What the settled code means for this entry: the gap against what was '
+        + 'filed, the chapter 99 add-on for goods of the wrong origin, the duty on '
+        + 'lines charged by weight, and any supplier resembling a party on the '
+        + 'screening list. The count is what it closed on its own.',
+    why:  'Money follows arithmetic, so the arithmetic is done rather than left on '
+        + 'the officer\'s desk. Identity does not follow arithmetic: 25,939 listed '
+        + 'entries produce resemblance constantly, so that one is handed over with '
+        + 'what matched and what differs, never decided here.' },
 
   { id: 'ready', x: 876, y: 146, w: 322, h: 106, zone: 'z-human',
     label: 'Ready to sign', sub: 'evidence pack attached',
-    what: 'Selected code, runner-up, the fact that separates them, the duty rate and '
-        + 'where it came from, the notes and rulings behind it, all verified.',
+    what: 'Selected code, runner-up, the fact that separates them, what the entry '
+        + 'owes and where that came from, the notes and rulings behind it, verified.',
     why:  'The licensed person is signing a legal declaration. What they need is not '
         + 'a shortlist to work through but a decision they can check.' },
 
-  { id: 'approved', x: 876, y: 300, w: 322, h: 92, zone: 'z-human',
+  { id: 'needs', x: 876, y: 300, w: 322, h: 92, zone: 'z-human',
+    label: 'On somebody\'s desk', sub: 'the question, and who holds it',
+    what: 'Lines the system refused to settle: a property the description never '
+        + 'stated, a quantity the entry never carried, a supplier that resembles a '
+        + 'listed party. Each says what is missing and which function holds it.',
+    why:  'Filing on a guess costs the duty difference plus penalties, and the person '
+        + 'who signed owes it. Asking is cheaper than being wrong, and a question '
+        + 'with a named owner is cheaper than a queue.' },
+
+  { id: 'approved', x: 876, y: 440, w: 322, h: 82, zone: 'z-human',
     label: 'Approved', sub: 'one action, whole batch',
     what: 'One deliberate signature releases everything that passed. Anything refused '
         + 'or unverified is held back and named.',
     why:  'Signing row by row is the hand-holding this system exists to remove. '
         + 'Deciding to sign at all is the part that cannot be delegated.' },
-
-  { id: 'dept', x: 876, y: 440, w: 322, h: 82, zone: 'z-human',
-    label: 'Engineering', sub: 'answers, cannot approve',
-    what: 'Whoever holds the missing fact answers the one question, and the case '
-        + 're-runs with it.',
-    why:  'The answer comes from a different department than the signature, and the '
-        + 'roles are enforced: a contributor can supply a fact and cannot approve.' },
 ];
 
 //: Metadata for the explanation panel, keyed the same way as the nodes.
@@ -123,22 +130,23 @@ export const NODE_INFO = Object.fromEntries(
   NODES.map(n => [n.id, { label: n.label, what: n.what, why: n.why }]));
 
 // from, to, count key, step, label, routing
-// Return paths run below every zone, because a loop drawn through a zone reads as
-// a line into it. The two approval edges are numbered apart so they do not print
-// the same label twice in the same place.
+// Only the main chain is numbered. Returns and refusals carry a word instead: a
+// dozen bold step numbers is most of what made this diagram feel crowded, and
+// the loops are not steps anybody follows in order.
 const EDGES = [
-  ['gate',    'triage',  null,            '1',  'released',          'elbow'],
-  ['intake',  'triage',  'received',      '2',  'set difference',    'elbow'],
-  ['triage',  'settled', 'deterministic', '3a', 'code unchanged',    'v'],
-  ['triage',  'agent',   'agent',         '3b', 'needs judgment',    'h'],
-  ['agent',   'verify',  'classified',    '4',  'proposed code',     'v'],
-  ['agent',   'needs',   'refused',       '4b', 'will not guess',    'skirtR'],
-  ['verify',  'ready',   'verified',      '5',  'citations resolve', 'h'],
-  ['verify',  'agent',   'held',          '5b', 'held back',         'loopL'],
-  ['needs',   'dept',    'refused',       '6',  'asks',              'h'],
-  ['dept',    'agent',   'requeued',      '7',  'fact supplied',     'loopB'],
-  ['ready',   'approved','approvedAgent', '8a', 'sign',              'v'],
-  ['settled', 'approved','approvedDet',   '8b', 'sign',              'baseline'],
+  ['gate',       'triage',   null,            '',   'released',       'elbow'],
+  ['intake',     'triage',   'received',      '1',  'difference'   , 'elbow'],
+  ['triage',     'settled',  'deterministic', '2a', 'unchanged'    , 'v'],
+  ['triage',     'agent',    'agent',         '2b', 'judgment'     , 'h'],
+  ['agent',      'verify',   'classified',    '3',  'proposed code',  'v'],
+  ['agent',      'needs',    'refused',       '',   'refused'      , 'h'],
+  ['verify',     'compliance','verified',     '4',  'verified'     , 'v'],
+  ['verify',     'agent',    'held',          '',   'held back',      'loopL'],
+  ['compliance', 'ready',    'settledHere',   '5',  'costed',         'h'],
+  ['compliance', 'needs',    'forAPerson',    '',   'identity',       'h'],
+  ['needs',      'agent',    'requeued',      '',   'answered',       'backL'],
+  ['ready',      'approved', 'approvedAgent', '6',  'sign',           'skirtR'],
+  ['settled',    'approved', 'approvedDet',   '6b', 'sign',           'baseline'],
 ];
 
 const N = Object.fromEntries(NODES.map(n => [n.id, n]));
@@ -167,9 +175,9 @@ function path(a, b, kind) {
     }
     case 'loopL':    // citation check -> agent, a short retry hop up the left
       return `M ${A.x + 26} ${A.y} V ${B.y + B.h + 16} H ${B.x + 26} V ${B.y + B.h}`;
-    case 'loopB': {  // engineering -> agent, the long way back underneath
-      const lane = B.x - 14;
-      return `M ${ca.x} ${A.y + A.h} V ${LOOP_Y} H ${lane} V ${cb.y} H ${B.x}`;
+    case 'backL': {  // the answered question going back to the agent, up the gutter
+      const lane = A.x - 22;
+      return `M ${A.x} ${ca.y + 12} H ${lane} V ${cb.y + 12} H ${B.x + B.w}`;
     }
     case 'baseline': { // settled -> approved, along the very bottom
       const lane = B.x - 14;
@@ -194,6 +202,11 @@ function tally(flow) {
     held:          e('VERIFY_FAILED->CLASSIFYING'),
     approvedDet:   e('SETTLED->APPROVED'),
     approvedAgent: e('READY->APPROVED'),
+    // What the compliance pass did, from the findings themselves rather than
+    // from a state: closing a duty question is not a state change, which is
+    // exactly why it was invisible until now.
+    settledHere:   (flow.dispositions || {}).settled_here || 0,
+    forAPerson:    (flow.dispositions || {}).for_a_person || 0,
   };
 }
 
@@ -201,7 +214,10 @@ const occupancy = f => ({
   gate: f.states.BLOCKED, intake: 0, triage: f.states.RECEIVED,
   settled: f.states.SETTLED, agent: f.states.CLASSIFYING,
   verify: f.states.VERIFY_FAILED, needs: f.states.NEEDS_INPUT,
-  ready: f.states.READY, approved: f.states.APPROVED, dept: 0,
+  ready: f.states.READY, approved: f.states.APPROVED,
+  // The compliance box shows what it closed, which is a count of work done
+  // rather than of cases parked: nothing waits here.
+  compliance: (f.dispositions || {}).settled_here || 0,
 });
 
 function labelPoint(a, b, kind) {
@@ -214,7 +230,7 @@ function labelPoint(a, b, kind) {
     case 'h':
       // Halfway between the two boxes in both directions, which is the gutter
       // between columns. Level with the higher box put it behind that box.
-      return { x: (A.x + A.w + B.x) / 2, y: (ca.y + cb.y) / 2 + 8, anchor: 'middle' };
+      return { x: (A.x + A.w + B.x) / 2 + 8, y: (ca.y + cb.y) / 2 + 8, anchor: 'middle' };
     case 'skirtR':
       return { x: A.x + A.w - 34, y: B.y - 28, anchor: 'end' };
     case 'loopL':
@@ -393,5 +409,5 @@ export const NEXT_STEP = {
 export const NODE_STATES = {
   gate: ['BLOCKED'], triage: ['RECEIVED'], settled: ['SETTLED'],
   agent: ['CLASSIFYING'], verify: ['VERIFY_FAILED'], needs: ['NEEDS_INPUT'],
-  ready: ['READY'], approved: ['APPROVED'], intake: [], dept: [],
+  ready: ['READY'], approved: ['APPROVED'], intake: [], compliance: [],
 };

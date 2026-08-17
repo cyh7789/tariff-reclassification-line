@@ -94,6 +94,10 @@ class Case:
     country_of_origin: str | None = None
     supplier: str | None = None
     annual_value: float | None = None
+    #: Rates on 12% of the schedule are charged per kilo or per head, so the
+    #: quantity is not an optional extra there: without it the duty is unknown.
+    quantity: float | None = None
+    quantity_unit: str | None = None
     findings: list = field(default_factory=list)
     tool_calls: int = 0
     #: The ordered record of how this case was worked: every lookup, every
@@ -139,6 +143,8 @@ CREATE TABLE IF NOT EXISTS cases (
     country_of_origin  TEXT,
     supplier           TEXT,
     annual_value       REAL,
+    quantity           REAL,
+    quantity_unit      TEXT,
     findings           TEXT NOT NULL DEFAULT '[]',
     tool_calls         INTEGER NOT NULL DEFAULT 0,
     steps              TEXT NOT NULL DEFAULT '[]',
@@ -178,6 +184,8 @@ MIGRATIONS = [
     ("cases", "country_of_origin", "TEXT"),
     ("cases", "supplier", "TEXT"),
     ("cases", "annual_value", "REAL"),
+    ("cases", "quantity", "REAL"),
+    ("cases", "quantity_unit", "TEXT"),
     ("cases", "findings", "TEXT NOT NULL DEFAULT '[]'"),
     ("cases", "tool_calls", "INTEGER NOT NULL DEFAULT 0"),
     ("cases", "steps", "TEXT NOT NULL DEFAULT '[]'"),
@@ -225,11 +233,12 @@ class Store:
                 db.execute(
                     "INSERT INTO cases (case_id, batch_id, tenant, item_id, description,"
                     " prior_code, state, country_of_origin, supplier, annual_value,"
-                    " updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                    " quantity, quantity_unit, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     (f"C-{uuid.uuid4().hex[:10]}", batch_id, tenant, item["item_id"],
                      item["description"], item["prior_code"], CaseState.RECEIVED,
                      item.get("country_of_origin"), item.get("supplier"),
-                     item.get("annual_value"), now()))
+                     item.get("annual_value"), item.get("quantity"),
+                     item.get("quantity_unit"), now()))
             db.execute("COMMIT")
         return batch_id
 
@@ -381,6 +390,20 @@ class Store:
             tools = db.execute(
                 "SELECT tools_used FROM cases WHERE batch_id=? AND tools_used <> '[]'",
                 (batch_id,)).fetchall()
+            found = db.execute(
+                "SELECT findings FROM cases WHERE batch_id=? AND findings <> '[]'",
+                (batch_id,)).fetchall()
+        # The compliance split, which is the claim this product makes: how much
+        # of what an import owes was worked out and closed, and how much needed a
+        # person. Counted per case, because a case raised for a person is raised
+        # whatever else was settled on it.
+        settled_here = for_a_person = 0
+        for row in found:
+            findings = json.loads(row["findings"] or "[]")
+            if any(f.get("severity") == 0 for f in findings):
+                for_a_person += 1
+            elif findings:
+                settled_here += 1
         used: dict[str, int] = {}
         for row in tools:
             for name, n in json.loads(row["tools_used"]):
@@ -391,6 +414,7 @@ class Store:
             "agent": {"cases": agg["n"], "tool_calls": agg["tc"],
                       "seconds": round(agg["secs"], 1), "worst_case_tools": agg["worst"]},
             "tools_used": used,
+            "dispositions": {"settled_here": settled_here, "for_a_person": for_a_person},
         }
 
     def timeline(self, batch_id: str) -> list[dict]:

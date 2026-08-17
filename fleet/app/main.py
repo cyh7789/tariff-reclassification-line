@@ -105,6 +105,12 @@ COLUMN_ALIASES = {
     "prior_code": {"code", "hts", "hts_code", "tariff", "tariff_code", "hs_code",
                    "current_code", "filed_code"},
     "description": {"goods", "product", "product_description", "text", "name"},
+    # Optional, and only optional until the line turns out to be charged by
+    # weight, at which point the duty cannot be stated without them.
+    "quantity": {"qty", "net_quantity", "net_weight", "weight", "units"},
+    "quantity_unit": {"unit", "uom", "quantity_uom", "weight_unit"},
+    "country_of_origin": {"origin", "coo", "country"},
+    "supplier": {"vendor", "manufacturer", "shipper", "seller"},
 }
 
 
@@ -145,8 +151,18 @@ def read_catalog_csv(raw: bytes) -> list[dict]:
         # table, and a half-code would send triage looking for a heading that was
         # never filed. Dropping it says the same thing more honestly: nothing to
         # carry forward, classify it.
-        items.append({"item_id": item_id, "prior_code": code if len(code) >= 6 else "",
-                      "description": description[:4000]})
+        row_out = {"item_id": item_id, "prior_code": code if len(code) >= 6 else "",
+                   "description": description[:4000]}
+        for extra in ("quantity_unit", "country_of_origin", "supplier"):
+            if extra in found:
+                row_out[extra] = (row.get(found[extra]) or "").strip() or None
+        if "quantity" in found:
+            try:
+                row_out["quantity"] = float(re.sub(r"[^\d.]", "",
+                                                   row.get(found["quantity"]) or "") or 0) or None
+            except ValueError:
+                row_out["quantity"] = None
+        items.append(row_out)
     if not items:
         raise HTTPException(400, f"no usable rows: every line was missing an item "
                                  f"or a description ({skipped} skipped)")
@@ -188,7 +204,8 @@ def get_batch(batch_id: str, x_role: str = Header(None), x_tenant: str = Header(
              "route": c.route, "bucket": c.bucket, "selected_code": c.selected_code,
              "confidence": c.confidence, "duty_rate": c.duty_rate,
              "missing_property": c.missing_property, "ask_department": c.ask_department,
-             "description": c.description[:160], "prior_code": c.prior_code}
+             "description": c.description[:160], "prior_code": c.prior_code,
+             "findings": c.findings}
             for c in cases
         ],
     }

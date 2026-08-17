@@ -111,6 +111,7 @@
   .tl.error .ic, .tl.error .tx { color: var(--bad); }
   .tl.settle .ic, .tl.settle .tx { color: #64748b; }
   .tl.cite .ic, .tl.cite .tx { color: #7c3aed; }
+  .tl.finding .ic, .tl.finding .tx { color: #b45309; font-weight: 600; }
   /* What each box actually does. The diagram names the steps; this says why each
      one is there, which is the part a viewer cannot infer from a label. */
   #explain { padding: 10px 14px; border-top: 1px solid var(--line); min-height: 78px; }
@@ -274,6 +275,7 @@
         <th>Goods</th><th style="width:126px">Now</th>
         <th style="width:70px">Duty</th><th style="width:74px">Effort</th>
         <th style="width:126px">State</th><th style="width:124px">With</th>
+        <th style="width:210px">Compliance</th>
       </tr></thead>
       <tbody id="rows"></tbody>
     </table>
@@ -341,7 +343,7 @@ function alertBox(title, body, kind='bad', actions=[]) {
 // rather than a rendering of current state. `seen` is what keeps a 1.5-second
 // poll from re-appending the same case's work forever.
 const ICON = {tool:'⌕', reject:'✕', select:'✓', cite:'❞', verify:'⚖',
-              refuse:'?', settle:'▪', error:'!'};
+              refuse:'?', settle:'▪', error:'!', finding:'$'};
 let tape = {seen: new Set(), lines: [], batch: null};
 
 function tapeReset() { tape = {seen: new Set(), lines: [], batch: null}; drawTape(); }
@@ -507,6 +509,7 @@ function render(data, flow, moves) {
       <td class="muted">${e.tool_calls ? e.tool_calls+' calls' : '—'}</td>
       <td><span class="pill ${x.state}">${x.state.replace('_',' ').toLowerCase()}</span></td>
       <td>${desk(x.state)}</td>
+      <td>${disposition(x.findings)}</td>
     </tr>`;}).join('');
 
   const c = data.counts;
@@ -537,6 +540,21 @@ function desk(state) {
   const cls = step.who === 'automatic' ? 'auto' : step.who === 'nobody' ? 'done' : '';
   return `<span class="who ${cls} ${mine ? 'you' : ''}">${
     mine ? 'you' : step.who}</span>`;
+}
+
+//: What the compliance pass did with this line. Two shapes only: settled here,
+//: or raised for a person. Anything in between would be the system deciding
+//: something it has no business deciding.
+function disposition(findings) {
+  if (!findings || !findings.length) return '<span class="muted">nothing owed</span>';
+  const human = findings.filter(f => f.severity === 0);
+  const rest = findings.filter(f => f.severity !== 0);
+  const bits = [];
+  if (human.length) bits.push(`<span class="pill NEEDS_INPUT">${esc(human[0].headline)}</span>`);
+  for (const f of rest.slice(0, 2))
+    bits.push(`<span class="muted">${esc(f.headline)}</span>`);
+  if (rest.length > 2) bits.push(`<span class="muted">+${rest.length - 2}</span>`);
+  return bits.join('<br>');
 }
 
 let traced = null, traceView = null;

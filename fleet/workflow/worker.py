@@ -25,6 +25,8 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from fleet.agents.classifier import Item, Runner, load_candidates
+from fleet.agents.tools import Snapshot
+from fleet.findings.engine import Severity, assess
 from fleet.sync.gate import DataSourceUnhealthy, assert_healthy
 from fleet.triage.duty import resolve
 from fleet.triage.engine import triage
@@ -41,6 +43,7 @@ class Worker:
         self._runner: Runner | None = None
         self._verifier: CitationVerifier | None = None
         self._candidates: dict | None = None
+        self._snap: Snapshot | None = None
         #: Cases in flight right now, keyed by case id. In-memory on purpose: it
         #: is a view of this process's work, not a fact worth persisting, and it
         #: must be empty again the moment the process restarts.
@@ -59,6 +62,48 @@ class Worker:
         if self._verifier is None:
             self._verifier = CitationVerifier(self.snapshot)
         return self._verifier
+
+    @property
+    def snap(self) -> Snapshot:
+        """A reader over the snapshot that does not drag in the 218,606-row
+        precedent index. Settling a case by lookup must not pay for the agent."""
+        if self._snap is None:
+            self._snap = Snapshot(self.snapshot)
+        return self._snap
+
+    def dispose(self, case, selected: str, runner_up: str | None = None) -> dict:
+        """What this classification means for the importer, worked out at once.
+
+        This is the part that decides how much of the compliance work a person
+        still has to do. Money follows arithmetic, so the arithmetic is done and
+        stated: the rate gap against what was filed, the chapter 99 add-on for
+        goods of the wrong origin, the duty on lines charged by weight. Identity
+        does not follow arithmetic, so a supplier resembling a listed party is
+        raised and left for a person, with what matched and what differs.
+
+        Returned as fields for the transition rather than written separately: a
+        case reaching READY without its findings would be a case somebody could
+        sign before the system finished saying what it costs.
+        """
+        payload = {
+            "item_id": case.item_id, "prior_code": case.prior_code,
+            "selected_code": selected, "runner_up_code": runner_up,
+            "country_of_origin": case.country_of_origin, "supplier": case.supplier,
+            "annual_value": case.annual_value,
+            "quantity": getattr(case, "quantity", None),
+            "quantity_unit": getattr(case, "quantity_unit", None),
+        }
+        findings = assess(payload, self.snap, self.snap.screening)
+        return {
+            "findings": [{"kind": f.kind, "severity": int(f.severity),
+                          "headline": f.headline, "detail": f.detail} for f in findings],
+            "steps_extra": [
+                {"kind": "finding", "actor": "compliance",
+                 "text": f.headline,
+                 "detail": f.detail,
+                 "ref": "for a person" if f.severity is Severity.HUMAN else "settled here"}
+                for f in findings],
+        }
 
     @property
     def candidates(self) -> dict:
@@ -83,8 +128,14 @@ class Worker:
         for case in cases:
             result = results[case.case_id]
             if result.route is Route.DETERMINISTIC:
+                settled_code = result.selected_code or case.prior_code
+                # A case settled by lookup still owes money and still has a
+                # supplier. Skipping the compliance pass for the easy half would
+                # mean the cheap cases are the ones nobody checked.
+                found = self.dispose(case, settled_code)
                 self.store.transition(
                     case.case_id, CaseState.SETTLED, "triage", f"triage:{case.case_id}",
+                    findings=found["findings"],
                     detail=result.reason, route=str(result.route), bucket=str(result.bucket),
                     selected_code=result.selected_code or case.prior_code,
                     duty_rate=result.current_duty.general if result.current_duty else None,
@@ -95,7 +146,7 @@ class Worker:
                     # would read as a case nobody worked.
                     steps=[{"kind": "settle", "actor": "lookup",
                             "text": f"settled without a model: {result.bucket}",
-                            "detail": result.reason}])
+                            "detail": result.reason}] + found["steps_extra"])
             else:
                 self.store.transition(
                     case.case_id, CaseState.CLASSIFYING, "triage", f"triage:{case.case_id}",
@@ -182,8 +233,11 @@ class Worker:
 
         duty = resolve(answer["selected_code"], self.runner.snapshot.hts)
         prior = resolve(case.prior_code, self.runner.snapshot.hts) if len(case.prior_code) >= 8 else None
+        found = self.dispose(case, answer["selected_code"], answer.get("runner_up_code"))
+        effort["steps"] = effort["steps"] + found["steps_extra"]
         self.store.transition(
             case_id, CaseState.READY, "classifier", f"classified:{case_id}:{attempt}",
+            findings=found["findings"],
             detail=f"selected {answer['selected_code']}",
             selected_code=answer["selected_code"],
             runner_up_code=answer.get("runner_up_code"),
