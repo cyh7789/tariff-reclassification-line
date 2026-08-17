@@ -1,3 +1,94 @@
 items=141 precedent_index=190154 excluded=171
     capacity refused (429), waiting 10s [attempt 1]
     capacity refused (429), waiting 30s [attempt 2]
+    capacity refused (429), waiting 60s [attempt 3]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 30s [attempt 2]
+    capacity refused (429), waiting 30s [attempt 2]
+    capacity refused (429), waiting 30s [attempt 2]
+  1/141 N351311 DEAD_CODE    CLASSIFIED   got=38221900 want=38221900 HIT conf=0.99 tools=3 805.0s
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 60s [attempt 3]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 60s [attempt 3]
+    capacity refused (429), waiting 60s [attempt 3]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 30s [attempt 2]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 30s [attempt 2]
+    capacity refused (429), waiting 60s [attempt 3]
+    capacity refused (429), waiting 60s [attempt 3]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 120s [attempt 4]
+    capacity refused (429), waiting 120s [attempt 4]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 30s [attempt 2]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 60s [attempt 3]
+    capacity refused (429), waiting 240s [attempt 5]
+    capacity refused (429), waiting 30s [attempt 2]
+    capacity refused (429), waiting 240s [attempt 5]
+    capacity refused (429), waiting 60s [attempt 3]
+    capacity refused (429), waiting 120s [attempt 4]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 120s [attempt 4]
+  2/141 N341225 DEAD_CODE    CLASSIFIED   got=57033100 want=57033100 HIT conf=0.95 tools=4 1345.8s
+    capacity refused (429), waiting 240s [attempt 5]
+    capacity refused (429), waiting 240s [attempt 5]
+    capacity refused (429), waiting 480s [attempt 6]
+    capacity refused (429), waiting 480s [attempt 6]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 30s [attempt 2]
+    capacity refused (429), waiting 60s [attempt 3]
+    capacity refused (503), waiting 10s [attempt 1]
+    capacity refused (429), waiting 30s [attempt 2]
+    capacity refused (429), waiting 120s [attempt 4]
+    capacity refused (429), waiting 60s [attempt 3]
+    capacity refused (429), waiting 480s [attempt 6]
+  3/141 N358981 DEAD_CODE    CLASSIFIED   got=89032200 want=89032200 HIT conf=0.95 tools=4 1776.6s
+    capacity refused (429), waiting 240s [attempt 5]
+    capacity refused (429), waiting 10s [attempt 1]
+  4/141 N340376 SURVIVED     CLASSIFIED   got=62044340 want=62044340 HIT conf=0.95 tools=5 1921.6s
+  5/141 N323706 SURVIVED     NEEDS_INPUT  got=None want=52051210  conf=0.0 tools=0 0.0s
+  6/141 N351692 DEAD_CODE    NEEDS_INPUT  got=None want=74198050  conf=0.0 tools=0 0.0s
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 480s [attempt 6]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+  7/141 N331692 SURVIVED     CLASSIFIED   got=42029215 want=42029215 HIT conf=0.98 tools=4 2718.8s
+    capacity refused (429), waiting 10s [attempt 1]
+  8/141 N358621 DEAD_CODE    CLASSIFIED   got=89031200 want=89031200 HIT conf=0.98 tools=3 1420.8s
+  9/141 N353235 DEAD_CODE    NEEDS_INPUT  got=None want=62014075  conf=0.0 tools=0 0.0s
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+ 10/141 N350831 DEAD_CODE    CLASSIFIED   got=90278945 want=90278945 HIT conf=0.95 tools=3 882.9s
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 30s [attempt 2]
+ 11/141 N362304 SURVIVED     CLASSIFIED   got=20089965 want=20089965 HIT conf=0.95 tools=7 1053.3s
+    capacity refused (429), waiting 10s [attempt 1]
+ 12/141 N345355 SCOPE_REVIEW CLASSIFIED   got=87043101 want=87043101 HIT conf=0.95 tools=5 242.1s
+ 13/141 N333837 SURVIVED     CLASSIFIED   got=83025000 want=83025000 HIT conf=0.95 tools=6 310.5s
+    capacity refused (429), waiting 30s [attempt 2]
+ 14/141 N328851 DEAD_CODE    CLASSIFIED   got=44125131 want=44125131 HIT conf=0.95 tools=9 1290.8s
+ 15/141 N330925 SURVIVED     CLASSIFIED   got=42029291 want=42029291 HIT conf=0.95 tools=8 3084.6s
+    capacity refused (429), waiting 30s [attempt 2]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+ 16/141 N343480 DEAD_CODE    CLASSIFIED   got=44014900 want=44014900 HIT conf=0.95 tools=6 232.2s
+ 17/141 N338546 SCOPE_REVIEW CLASSIFIED   got=84615040 want=84615040 HIT conf=0.95 tools=5 198.0s
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 30s [attempt 2]
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 60s [attempt 3]
+ 18/141 N353146 DEAD_CODE    CLASSIFIED   got=94014900 want=94014900 HIT conf=0.95 tools=5 504.7s
+ 19/141 N348224 SCOPE_REVIEW CLASSIFIED   got=73181550 want=73181550 HIT conf=0.95 tools=7 1573.6s

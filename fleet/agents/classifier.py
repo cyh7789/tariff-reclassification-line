@@ -207,19 +207,41 @@ class Runner:
         raise last
 
     def call_tool(self, name: str, args: dict) -> dict:
-        if name == "get_chapter_notes":
-            return {"notes": tools.get_chapter_notes(self.snapshot, args["chapter"])}
-        if name == "get_tariff_lines":
-            lines = tools.get_tariff_lines(self.snapshot, args["prefix"])
-            return {"lines": [asdict(line) for line in lines]}
-        if name == "search_precedents":
-            hits = self.index.search(
-                args["query"],
-                tariff_prefix=args.get("tariff_prefix"),
-                since=args.get("since"),
-            )
-            return {"rulings": [asdict(hit) for hit in hits]}
-        return {"error": f"no tool named {name}"}
+        """Dispatch one tool call, turning any bad call into an answerable error.
+
+        A model that omits an argument gets told what is missing and carries on;
+        raising here would throw away the whole item, research included, over
+        something the next turn would have supplied.
+        """
+        try:
+            if name == "get_chapter_notes":
+                chapter = args.get("chapter")
+                if not chapter:
+                    return {"error": "get_chapter_notes needs a chapter, e.g. '85'"}
+                return {"notes": tools.get_chapter_notes(self.snapshot, str(chapter))}
+
+            if name == "get_tariff_lines":
+                prefix = args.get("prefix")
+                if not prefix:
+                    return {"error": "get_tariff_lines needs a prefix of 4 to 8 digits"}
+                lines = tools.get_tariff_lines(self.snapshot, str(prefix))
+                return {"lines": [asdict(line) for line in lines]}
+
+            if name == "search_precedents":
+                query = args.get("query")
+                if not query:
+                    return {"error": "search_precedents needs a query of merchandise "
+                                     "keywords; tariff_prefix alone does not select anything"}
+                hits = self.index.search(
+                    str(query),
+                    tariff_prefix=args.get("tariff_prefix"),
+                    since=args.get("since"),
+                )
+                return {"rulings": [asdict(hit) for hit in hits]}
+
+            return {"error": f"no tool named {name}"}
+        except Exception as exc:  # noqa: BLE001
+            return {"error": f"{name} failed: {exc}"}
 
     def classify(self, item: Item) -> dict:
         contents = [types.Content(role="user", parts=[types.Part(text=render_item(item))])]
