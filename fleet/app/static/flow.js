@@ -21,7 +21,7 @@
 //: own, not steps in the chain. No enclosing boxes, because the boxes were doing
 //: the job that colour and position do better, and they cost a third of the room.
 const KIND = {
-  machine: {colour: '#0284c7', tint: '#eff8ff', what: 'settled by table lookup'},
+  machine: {colour: '#0284c7', tint: '#eff8ff', what: 'done by program, no model call'},
   agent:   {colour: '#059669', tint: '#ecfdf5', what: 'judged by Gemini, with citations'},
   person:  {colour: '#d97706', tint: '#fffbeb', what: 'waiting for a named person'},
 };
@@ -75,7 +75,7 @@ const NODES = [
     why:  'The correlation table states that it has "no legal status" and is "a guide '
         + 'only". It says where to look. Deciding needs the notes and the precedents.' },
 
-  { id: 'verify', x: 1000, y: 210, kind: 'agent', icon: '⚖',
+  { id: 'verify', x: 1000, y: 210, kind: 'machine', icon: '⚖',
     label: 'Citation check', sub: 'every reference re-resolved',
     what: 'A program, not a model. Does the ruling exist, does the note number exist, '
         + 'are the quoted words really in it.',
@@ -83,7 +83,7 @@ const NODES = [
         + 'a stronger model check it" is not available. A model that never read the '
         + 'note paraphrases it, and a paraphrase fails a substring check.' },
 
-  { id: 'compliance', x: 1250, y: 210, kind: 'agent', icon: '$',
+  { id: 'compliance', x: 1250, y: 210, kind: 'machine', icon: '$',
     label: 'Compliance pass', sub: 'duty · chapter 99 · screening',
     what: 'What the settled code means for this entry: the gap against what was filed, '
         + 'the chapter 99 add-on, the duty on lines charged by weight, and any supplier '
