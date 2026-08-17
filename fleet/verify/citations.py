@@ -74,15 +74,27 @@ class VerificationResult:
         return [c for c in self.citations if c.resolved and c.quote_found is False]
 
 
-def normalize_words(text: str) -> str:
-    """Collapse whitespace and flatten every quote mark to one character.
+# The layout extractor leaves footnote markers inside sentences: chapter 95 note
+# 1(x) reads "toilet linen, 1/ kitchen linen". They belong to the page, not the law.
+FOOTNOTE_MARKER = re.compile(r"(?<=\s)\d{1,2}/(?=\s)")
 
-    PDF extraction breaks lines mid-sentence and the schedule uses typographic
-    double quotes where a model tends to write straight single ones. Both are
-    differences in how the same words were transcribed. Nothing else is
-    normalized: dropping punctuation or case would start forgiving paraphrase.
+
+def normalize_words(text: str) -> str:
+    """Reduce text to its words, in order, so only word choice can differ.
+
+    The question this check has to answer is whether the quoter changed the words.
+    Everything else is transcription: a PDF breaks lines mid-sentence, the
+    schedule prints typographic quotes where a model writes straight ones, a
+    quoter adds a comma the schedule omits, and the layout extractor leaves
+    footnote markers like `1/` sitting inside a sentence.
+
+    So punctuation goes and case folds, but the words are left alone. An inserted
+    phrase survives all of it and still fails, which is the case worth catching:
+    a model filling in a citation it never read adds and rewords rather than
+    merely repunctuating.
     """
-    text = re.sub(r"[\u201c\u201d\u2018\u2019\"']", "\u0022", text)
+    text = FOOTNOTE_MARKER.sub(" ", text)
+    text = re.sub(r"[^\w\s]", " ", text)
     return re.sub(r"\s+", " ", text).strip().lower()
 
 
@@ -129,7 +141,10 @@ class CitationVerifier:
         }
 
     def _check_ruling(self, ref: str, quote: str | None) -> CitationResult:
-        number = ref.strip().upper()
+        # CBP writes "NY N359078" and "HQ 965970"; the corpus keys on the bare
+        # number. Dropping the collection prefix is reading their convention, not
+        # relaxing the check: a number that does not exist still does not exist.
+        number = re.sub(r"^(?:NY|HQ)\s+", "", ref.strip(), flags=re.IGNORECASE).upper()
         if number not in self.known_rulings:
             return CitationResult("ruling", ref, False, None,
                                   "no such ruling in the corpus")

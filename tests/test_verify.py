@@ -171,7 +171,10 @@ def test_line_wrapping_does_not_break_a_faithful_quote():
 
 
 def test_typographic_quotes_do_not_break_a_faithful_quote():
-    assert normalize_words('the term “poplin” means') == 'the term "poplin" means'
+    """The schedule prints curly quotes; a model writes straight ones or none."""
+    assert (normalize_words('the term “poplin” means')
+            == normalize_words("the term 'poplin' means")
+            == normalize_words("the term poplin means"))
 
 
 # ---------------------------------------------------------------------------
@@ -335,6 +338,109 @@ def test_a_chapter_note_quoted_against_the_section_does_not_pass(section_verifie
         citations=[{"kind": "chapter_note", "ref": "Note 1 to Chapter 84",
                     "quote": "Machines used for more than one purpose are classified "
                              "according to their principal function"}],
+    ))
+
+    assert not result.passed
+
+
+# ---------------------------------------------------------------------------
+# Three real disagreements from the second full development run. One of them is
+# the verifier working; the other two are it being wrong. Telling them apart is
+# the whole design question, so all three are pinned here.
+# ---------------------------------------------------------------------------
+
+class FakeRealCases:
+    hts = HTS_ROWS
+    notes = {
+        # Chapter 90 note 2(a), verbatim, with no comma before "are in all cases".
+        "90": "2.   Subject to note 1 above, parts and accessories are to be classified:\n\n"
+              "     (a) parts and accessories which are goods included in any of the headings\n"
+              "     of this chapter or of chapter 84, 85 or 91 (other than heading 8487, 8548\n"
+              "     or 9033) are in all cases to be classified in their respective headings;\n",
+        # Chapter 95 note 1(x), with the footnote marker the PDF layout leaves behind.
+        "95": "1.   This chapter does not cover:\n\n"
+              "     (x) toilet articles, carpets, apparel, bed linen, table linen, toilet\n"
+              "     linen, 1/ kitchen linen and similar articles having a utilitarian\n"
+              "     function (classified according to their constituent material).\n",
+    }
+    section_notes = {
+        # Section XV note 5(a): the source says "an alloy of base metals", full stop.
+        "XV": "5.   Classification of alloys:\n\n"
+              "     (a) an alloy of base metals is to be classified as an alloy of the metal\n"
+              "     which predominates by weight over each of the other metals.\n",
+    }
+    chapter_sections = {"90": "XV", "95": "XV"}
+
+
+@pytest.fixture(scope="module")
+def real_verifier():
+    return CitationVerifier(snapshot=FakeRealCases(),
+                            known_rulings={"N359078", "965970", "F81541"})
+
+
+def test_an_added_comma_is_not_a_misquote(real_verifier):
+    """N357291 quoted note 2(a) with a comma the schedule does not print."""
+    result = real_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "chapter_note", "ref": "Note 2 (a) to Chapter 90",
+                    "quote": "of chapter 84, 85 or 91 (other than heading 8487, 8548 or 9033), "
+                             "are in all cases to be classified in their respective headings"}],
+    ))
+
+    assert result.passed, result.reason
+
+
+def test_a_footnote_marker_left_by_the_pdf_is_not_a_misquote(real_verifier):
+    """N339765 quoted note 1(x); the source carries a stray `1/` mid-sentence."""
+    result = real_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "chapter_note", "ref": "Note 1 to Chapter 95",
+                    "quote": "bed linen, table linen, toilet linen, kitchen linen and similar "
+                             "articles having a utilitarian function"}],
+    ))
+
+    assert result.passed, result.reason
+
+
+def test_inserted_words_are_still_a_misquote(real_verifier):
+    """N351692 wrote "an alloy of base metals of this section"; the note does not.
+
+    This is the case the whole check exists for, and the two tests above must not
+    be allowed to forgive it: punctuation is transcription, words are substance.
+    """
+    result = real_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "chapter_note", "ref": "Note 5 to Section XV",
+                    "quote": "an alloy of base metals of this section is to be classified as "
+                             "an alloy of the metal which predominates by weight"}],
+    ))
+
+    assert not result.passed
+    assert "not found in the cited source" in result.reason
+
+
+@pytest.mark.parametrize("ref,bare", [
+    ("NY N359078", "N359078"),
+    ("HQ 965970", "965970"),
+    ("NY F81541", "F81541"),
+])
+def test_a_ruling_cited_the_way_cbp_writes_it_resolves(real_verifier, ref, bare):
+    """CBP writes `NY N359078`; the corpus keys on the bare number.
+
+    Eleven of the twelve citation failures in the second run were this.
+    """
+    result = real_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "ruling", "ref": ref}],
+    ))
+
+    assert result.passed, result.reason
+
+
+def test_a_fabricated_ruling_still_fails_with_a_prefix(real_verifier):
+    result = real_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "ruling", "ref": "NY N999999"}],
     ))
 
     assert not result.passed
