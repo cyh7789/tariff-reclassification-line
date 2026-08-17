@@ -66,6 +66,21 @@ RESPONSE_SCHEMA = {
         "selected_code_8": {"type": "STRING", "nullable": True},
         "runner_up_code": {"type": "STRING", "nullable": True},
         "distinguishing_fact": {"type": "STRING", "nullable": True},
+        # One line per candidate that was ruled out. The reviewer's job is to
+        # check a decision, and a decision they cannot see the losing side of is
+        # a number they have to re-derive themselves.
+        "rejected": {
+            "type": "ARRAY",
+            "items": {
+                "type": "OBJECT",
+                "required": ["code", "why"],
+                "properties": {
+                    "code": {"type": "STRING"},
+                    "why": {"type": "STRING"},
+                    "ref": {"type": "STRING", "nullable": True},
+                },
+            },
+        },
         "reasoning": {"type": "STRING"},
         "citations": {
             "type": "ARRAY",
@@ -149,6 +164,31 @@ TOOL_DECLARATIONS = [
         },
     },
 ]
+
+
+def summarize(name: str, result: dict) -> str:
+    """What a tool call came back with, in one line, for the transcript.
+
+    The count is the part worth keeping: "12 rulings under 8424" and "no rulings
+    under 8424" are different research even though the call is identical, and a
+    transcript that only lists the calls cannot tell them apart.
+    """
+    if "error" in result:
+        return result["error"]
+    if name == "get_chapter_notes":
+        return f"{len(result.get('notes') or '')} characters of notes"
+    if name == "get_tariff_lines":
+        lines = result.get("lines") or []
+        rated = sum(1 for line in lines if (line.get("general") or "").strip())
+        return f"{len(lines)} lines, {rated} with a duty rate"
+    if name == "search_precedents":
+        rulings = result.get("rulings") or []
+        if not rulings:
+            return "no rulings"
+        return f"{len(rulings)} rulings, newest {rulings[0].get('ruling_date', '?')}"
+    if name == "get_ruling":
+        return f"{len(result.get('description') or '')} characters of merchandise description"
+    return ""
 
 
 @dataclass
@@ -337,7 +377,8 @@ class Runner:
                     on_event("tool", {"tool": call.name, "args": args,
                                       "calls": len(tool_calls) + 1})
                 result = self.call_tool(call.name, args)
-                tool_calls.append({"name": call.name, "args": args})
+                tool_calls.append({"name": call.name, "args": args,
+                                   "result": summarize(call.name, result)})
                 parts.append(types.Part.from_function_response(name=call.name, response=result))
             contents.append(types.Content(role="user", parts=parts))
 
@@ -382,6 +423,9 @@ class Runner:
             answer["selected_code_8"] = answer["selected_code"][:8]
         if answer.get("selected_code_8"):
             answer["selected_code_8"] = answer["selected_code_8"][:8]
+        for entry in answer.get("rejected") or []:
+            if entry.get("code"):
+                entry["code"] = re.sub(r"\D", "", entry["code"])
 
         answer["item_id"] = item.item_id
         answer["tool_budget_exhausted"] = bool(exhausted)

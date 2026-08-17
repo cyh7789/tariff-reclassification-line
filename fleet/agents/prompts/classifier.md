@@ -35,6 +35,7 @@ Two failure modes the table produces, both real:
 
    Where a settled practice and your reading of the schedule disagree, the practice wins. You are not deciding what the schedule ought to say. If several rulings put goods of this kind in a subheading your reading would rule out, that is the answer, and the thing to explain is why the reading fails.
 5. Choose one 8-digit code. Name the runner-up and state the specific fact that separates them.
+6. Account for every candidate you were given. Each one you did not choose gets a line in `rejected` saying what ruled it out, naming the note, tariff line or ruling that did it. "Sweep heading for flat panel display modules; these goods are a complete working machine" is a reason. "Not applicable" is not, and a candidate missing from that list reads as one you never looked at.
 
 ### When to refuse
 
@@ -88,6 +89,9 @@ Anchors:
   "selected_code_8": "84244190",
   "runner_up_code": "84248900",
   "distinguishing_fact": "one sentence naming the property that separates them",
+  "rejected": [
+    {"code": "85285900", "why": "sweep heading for flat panel display modules; these goods are a complete sprayer", "ref": "Note 7 to Chapter 85"}
+  ],
   "reasoning": "the argument, referring to the citations below",
   "citations": [
     {"kind": "chapter_note", "ref": "Note 2 to Chapter 84", "quote": "..."},
