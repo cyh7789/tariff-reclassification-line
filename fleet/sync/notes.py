@@ -56,11 +56,36 @@ NOTES_START = re.compile(
     re.MULTILINE | re.IGNORECASE,
 )
 TARIFF_LINE = re.compile(r"^[ \t]{0,8}\d{4}\.\d{2}", re.MULTILINE)
+# "SECTION XVI" on its own line, and the "CHAPTER 84" heading that ends the
+# section's own notes.
+SECTION_HEADING = re.compile(r"^[ \t]*SECTION[ \t]+([IVXL]+)[ \t]*$", re.MULTILINE)
+CHAPTER_HEADING = r"^[ \t]*CHAPTER[ \t]+0*{n}[ \t]*$"
 PAGE_FURNITURE = re.compile(
     r"^.*(?:Harmonized Tariff Schedule of the United States"
     r"|Annotated for Statistical Reporting Purposes).*$",
     re.MULTILINE,
 )
+
+
+def find_section(text: str) -> str | None:
+    """The Roman numeral of the section this chapter file opens with, if any."""
+    match = SECTION_HEADING.search(text)
+    return match.group(1) if match else None
+
+
+def split_notes(text: str, chapter: int) -> tuple[str, str]:
+    """Return (section notes, chapter notes) from one chapter file.
+
+    Only the first chapter of a section carries that section's notes, and it
+    carries them ahead of its own. Both blocks answer different citations, so
+    keeping them apart is what lets `Note 6 to Section XVI` resolve against the
+    section rather than against whichever chapter happened to store it.
+    """
+    heading = re.search(CHAPTER_HEADING.format(n=chapter), text, re.MULTILINE)
+    if not heading:
+        return "", extract_notes(text)
+    before, after = text[:heading.start()], text[heading.end():]
+    return extract_notes(before), extract_notes(after)
 
 
 def extract_notes(text: str) -> str:
@@ -103,13 +128,17 @@ def fetch(out_dir: Path, *, session: requests.Session | None = None) -> Manifest
                 ["pdftotext", "-layout", str(pdf), str(txt)],
                 check=True, capture_output=True,
             )
-            notes = extract_notes(txt.read_text(encoding="utf-8", errors="replace"))
+            page = txt.read_text(encoding="utf-8", errors="replace")
+            section_notes, notes = split_notes(page, chapter)
             if not notes:
                 empty.append(chapter)
             fh.write(json.dumps({
                 "chapter": f"{chapter:02d}",
+                "section": find_section(page),
                 "notes": notes,
+                "section_notes": section_notes,
                 "chars": len(notes),
+                "section_chars": len(section_notes),
                 "url": url,
             }, ensure_ascii=False) + "\n")
             written += 1

@@ -36,10 +36,13 @@ from pathlib import Path
 
 from fleet.agents.tools import Snapshot, _digits
 
-# "Note 2 to Chapter 84", "Note 5(b) to chapter 85", "U.S. Note 20 to Chapter 99"
+# "Note 2 to Chapter 84", "Note 5(b) to chapter 85", "U.S. Note 20 to Chapter 99",
+# "Note 6(A) to Section XVI". Section notes are cited as often as chapter notes
+# for machinery, because section XVI is what governs chapters 84 and 85.
 NOTE_REF = re.compile(
     r"(?:additional\s+)?(?:u\.s\.\s+)?(?:statistical\s+|subheading\s+)?note\s+"
-    r"(\d+)(?:\s*\([a-z0-9]+\))*\s+to\s+(?:chapter|ch\.?)\s*(\d{1,2})",
+    r"(\d+)(?:\s*\([a-z0-9]+\))*\s+to\s+"
+    r"(?:(?:chapter|ch\.?)\s*(\d{1,2})|section\s+([ivxl]+))",
     re.IGNORECASE,
 )
 # The numbered clause at the head of a note, e.g. a line beginning "2." or "2 ."
@@ -184,21 +187,31 @@ class CitationVerifier:
         match = NOTE_REF.search(ref)
         if not match:
             return CitationResult("chapter_note", ref, False, None,
-                                  "reference does not name a note and a chapter")
-        number, chapter = match.group(1), match.group(2).zfill(2)
-        notes = self.snapshot.notes.get(chapter)
+                                  "reference does not name a note and a chapter or section")
+        number, chapter, section = match.group(1), match.group(2), match.group(3)
+
+        if section:
+            where = f"section {section.upper()}"
+            notes = self._section_notes().get(section.upper())
+        else:
+            where = f"chapter {chapter.zfill(2)}"
+            notes = self.snapshot.notes.get(chapter.zfill(2))
+
         if not notes:
             return CitationResult("chapter_note", ref, False, None,
-                                  f"chapter {chapter} carries no notes")
+                                  f"{where} carries no notes")
         if not re.search(NOTE_NUMBER.format(n=re.escape(number)), notes, re.MULTILINE):
             return CitationResult("chapter_note", ref, False, None,
-                                  f"chapter {chapter} has no note {number}")
+                                  f"{where} has no note {number}")
         if not quote:
             return CitationResult("chapter_note", ref, True, None, "note exists")
         if quote_is_present(quote, notes):
-            return CitationResult("chapter_note", ref, True, True, "quote found in chapter")
+            return CitationResult("chapter_note", ref, True, True, f"quote found in {where}")
         return CitationResult("chapter_note", ref, True, False,
-                              "quote is not in that chapter's notes")
+                              f"quote is not in {where}'s notes")
+
+    def _section_notes(self) -> dict[str, str]:
+        return getattr(self.snapshot, "section_notes", {})
 
     def check(self, answer: dict) -> VerificationResult:
         item_id = answer.get("item_id", "?")

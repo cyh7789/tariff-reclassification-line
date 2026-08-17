@@ -278,3 +278,63 @@ def test_a_paraphrase_that_contains_a_colon_still_fails(hts_verifier):
 
     assert not result.passed
     assert "not found in the cited source" in result.reason
+
+
+class FakeSectionSnapshot:
+    hts = HTS_ROWS
+    notes = {"84": "1.   This chapter does not cover millstones of heading 6804.\n"}
+    section_notes = {"XVI": "6.   Machines used for more than one purpose are classified\n"
+                            "     according to their principal function.\n"}
+    chapter_sections = {"84": "XVI"}
+
+
+@pytest.fixture(scope="module")
+def section_verifier():
+    return CitationVerifier(snapshot=FakeSectionSnapshot(), known_rulings=set())
+
+
+def test_a_section_note_resolves(section_verifier):
+    """Section XVI governs chapters 84 and 85, so machinery cites it constantly.
+
+    Four of the five citation failures in the first development run were this
+    reference being unparseable rather than wrong.
+    """
+    result = section_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "chapter_note", "ref": "Note 6 to Section XVI",
+                    "quote": "Machines used for more than one purpose are classified "
+                             "according to their principal function"}],
+    ))
+
+    assert result.passed, result.reason
+
+
+def test_a_section_note_number_that_does_not_exist_fails(section_verifier):
+    result = section_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "chapter_note", "ref": "Note 99 to Section XVI"}],
+    ))
+
+    assert not result.passed
+    assert "no note 99" in result.reason
+
+
+def test_a_section_that_does_not_exist_fails(section_verifier):
+    result = section_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "chapter_note", "ref": "Note 1 to Section XCIX"}],
+    ))
+
+    assert not result.passed
+
+
+def test_a_chapter_note_quoted_against_the_section_does_not_pass(section_verifier):
+    """Keeping the two apart is the point; a section note is not a chapter note."""
+    result = section_verifier.check(answer(
+        selected_code_8="62014075",
+        citations=[{"kind": "chapter_note", "ref": "Note 1 to Chapter 84",
+                    "quote": "Machines used for more than one purpose are classified "
+                             "according to their principal function"}],
+    ))
+
+    assert not result.passed

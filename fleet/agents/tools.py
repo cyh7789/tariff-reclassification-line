@@ -59,6 +59,8 @@ class Snapshot:
         self.dir = Path(snapshot_dir)
         self._hts: list[dict] | None = None
         self._notes: dict[str, str] | None = None
+        self._section_notes: dict[str, str] | None = None
+        self._chapter_sections: dict[str, str] | None = None
 
     @property
     def hts(self) -> list[dict]:
@@ -67,27 +69,62 @@ class Snapshot:
                 self._hts = [json.loads(line) for line in fh if line.strip()]
         return self._hts
 
+    def _load_notes(self) -> None:
+        self._notes, self._section_notes, self._chapter_sections = {}, {}, {}
+        with (self.dir / "notes.jsonl").open(encoding="utf-8") as fh:
+            for line in fh:
+                if not line.strip():
+                    continue
+                row = json.loads(line)
+                self._notes[row["chapter"]] = row["notes"]
+                section = row.get("section")
+                if section:
+                    self._chapter_sections[row["chapter"]] = section
+                    # Only the opening chapter of a section carries its notes.
+                    if row.get("section_notes"):
+                        self._section_notes[section] = row["section_notes"]
+
     @property
     def notes(self) -> dict[str, str]:
         if self._notes is None:
-            self._notes = {}
-            with (self.dir / "notes.jsonl").open(encoding="utf-8") as fh:
-                for line in fh:
-                    if line.strip():
-                        row = json.loads(line)
-                        self._notes[row["chapter"]] = row["notes"]
+            self._load_notes()
         return self._notes
+
+    @property
+    def section_notes(self) -> dict[str, str]:
+        if self._section_notes is None:
+            self._load_notes()
+        return self._section_notes
+
+    @property
+    def chapter_sections(self) -> dict[str, str]:
+        if self._chapter_sections is None:
+            self._load_notes()
+        return self._chapter_sections
 
 
 def get_chapter_notes(snapshot: Snapshot, chapter: str) -> str:
-    """Legal notes for one chapter, given as 2 digits ("85") or any longer code."""
+    """Legal notes for one chapter, preceded by its section's notes.
+
+    A section note binds every chapter under it, and section XVI (chapters 84 and
+    85) decides a large share of machinery questions on its own. Returning the
+    chapter alone would make the agent argue from half the law.
+    """
     key = _digits(chapter)[:2].zfill(2)
     notes = snapshot.notes.get(key)
     if notes is None:
         return f"No chapter {key} in this snapshot."
-    if not notes:
-        return f"Chapter {key} carries no legal notes."
-    return notes
+
+    section = snapshot.chapter_sections.get(key)
+    section_notes = snapshot.section_notes.get(section, "") if section else ""
+
+    parts = []
+    if section_notes:
+        parts.append(f"NOTES TO SECTION {section} (these bind chapter {key} as well)\n\n"
+                     f"{section_notes}")
+    parts.append(f"NOTES TO CHAPTER {key}\n\n{notes}" if notes
+                 else f"Chapter {key} carries no legal notes of its own.")
+    return "\n\n".join(parts)
 
 
 def _to_line(row: dict) -> TariffLine:
