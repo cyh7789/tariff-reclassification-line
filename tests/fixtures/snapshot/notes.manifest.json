@@ -1,0 +1,13 @@
+{
+  "source": "notes",
+  "url": "https://hts.usitc.gov/reststop/file?release=currentRelease&filename=Chapter%20<n>",
+  "fetched_at": "2026-08-18T00:00:00Z",
+  "revision": null,
+  "row_count": 7,
+  "bytes": 8597,
+  "sha256": "d26bd517d04de89bea596d76a71470d3ed5ec9ee345bef71689f8f03395f7992",
+  "min_rows": 3,
+  "min_bytes": 4298,
+  "status": "ok",
+  "staleness_days": 0
+}

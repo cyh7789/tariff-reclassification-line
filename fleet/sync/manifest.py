@@ -13,13 +13,14 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
-ALL_SOURCES: tuple[str, ...] = ("hts", "cross", "csl", "correlation")
+ALL_SOURCES: tuple[str, ...] = ("hts", "cross", "csl", "correlation", "notes")
 
 DATA_FILES: dict[str, str] = {
     "hts": "hts.jsonl",
     "cross": "cross.jsonl",
     "csl": "csl.jsonl",
     "correlation": "correlation.csv",
+    "notes": "notes.jsonl",
 }
 
 SNAPSHOT_FILE = "SNAPSHOT.json"
