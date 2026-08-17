@@ -1,8 +1,20 @@
-"""The fleet, as ADK agents, so it can run on the Agent Platform.
+"""The two specialists, as ADK agents, so they can run on the Agent Platform.
 
 Two agents, because they answer different questions from different evidence and
 fail in different ways. A third that only orchestrated would be a model doing set
 arithmetic, which is slower, dearer and worse than the code already doing it.
+
+They run in sequence and do not talk back, and that is deliberate rather than
+unfinished. The compliance pass knows things the classifier does not: in 408
+six-digit subheadings some eight-digit lines carry a chapter 99 footnote and
+their siblings do not, so the classification decides whether the Section 301
+add-on is owed. Letting that flow backwards would let the tax result choose the
+legal answer. The exposure raises the review priority instead, and the classifier
+is never shown a rate, a chapter 99 reference or a finding, which is a property
+of what render_item builds rather than a rule anybody has to remember.
+
+So the accurate description is an orchestrated two-agent workflow with
+deterministic control gates, not a fleet of agents negotiating an answer.
 
     classifier  which current 8-digit code do these goods belong to
     compliance  given that code, what else is owed and who must be checked
