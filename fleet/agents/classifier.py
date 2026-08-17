@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 import time
 from dataclasses import asdict, dataclass
@@ -233,6 +234,17 @@ class Runner:
             answer["status"] = "NEEDS_INPUT"
             answer["selected_code"] = None
             answer["selected_code_8"] = None
+
+        # The model returns codes both dotted and bare. Normalizing here rather
+        # than asking the prompt for one form keeps a formatting slip from
+        # reading as a wrong answer.
+        for key in ("selected_code", "selected_code_8", "runner_up_code"):
+            if answer.get(key):
+                answer[key] = re.sub(r"\D", "", answer[key])
+        if answer.get("selected_code") and not answer.get("selected_code_8"):
+            answer["selected_code_8"] = answer["selected_code"][:8]
+        if answer.get("selected_code_8"):
+            answer["selected_code_8"] = answer["selected_code_8"][:8]
 
         answer["item_id"] = item.item_id
         answer["truth_hts8"] = item.truth_hts8

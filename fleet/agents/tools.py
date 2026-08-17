@@ -47,6 +47,9 @@ class TariffLine:
     special: str | None
     other: str | None
     footnotes: tuple[str, ...]
+    #: An interior row of the schedule that carries no code of its own. It states
+    #: what the coded lines beneath it are, and it cannot be cited as an answer.
+    is_heading: bool = False
 
 
 class Snapshot:
@@ -87,36 +90,72 @@ def get_chapter_notes(snapshot: Snapshot, chapter: str) -> str:
     return notes
 
 
-def get_tariff_lines(snapshot: Snapshot, prefix: str, limit: int = 120) -> list[TariffLine]:
-    """Every tariff line under a 4-, 6- or 8-digit prefix, in schedule order.
+def _to_line(row: dict) -> TariffLine:
+    code = _digits(row.get("htsno"))
+    return TariffLine(
+        code=code,
+        indent=int(row.get("indent") or 0),
+        description=(row.get("description") or "").strip(),
+        general=(row.get("general") or "").strip() or None,
+        special=(row.get("special") or "").strip() or None,
+        other=(row.get("other") or "").strip() or None,
+        footnotes=tuple(
+            (f.get("value") or "").strip()
+            for f in (row.get("footnotes") or [])
+            if (f.get("value") or "").strip()
+        ),
+        is_heading=not code,
+    )
 
-    Header rows carry no code of their own; they are skipped rather than returned,
-    because a citation has to name something the verifier can resolve.
+
+def get_tariff_lines(snapshot, prefix: str, limit: int = 120) -> list[TariffLine]:
+    """The subtree under a 4-, 6- or 8-digit prefix, preceded by its ancestors.
+
+    Roughly a third of the schedule's interior nodes carry no code: `842441
+    Portable sprayers` sits under an uncoded `Agricultural or horticultural
+    sprayers:`. Returning only coded rows leaves the two lines under a heading
+    looking like a free-standing pair, and the choice between them then gets made
+    without the qualifier that governs both.
+
+    Ancestors come first and are flagged `is_heading` when they carry no code, so
+    they can inform the reasoning without being mistaken for a citable answer.
     """
+    rows = snapshot.hts
     want = _digits(prefix)
     if len(want) < 4:
         raise ValueError("prefix must be at least 4 digits")
-    lines = []
-    for row in snapshot.hts:
-        code = _digits(row.get("htsno"))
-        if not code or not code.startswith(want):
+
+    first = next(
+        (i for i, row in enumerate(rows) if _digits(row.get("htsno")).startswith(want)),
+        None,
+    )
+    if first is None:
+        return []
+
+    ancestors = []
+    ceiling = int(rows[first].get("indent") or 0)
+    for i in range(first - 1, -1, -1):
+        indent = int(rows[i].get("indent") or 0)
+        if indent >= ceiling:
             continue
-        lines.append(TariffLine(
-            code=code,
-            indent=int(row.get("indent") or 0),
-            description=(row.get("description") or "").strip(),
-            general=(row.get("general") or "").strip() or None,
-            special=(row.get("special") or "").strip() or None,
-            other=(row.get("other") or "").strip() or None,
-            footnotes=tuple(
-                (f.get("value") or "").strip()
-                for f in (row.get("footnotes") or [])
-                if (f.get("value") or "").strip()
-            ),
-        ))
-        if len(lines) >= limit:
+        ceiling = indent
+        ancestors.append(_to_line(rows[i]))
+        if ceiling == 0:
             break
-    return lines
+    ancestors.reverse()
+
+    subtree = []
+    for row in rows[first:]:
+        code = _digits(row.get("htsno"))
+        if code and not code.startswith(want):
+            break
+        if not code and subtree and int(row.get("indent") or 0) <= int(rows[first].get("indent") or 0):
+            break
+        subtree.append(_to_line(row))
+        if len(subtree) >= limit:
+            break
+
+    return ancestors + subtree
 
 
 @dataclass(frozen=True)
