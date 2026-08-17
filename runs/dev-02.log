@@ -1,0 +1,19 @@
+items=141 precedent_index=190154 excluded=171
+  1/141 N351692 DEAD_CODE    CLASSIFIED   got=74198050 want=74198050 HIT conf=0.95 tools=4 95.4s
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 30s [attempt 2]
+  2/141 N351311 DEAD_CODE    CLASSIFIED   got=38221900 want=38221900 HIT conf=0.95 tools=4 157.7s
+  3/141 N331692 SURVIVED     CLASSIFIED   got=42029215 want=42029215 HIT conf=0.95 tools=3 75.9s
+    capacity refused (429), waiting 10s [attempt 1]
+  4/141 N353235 DEAD_CODE    CLASSIFIED   got=62014075 want=62014075 HIT conf=0.95 tools=7 277.9s
+  5/141 N330925 SURVIVED     CLASSIFIED   got=42029291 want=42029291 HIT conf=0.95 tools=5 108.9s
+  6/141 N358981 DEAD_CODE    CLASSIFIED   got=89032200 want=89032200 HIT conf=0.95 tools=5 99.5s
+    capacity refused (429), waiting 10s [attempt 1]
+  7/141 N340376 SURVIVED     CLASSIFIED   got=62044340 want=62044340 HIT conf=0.95 tools=8 184.6s
+    capacity refused (429), waiting 10s [attempt 1]
+  8/141 N341225 DEAD_CODE    CLASSIFIED   got=57033100 want=57033100 HIT conf=0.95 tools=5 184.1s
+    capacity refused (429), waiting 10s [attempt 1]
+    capacity refused (429), waiting 30s [attempt 2]
+    capacity refused (429), waiting 60s [attempt 3]
+  9/141 N323706 SURVIVED     CLASSIFIED   got=52051210 want=52051210 HIT conf=0.98 tools=5 1248.6s
+    capacity refused (429), waiting 10s [attempt 1]

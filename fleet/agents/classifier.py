@@ -19,7 +19,9 @@ import json
 import random
 import re
 import sys
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -193,7 +195,9 @@ class Runner:
         for attempt, wait in enumerate((*RETRY_WAITS, None)):
             try:
                 return self.client.models.generate_content(**kwargs)
-            except genai_errors.ClientError as exc:
+            except (genai_errors.ClientError, genai_errors.ServerError) as exc:
+                # 429 arrives as a ClientError and 503 as a ServerError; catching
+                # only the former loses an item to a transient outage.
                 if getattr(exc, "code", None) not in RETRY_STATUSES or wait is None:
                     raise
                 last = exc
@@ -376,6 +380,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--dev", required=True, type=Path)
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--workers", type=int, default=1,
+                        help="Items run independently, so this is wall-clock only. "
+                             "Flex is several times slower per item; parallelism is "
+                             "what makes it usable, not a shorter backoff.")
     parser.add_argument("--flex", action="store_true",
                         help="Half price, several times slower. For batches, never for filming.")
     parser.add_argument("--exclude-ids", type=Path, default=None,
@@ -396,22 +404,33 @@ def main(argv: list[str] | None = None) -> int:
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     hits = 0
+    done = 0
+    lock = threading.Lock()
+
+    def run_one(item: Item) -> dict:
+        # One item that upsets the API must not cost the rest of the batch.
+        try:
+            return runner.classify(item)
+        except Exception as exc:  # noqa: BLE001
+            return Runner._failure(item, f"{type(exc).__name__}: {exc}", [], time.time())
+
     with args.out.open("w", encoding="utf-8") as fh:
-        for i, item in enumerate(items, 1):
-            # One item that upsets the API must not cost the other fifty-nine.
-            try:
-                answer = runner.classify(item)
-            except Exception as exc:  # noqa: BLE001
-                answer = Runner._failure(item, f"{type(exc).__name__}: {exc}", [], time.time())
-            fh.write(json.dumps(answer, ensure_ascii=False) + "\n")
-            fh.flush()
-            correct = answer.get("selected_code_8") == item.truth_hts8
-            hits += correct
-            print(f"{i:3}/{len(items)} {item.item_id} {item.stratum:12} "
-                  f"{answer['status']:12} got={answer.get('selected_code_8')} "
-                  f"want={item.truth_hts8} {'HIT' if correct else ''} "
-                  f"conf={answer.get('confidence')} tools={answer.get('tool_call_count')} "
-                  f"{answer.get('seconds')}s")
+        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+            futures = {pool.submit(run_one, item): item for item in items}
+            for future in as_completed(futures):
+                item = futures[future]
+                answer = future.result()
+                correct = answer.get("selected_code_8") == item.truth_hts8
+                with lock:
+                    hits += correct
+                    done += 1
+                    fh.write(json.dumps(answer, ensure_ascii=False) + "\n")
+                    fh.flush()
+                    print(f"{done:3}/{len(items)} {item.item_id} {item.stratum:12} "
+                          f"{answer['status']:12} got={answer.get('selected_code_8')} "
+                          f"want={item.truth_hts8} {'HIT' if correct else ''} "
+                          f"conf={answer.get('confidence')} tools={answer.get('tool_call_count')} "
+                          f"{answer.get('seconds')}s", flush=True)
     print(f"\n8-digit hits: {hits}/{len(items)}")
     return 0
 
