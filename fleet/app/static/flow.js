@@ -21,7 +21,7 @@ const ZONES = [
     label: '1 · Machines settle what they can', note: 'no model is involved here' },
   { id: 'z-agent', x: 428, y:  84, w: 386, h: 486, colour: '#059669', tint: '#ecfdf5',
     label: '2 · Agents judge the rest',         note: 'every claim carries a citation' },
-  { id: 'z-human', x: 836, y:  84, w: 386, h: 486, colour: '#d97706', tint: '#fffbeb',
+  { id: 'z-human', x: 856, y:  84, w: 366, h: 486, colour: '#d97706', tint: '#fffbeb',
     label: '3 · People decide',                 note: 'one signature, one exception' },
 ];
 
@@ -96,21 +96,21 @@ const NODES = [
     why:  'Filing on a guess costs the duty difference plus penalties, and the person '
         + 'who signed owes it. Asking is cheaper than being wrong.' },
 
-  { id: 'ready', x: 860, y: 146, w: 338, h: 106, zone: 'z-human',
+  { id: 'ready', x: 876, y: 146, w: 322, h: 106, zone: 'z-human',
     label: 'Ready to sign', sub: 'evidence pack attached',
     what: 'Selected code, runner-up, the fact that separates them, the duty rate and '
         + 'where it came from, the notes and rulings behind it, all verified.',
     why:  'The licensed person is signing a legal declaration. What they need is not '
         + 'a shortlist to work through but a decision they can check.' },
 
-  { id: 'approved', x: 860, y: 300, w: 338, h: 92, zone: 'z-human',
+  { id: 'approved', x: 876, y: 300, w: 322, h: 92, zone: 'z-human',
     label: 'Approved', sub: 'one action, whole batch',
     what: 'One deliberate signature releases everything that passed. Anything refused '
         + 'or unverified is held back and named.',
     why:  'Signing row by row is the hand-holding this system exists to remove. '
         + 'Deciding to sign at all is the part that cannot be delegated.' },
 
-  { id: 'dept', x: 860, y: 440, w: 338, h: 82, zone: 'z-human',
+  { id: 'dept', x: 876, y: 440, w: 322, h: 82, zone: 'z-human',
     label: 'Engineering', sub: 'answers, cannot approve',
     what: 'Whoever holds the missing fact answers the one question, and the case '
         + 're-runs with it.',
@@ -210,9 +210,11 @@ function labelPoint(a, b, kind) {
     case 'v':
       return { x: ca.x + 10, y: (A.y + A.h + B.y) / 2 + 4, anchor: 'start' };
     case 'elbow':
-      return { x: ca.x + 8, y: A.y + A.h + 16, anchor: 'start' };
+      return { x: (ca.x + cb.x) / 2, y: A.y + A.h + 18, anchor: 'middle' };
     case 'h':
-      return { x: (A.x + A.w + B.x) / 2, y: Math.min(ca.y, cb.y) - 14, anchor: 'middle' };
+      // Halfway between the two boxes in both directions, which is the gutter
+      // between columns. Level with the higher box put it behind that box.
+      return { x: (A.x + A.w + B.x) / 2, y: (ca.y + cb.y) / 2 + 8, anchor: 'middle' };
     case 'skirtR':
       return { x: A.x + A.w - 34, y: B.y - 28, anchor: 'end' };
     case 'loopL':

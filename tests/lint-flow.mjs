@@ -45,4 +45,18 @@ for (const d of paths) {
     }
   }
 }
+// Same question for the edge labels: a label behind a box is a label nobody
+// reads, and it is invisible to anyone testing by rendering rather than looking.
+const labels = [...s.matchAll(/<text x="([\d.]+)" y="([\d.]+)" text-anchor="(\w+)"\s*\n?\s*class="el[^"]*"><tspan[^>]*>([^<]*)<\/tspan>([^<]*)</g)];
+let hidden = 0;
+for (const [, lx, ly, anchor, step, text] of labels) {
+  const full = (step + text).trim();
+  const w = full.length * 6.4, x = +lx, y = +ly;
+  const left = anchor === 'middle' ? x - w / 2 : anchor === 'end' ? x - w : x;
+  for (const r of nodes) {
+    const overlap = left < r.x + r.w && left + w > r.x && y > r.y && y - 13 < r.y + r.h;
+    if (overlap) { console.log(`標籤「${full}」被 ${r.id} 蓋住`); hidden++; break; }
+  }
+}
 console.log(bad ? `${bad} 條線穿過方框` : '沒有線穿過方框');
+console.log(hidden ? `${hidden} 個標籤被方框蓋住` : `${labels.length} 個標籤都沒有被蓋住`);
