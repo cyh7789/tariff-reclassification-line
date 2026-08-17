@@ -427,6 +427,9 @@ let tape = {seen: new Set(), lines: [], batch: null};
 
 function tapeReset() { tape = {seen: new Set(), lines: [], batch: null}; drawTape(); }
 
+//: Anything that changes what the diagram means, rather than what it counts.
+function forceRedraw() { drawn = ''; }
+
 function tapeAppend(cases, ofBatch) {
   let added = false;
   // Switching batch or restarting a replay starts a new record rather than
@@ -523,7 +526,7 @@ async function newBatch() {
 
 let misses = 0;
 function poll() {
-  clearInterval(timer); misses = 0; lastEvent = 0;
+  clearInterval(timer); misses = 0; lastEvent = 0; forceRedraw();
   const tick = async () => {
     if (!batchId) return;
     try {
@@ -545,14 +548,28 @@ function poll() {
   tick(); timer = setInterval(tick, 1500);
 }
 
+//: What the diagram is currently showing. Rebuilding the SVG destroys every
+//: running animation, so a poll that found nothing new must not touch it: a dot
+//: travelling an edge takes 1.4s and the poll comes round every 1.5s, which is
+//: why the moving dots kept stopping halfway.
+let drawn = '';
+
 function render(data, flow, moves) {
   $('#batchLabel').textContent =
     `${data.batch.label} · ${data.batch.batch_id} · snapshot ${data.batch.snapshot_id}`;
-  renderFlow($('#flow'), flow, id => {
-    filter = (filter === id) ? null : id;
-    render(data, flow);
-  }, id => explainNode(id), traceView, moves, $('#role').value);
-  applyCam();
+  const signature = JSON.stringify([flow.states, flow.edges, flow.dispositions,
+                                    flow.tools_used, flow.active.length,
+                                    (moves || []).map(m => m.event_id),
+                                    traced, filter, $('#role').value]);
+  if (signature !== drawn) {
+    drawn = signature;
+    renderFlow($('#flow'), flow, id => {
+      filter = (filter === id) ? null : id;
+      drawn = '';
+      render(data, flow);
+    }, id => explainNode(id), traceView, moves, $('#role').value);
+    applyCam();
+  }
   $('#flowNote').textContent = flowSummary(flow);
   const busy = flow.active || [];
   $('#live').innerHTML = busy.length
