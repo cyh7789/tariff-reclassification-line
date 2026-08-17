@@ -259,8 +259,9 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
     <marker id="tipTrace" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
             markerHeight="7" orient="auto-start-reverse">
       <path d="M0 0 L10 5 L0 10 z" fill="#7c3aed"/></marker>
-  </defs>
-  <rect x="0" y="0" width="100%" height="100%" fill="url(#dots)"/>`);
+  </defs>`);
+  out.push(`<rect class="ground" x="-4000" y="-4000" width="12000" height="12000"
+                  fill="url(#dots)"/>`);
 
   // The legend replaces the three boxes that used to enclose everything.
   let lx = 40;
@@ -345,7 +346,11 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
     </g>`);
   }
 
-  svg.innerHTML = out.join('');
+  // Everything but the marker definitions rides in one group, dotted ground
+  // included, so panning and zooming is a transform on that group rather than a
+  // redraw, and the ground moves with the work the way a canvas should.
+  const defs = out.shift();
+  svg.innerHTML = `${defs}<g id="cam">${out.join('')}</g>`;
   svg.querySelectorAll('.node').forEach(g => {
     g.addEventListener('click', () => onPick(g.dataset.id));
     g.addEventListener('mouseenter', () => onHover && onHover(g.dataset.id));

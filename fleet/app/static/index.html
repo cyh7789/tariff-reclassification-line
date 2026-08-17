@@ -33,13 +33,20 @@
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
 
   /* flow diagram, explainer style: coloured zones, numbered steps */
-  #flowCard { padding: 6px 10px 10px; margin-bottom: 10px; overflow-x: auto;
-              position: relative; }
+  /* The canvas is pannable, so it does not need a scrollbar and must not clip
+     what a drag brings into view. */
+  #flowCard { padding: 0; margin-bottom: 10px; overflow: hidden; position: relative; }
   /* Drawn at its own size on a canvas that scrolls, rather than shrunk to fit.
      Fitting a wide graph into a card is what made every box small: the nodes are
      designed at a readable size and the card pans, which is how a node editor
      works anyway. */
-  svg#flow { width: 1980px; height: 620px; display: block; }
+  svg#flow { width: 100%; height: 620px; display: block; cursor: grab;
+             touch-action: none; }
+  svg#flow.panning { cursor: grabbing; }
+  #camBtns { position: absolute; bottom: 14px; right: 14px; z-index: 2; display: flex;
+             gap: 6px; }
+  #camBtns button { padding: 4px 10px; font-size: 12px; opacity: .8; }
+  #camBtns button:hover { opacity: 1; }
   #fsBtn { position: absolute; top: 10px; right: 14px; z-index: 2; opacity: .75;
            font-size: 12px; padding: 5px 10px; }
   #fsBtn:hover { opacity: 1; }
@@ -236,7 +243,11 @@
 
   <div class="card" id="flowCard">
     <button id="fsBtn">⤢ Full screen</button>
-    <svg id="flow" viewBox="0 0 1980 620" preserveAspectRatio="xMinYMin meet"></svg>
+    <svg id="flow" viewBox="0 0 1980 620" preserveAspectRatio="xMidYMid meet"></svg>
+    <div id="camBtns">
+      <button id="camFit" title="fit the whole graph">Fit</button>
+      <button id="camIn">+</button><button id="camOut">−</button>
+    </div>
     <div id="explain" class="blank">Hover any box to see what it does. Click a row below to follow one item.</div>
     <div id="trace"></div>
     <div id="live"></div>
@@ -342,6 +353,70 @@ function alertBox(title, body, kind='bad', actions=[]) {
   $('#alertActions').append(close);
   dlg.showModal();
 }
+
+// ---- the canvas ---------------------------------------------------------
+// Drag to move, wheel to zoom, exactly the gestures a node editor has trained
+// everyone to try. The camera lives outside the render because the diagram is
+// redrawn every poll and nobody wants their view snapped back twice a second.
+const cam = {x: 0, y: 0, k: 1};
+
+function applyCam() {
+  const g = document.getElementById('cam');
+  if (g) g.setAttribute('transform', `translate(${cam.x} ${cam.y}) scale(${cam.k})`);
+}
+
+function zoomAt(factor, px, py) {
+  const k = Math.min(2.2, Math.max(0.35, cam.k * factor));
+  // Keep whatever is under the pointer under the pointer.
+  cam.x = px - (px - cam.x) * (k / cam.k);
+  cam.y = py - (py - cam.y) * (k / cam.k);
+  cam.k = k;
+  applyCam();
+}
+
+//: Frame the whole graph. The drawing is wider than any card, so this is the
+//: honest default rather than a feature: it is what a viewer expects on arrival.
+function camFit() {
+  const svg = $('#flow'), g = document.getElementById('cam');
+  if (!g) return;
+  const box = g.getBBox(), view = svg.viewBox.baseVal;
+  const k = Math.min(view.width / (box.width + 80), view.height / (box.height + 80), 1.4);
+  cam.k = k;
+  cam.x = (view.width - box.width * k) / 2 - box.x * k;
+  cam.y = (view.height - box.height * k) / 2 - box.y * k;
+  applyCam();
+}
+
+(function panning() {
+  const svg = $('#flow');
+  let from = null;
+  const point = e => {
+    const r = svg.getBoundingClientRect(), v = svg.viewBox.baseVal;
+    return {x: (e.clientX - r.left) / r.width * v.width,
+            y: (e.clientY - r.top) / r.height * v.height};
+  };
+  svg.addEventListener('pointerdown', e => {
+    from = {...point(e), x0: cam.x, y0: cam.y};
+    svg.classList.add('panning'); svg.setPointerCapture(e.pointerId);
+  });
+  svg.addEventListener('pointermove', e => {
+    if (!from) return;
+    const p = point(e);
+    cam.x = from.x0 + (p.x - from.x); cam.y = from.y0 + (p.y - from.y);
+    applyCam();
+  });
+  const stop = () => { from = null; svg.classList.remove('panning'); };
+  svg.addEventListener('pointerup', stop);
+  svg.addEventListener('pointercancel', stop);
+  svg.addEventListener('wheel', e => {
+    e.preventDefault();
+    const p = point(e);
+    zoomAt(e.deltaY < 0 ? 1.12 : 1 / 1.12, p.x, p.y);
+  }, {passive: false});
+  $('#camFit').onclick = camFit;
+  $('#camIn').onclick = () => zoomAt(1.2, 990, 310);
+  $('#camOut').onclick = () => zoomAt(1 / 1.2, 990, 310);
+})();
 
 // ---- the decision transcript --------------------------------------------
 // Lines arrive as cases land and are never rewritten, so the tape is a record
@@ -457,7 +532,9 @@ function poll() {
         api('/api/batches/'+batchId),
         api(`/api/batches/${batchId}/flow?since=${lastEvent}`)]);
       misses = 0; note('');
+      const first = !document.getElementById('cam');
       render(batch, flow, flow.moves);
+      if (first) camFit();
       lastEvent = flow.last_event_id ?? lastEvent;
     } catch (e) {
       // A restarted server produces a bare "Failed to fetch". Keep polling; only
@@ -476,6 +553,7 @@ function render(data, flow, moves) {
     filter = (filter === id) ? null : id;
     render(data, flow);
   }, id => explainNode(id), traceView, moves, $('#role').value);
+  applyCam();
   $('#flowNote').textContent = flowSummary(flow);
   const busy = flow.active || [];
   $('#live').innerHTML = busy.length
