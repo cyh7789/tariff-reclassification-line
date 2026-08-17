@@ -232,6 +232,9 @@
       <option value="contributor">contributor (engineering)</option>
       <option value="approver">approver (licensed)</option></select>
   </label>
+  <label class="sub">batch
+    <select id="batch"><option>loading…</option></select>
+  </label>
   <button id="new">New batch</button>
   <label class="fileBtn">Import CSV<input type="file" id="csv" accept=".csv,text/csv"></label>
   <a class="sub" href="/api/sample.csv" download style="text-decoration:none">sample file</a>
@@ -526,13 +529,33 @@ function drawTape() {
 
 const esc = s => String(s ?? '').replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
 
+//: Every batch this product line has, newest first. Without it the screen only
+//: ever showed the most recent run, so a batch worth looking at again was
+//: reachable only by knowing its id.
+async function loadBatches(select = null) {
+  const list = await api('/api/batches').catch(() => []);
+  $('#batch').innerHTML = list.map(b =>
+    `<option value="${b.batch_id}">${esc(b.label)} · ${b.counts._total} item(s)</option>`
+  ).join('') || '<option value="">no batches</option>';
+  batchId = select || list[0]?.batch_id || null;
+  if (batchId) $('#batch').value = batchId;
+  return list;
+}
+
+$('#batch').onchange = () => {
+  batchId = $('#batch').value;
+  filter = null; traced = null; traceView = null;
+  $('#trace').className = '';
+  tapeReset(); poll();
+};
+
 async function newBatch() {
   note('');
   try {
     const catalog = await api('/api/catalog');
     const {batch_id} = await api('/api/batches', {method:'POST', body: JSON.stringify(
       {label:'Catalog review '+new Date().toISOString().slice(0,10), items: catalog})});
-    batchId = batch_id; filter = null; poll();
+    await loadBatches(batch_id); filter = null; poll();
   } catch (e) { note(e.message, 'bad'); }
 }
 
@@ -994,7 +1017,7 @@ async function importCsv(file) {
       headers: {'X-Role': $('#role').value, 'X-Tenant': $('#tenant').value}});
     const out = await r.json();
     if (!r.ok) throw new Error(out.detail || r.statusText);
-    batchId = out.batch_id; filter = null;
+    await loadBatches(out.batch_id); filter = null;
     note(`Imported ${out.items} item(s) from ${file.name}. Work has started.`, 'good');
     poll();
   } catch (e) { alertBox('That file could not be imported', e.message, 'bad'); }
@@ -1026,8 +1049,7 @@ $('#approve').onclick = async () => {
 };
 $('#role').onchange = () => batchId && poll();
 $('#tenant').onchange = async () => {
-  const list = await api('/api/batches').catch(()=>[]);
-  batchId = list[0]?.batch_id || null; filter = null;
+  const list = await loadBatches(); filter = null;
   if (batchId) poll();
   else { clearInterval(timer); $('#rows').innerHTML=''; $('#flow').innerHTML='';
          $('#flowNote').textContent=''; $('#batchLabel').textContent='';
@@ -1037,8 +1059,8 @@ $('#tenant').onchange = async () => {
 (async () => {
   const h = await fetch('/health').then(r=>r.json());
   $('#snap').textContent = `snapshot ${h.snapshot}`;
-  const list = await api('/api/batches').catch(()=>[]);
-  if (list.length) { batchId = list[0].batch_id; poll(); }
+  const list = await loadBatches();
+  if (list.length) poll();
 })();
 </script>
 </body>
