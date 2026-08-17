@@ -242,6 +242,17 @@ function gateBadge(node, role) {
           fill="${mine ? '#fff' : '#b45309'}">${text}</text></g>`;
 }
 
+//: The rectangle the work occupies. Fitting the view cannot ask the group for its
+//: bounding box: the dotted ground is a 12,000px square riding in the same group,
+//: so the answer would be the ground and the graph would vanish to a speck.
+export function graphBounds() {
+  const xs = NODES.flatMap(n => [n.x - 10, n.x + W + 10]);
+  const ys = NODES.flatMap(n => [n.y - 30, n.y + H + 34]);
+  for (const s of SUBS) { xs.push(s.x - 50, s.x + 50); ys.push(s.y - 24, s.y + 46); }
+  const x = Math.min(...xs), y = Math.min(...ys);
+  return {x, y, width: Math.max(...xs) - x, height: Math.max(...ys) - y};
+}
+
 export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
   const visited = new Set(trace?.nodes || []);
   const travelled = new Set(trace?.edges || []);

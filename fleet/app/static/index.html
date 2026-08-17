@@ -311,8 +311,8 @@
 </dialog>
 
 <script type="module">
-import { renderFlow, flowSummary, NODE_STATES, NODE_INFO, STATE_NODE, NEXT_STEP }
-  from '/static/flow.js';
+import { renderFlow, flowSummary, graphBounds, NODE_STATES, NODE_INFO, STATE_NODE,
+         NEXT_STEP } from '/static/flow.js';
 
 // Only transitions since the last look get a moving dot.
 let lastEvent = 0;
@@ -377,10 +377,9 @@ function zoomAt(factor, px, py) {
 //: Frame the whole graph. The drawing is wider than any card, so this is the
 //: honest default rather than a feature: it is what a viewer expects on arrival.
 function camFit() {
-  const svg = $('#flow'), g = document.getElementById('cam');
-  if (!g) return;
-  const box = g.getBBox(), view = svg.viewBox.baseVal;
-  const k = Math.min(view.width / (box.width + 80), view.height / (box.height + 80), 1.4);
+  const svg = $('#flow'), view = svg.viewBox.baseVal;
+  const box = graphBounds();
+  const k = Math.min(view.width / (box.width + 60), view.height / (box.height + 60), 1.4);
   cam.k = k;
   cam.x = (view.width - box.width * k) / 2 - box.x * k;
   cam.y = (view.height - box.height * k) / 2 - box.y * k;
