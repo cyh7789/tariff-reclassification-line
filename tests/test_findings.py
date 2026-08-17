@@ -185,3 +185,46 @@ def test_a_rate_written_in_words_goes_to_a_person_with_the_words():
 
     found = next(f for f in out if f.kind == "DUTY_NOT_COMPUTABLE")
     assert "heading 2009" in found.detail
+
+
+HTS_ROWS.extend([
+    {"htsno": "12023080", "indent": 3, "row_index": 40, "description": "Other",
+     "general": "9.35¢/kg", "special": "", "other": "", "footnotes":
+     [{"value": "See 9903.88.03.", "columns": ["desc"], "type": "endnote"}]},
+    {"htsno": "12023040", "indent": 3, "row_index": 41, "description": "Seed",
+     "general": "9.35¢/kg", "special": "", "other": "", "footnotes": []},
+])
+
+
+def test_the_eighth_digit_deciding_the_301_exposure_is_flagged_for_review():
+    """In 408 six-digit subheadings some eight-digit lines carry a chapter 99
+    footnote and their siblings do not, so the choice decides whether the add-on
+    is owed. That raises the review priority."""
+    out = assess(case(selected_code="12023080", runner_up_code="12023080",
+                      quantity=100, quantity_unit="kg"), FakeSnapshot(), SCREENING)
+
+    flag = next(f for f in out if f.kind == "HIGH_STAKES_CLASSIFICATION")
+    assert "120230" in flag.detail
+    assert flag.severity is Severity.INFO
+
+
+def test_siblings_that_agree_on_the_exposure_raise_nothing():
+    out = assess(case(selected_code="84212100", runner_up_code="84212100"),
+                 FakeSnapshot(), SCREENING)
+
+    assert "HIGH_STAKES_CLASSIFICATION" not in kinds(out)
+
+
+def test_the_duty_consequence_never_reaches_the_classifier():
+    """The structural version of the rule that a tax result must not pick the
+    legal answer: what the agent is shown is built from the prior code, the
+    correlation candidates and the goods, and there is no path for a finding to
+    enter it."""
+    from fleet.agents.classifier import Item, render_item
+
+    shown = render_item(Item(item_id="T", description="a jacket", prior_hs6="620111",
+                             candidates=[{"hs_code": "620120", "is_ex": True,
+                                          "relationship": "1:n", "is_sweep": False}]))
+
+    for word in ("9903", "chapter 99", "Section 301", "duty", "rate"):
+        assert word.lower() not in shown.lower()

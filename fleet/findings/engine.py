@@ -164,7 +164,33 @@ def assess(case: dict, snapshot, screening_list) -> list[Finding]:
                     f"nobody can state the rest until somebody supplies "
                     f"{owed.missing}, so the figure is incomplete rather than zero."))
 
-    # 4. The chapter 99 add-on, which is where the real money usually is.
+    # 4. Whether the eighth digit decided the Section 301 exposure. In 408 of the
+    #    six-digit subheadings, some eight-digit lines carry a chapter 99 footnote
+    #    and their siblings do not, so the choice decides whether the add-on is
+    #    owed at all. This raises the review priority and nothing else: the duty
+    #    consequence is downstream of the classification and must never become a
+    #    reason to classify differently, which would let the tax result pick the
+    #    legal answer.
+    if new_row and len(DIGITS.sub("", selected)) >= 8:
+        want = DIGITS.sub("", selected)[:6]
+        siblings = {}
+        for row in rows:
+            code = DIGITS.sub("", row.get("htsno") or "")
+            if len(code) >= 8 and code[:6] == want:
+                has99 = any(CH99.search(n.get("value") or "")
+                            for n in (row.get("footnotes") or []))
+                siblings[code[:8]] = siblings.get(code[:8], False) or has99
+        if len(set(siblings.values())) > 1:
+            carries = "carries" if siblings.get(DIGITS.sub("", selected)[:8]) else "does not carry"
+            out.append(Finding(
+                "HIGH_STAKES_CLASSIFICATION", Severity.INFO,
+                "The eighth digit decided the Section 301 exposure",
+                f"Under {want}, some eight-digit lines carry a chapter 99 footnote and "
+                f"others do not, and the line chosen {carries} one. Worth a closer look "
+                f"before signing, because a classification error here changes whether the "
+                f"additional duty is owed at all."))
+
+    # 5. The chapter 99 add-on, which is where the real money usually is.
     origin = (case.get("country_of_origin") or "").strip().lower()
     if new_row and origin in SECTION_301_ORIGINS:
         for note in new_row.get("footnotes") or []:
@@ -181,7 +207,7 @@ def assess(case: dict, snapshot, screening_list) -> list[Finding]:
                     f"also be reported under {match.group(1)}."))
                 break
 
-    # 5. Screening. Raised, never decided.
+    # 6. Screening. Raised, never decided.
     supplier = _normalise(case.get("supplier"))
     if supplier:
         for entry in screening_list:
