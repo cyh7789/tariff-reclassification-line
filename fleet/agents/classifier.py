@@ -24,12 +24,30 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 
 from google import genai
+from google.genai import errors as genai_errors
 from google.genai import types
 
 from fleet.agents import tools
 from fleet.agents.tools import PrecedentIndex, Snapshot
 
 MODEL = "gemini-3.7-flash"
+
+# Vertex ignores `service_tier` in the request body; the tier is selected by these
+# headers instead. Confirmed server-side: the response comes back with
+# traffic_type ON_DEMAND_FLEX, and latency goes from ~2s to ~12s on a trivial
+# prompt. Half price, no architectural change, so batch work runs on flex and
+# anything that has to look responsive does not.
+FLEX_HEADERS = {
+    "X-Vertex-AI-LLM-Request-Type": "shared",
+    "X-Vertex-AI-LLM-Shared-Request-Type": "flex",
+}
+
+# Flex is best-effort: a request is refused with 429 whenever shared capacity is
+# short, and a run without backoff dies on the first busy minute. The waits are
+# deliberately long because nothing here is interactive; a batch that finishes
+# overnight at half price beats one that fails at noon at full price.
+RETRY_STATUSES = (429, 503)
+RETRY_WAITS = (10, 30, 60, 120, 240, 480)
 PROJECT = "yuhina-496113"
 LOCATION = "global"
 MAX_TOOL_TURNS = 16
@@ -160,11 +178,29 @@ def render_item(item: Item) -> str:
 
 
 class Runner:
-    def __init__(self, snapshot_dir: Path, excluded: set[str] | None = None):
+    def __init__(self, snapshot_dir: Path, excluded: set[str] | None = None,
+                 flex: bool = False):
         self.snapshot = Snapshot(snapshot_dir)
         self.index = PrecedentIndex(snapshot_dir, excluded=excluded)
-        self.client = genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
+        http_options = types.HttpOptions(headers=FLEX_HEADERS) if flex else None
+        self.client = genai.Client(vertexai=True, project=PROJECT, location=LOCATION,
+                                   http_options=http_options)
         self.system_prompt = load_prompt()
+
+    def _generate(self, **kwargs):
+        """Call the model, waiting out the refusals that a shared tier produces."""
+        last = None
+        for attempt, wait in enumerate((*RETRY_WAITS, None)):
+            try:
+                return self.client.models.generate_content(**kwargs)
+            except genai_errors.ClientError as exc:
+                if getattr(exc, "code", None) not in RETRY_STATUSES or wait is None:
+                    raise
+                last = exc
+                print(f"    capacity refused ({exc.code}), waiting {wait}s "
+                      f"[attempt {attempt + 1}]", flush=True)
+                time.sleep(wait)
+        raise last
 
     def call_tool(self, name: str, args: dict) -> dict:
         if name == "get_chapter_notes":
@@ -189,7 +225,8 @@ class Runner:
             temperature=0.0,
         )
         tool_calls = []
-        usage = {"prompt": 0, "output": 0, "total": 0, "billed_calls": 0}
+        usage = {"prompt": 0, "cached": 0, "output": 0, "thoughts": 0,
+                 "total": 0, "billed_calls": 0}
         started = time.time()
 
         def record(response):
@@ -204,15 +241,23 @@ class Runner:
             if meta:
                 usage["prompt"] += getattr(meta, "prompt_token_count", 0) or 0
                 usage["output"] += getattr(meta, "candidates_token_count", 0) or 0
-                # total exceeds prompt + candidates: reasoning tokens are billed
-                # too and appear in neither of the other two counters.
+                # Reasoning tokens bill as output and appear in neither prompt nor
+                # candidates, so total is the only counter that sees them.
+                usage["thoughts"] += getattr(meta, "thoughts_token_count", 0) or 0
                 usage["total"] += getattr(meta, "total_token_count", 0) or 0
+                # Vertex caches a repeated prefix implicitly and bills it at a
+                # tenth of the input rate. It is a subset of prompt_token_count,
+                # so a cost estimate that ignores it overstates the bill.
+                usage["cached"] += getattr(meta, "cached_content_token_count", 0) or 0
+                # The server states which tier it billed. Recording it means a run
+                # can prove what it cost rather than what it asked for.
+                tier = getattr(meta, "traffic_type", None)
+                if tier is not None:
+                    usage["traffic_type"] = str(tier)
                 usage["billed_calls"] += 1
 
         for turn in range(MAX_TOOL_TURNS):
-            response = self.client.models.generate_content(
-                model=MODEL, contents=contents, config=config
-            )
+            response = self._generate(model=MODEL, contents=contents, config=config)
             record(response)
             candidate = response.candidates[0]
             # A turn can come back with no parts at all (a safety stop, a token
@@ -242,7 +287,7 @@ class Runner:
         contents.append(types.Content(role="user", parts=[types.Part(
             text="Give your answer now, in the required JSON shape."
         )]))
-        final = self.client.models.generate_content(
+        final = self._generate(
             model=MODEL,
             contents=contents,
             config=types.GenerateContentConfig(
@@ -331,6 +376,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--dev", required=True, type=Path)
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--flex", action="store_true",
+                        help="Half price, several times slower. For batches, never for filming.")
     parser.add_argument("--exclude-ids", type=Path, default=None,
                         help="Ruling numbers kept out of the precedent index")
     args = parser.parse_args(argv)
@@ -342,7 +389,8 @@ def main(argv: list[str] | None = None) -> int:
     candidates = load_candidates(args.snapshot)
     items = load_dev_items(args.dev, candidates, args.limit)
     # A development item is its own answer key, so it has to leave the index too.
-    runner = Runner(args.snapshot, excluded=excluded | {i.item_id for i in items})
+    runner = Runner(args.snapshot, excluded=excluded | {i.item_id for i in items},
+                    flex=args.flex)
     print(f"items={len(items)} precedent_index={len(runner.index.rulings)} "
           f"excluded={len(runner.index.excluded)}")
 
