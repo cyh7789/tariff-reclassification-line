@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 import re
 import sys
 import time
@@ -195,8 +196,15 @@ class Runner:
                 model=MODEL, contents=contents, config=config
             )
             candidate = response.candidates[0]
+            # A turn can come back with no parts at all (a safety stop, a token
+            # limit, an empty thought). Appending it produces a Content with an
+            # empty parts list, and the next request is rejected outright with
+            # "must include at least one parts field", which reads like a bug in
+            # the request rather than in the history.
+            if not (candidate.content and candidate.content.parts):
+                break
             contents.append(candidate.content)
-            calls = [p.function_call for p in (candidate.content.parts or []) if p.function_call]
+            calls = [p.function_call for p in candidate.content.parts if p.function_call]
             if not calls:
                 break
             parts = []
@@ -268,7 +276,14 @@ class Runner:
         }
 
 
-def load_dev_items(path: Path, candidates: dict[str, list[dict]], limit: int | None) -> list[Item]:
+def load_dev_items(path: Path, candidates: dict[str, list[dict]], limit: int | None,
+                   seed: int = 20260817) -> list[Item]:
+    """Load the development items, shuffled before any limit is applied.
+
+    The file is ordered by ruling number, which correlates with date and so with
+    stratum. Taking the first N would report an accuracy for whichever stratum
+    happens to sit at the top of the file.
+    """
     items = []
     with path.open(encoding="utf-8") as fh:
         for line in fh:
@@ -285,9 +300,8 @@ def load_dev_items(path: Path, candidates: dict[str, list[dict]], limit: int | N
                 truth_hts8=row["truth_hts8"],
                 stratum=row["stratum"],
             ))
-            if limit and len(items) >= limit:
-                break
-    return items
+    random.Random(seed).shuffle(items)
+    return items[:limit] if limit else items
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -315,7 +329,11 @@ def main(argv: list[str] | None = None) -> int:
     hits = 0
     with args.out.open("w", encoding="utf-8") as fh:
         for i, item in enumerate(items, 1):
-            answer = runner.classify(item)
+            # One item that upsets the API must not cost the other fifty-nine.
+            try:
+                answer = runner.classify(item)
+            except Exception as exc:  # noqa: BLE001
+                answer = Runner._failure(item, f"{type(exc).__name__}: {exc}", [], time.time())
             fh.write(json.dumps(answer, ensure_ascii=False) + "\n")
             fh.flush()
             correct = answer.get("selected_code_8") == item.truth_hts8
