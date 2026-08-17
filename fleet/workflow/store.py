@@ -170,6 +170,22 @@ CREATE TABLE IF NOT EXISTS case_events (
 );
 
 CREATE INDEX IF NOT EXISTS events_by_case ON case_events(case_id, event_id);
+
+-- One row per attempt at a case, holding that attempt's transcript. The case row
+-- keeps the latest for the live view; this keeps the rest. A case refused for a
+-- missing product fact and re-run after engineering answered has two attempts,
+-- and the first one is where the refusal was reasoned. Overwriting it leaves the
+-- signature resting on a decision whose earlier half is gone.
+CREATE TABLE IF NOT EXISTS case_attempts (
+    attempt_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    case_id    TEXT NOT NULL REFERENCES cases(case_id),
+    at         TEXT NOT NULL,
+    to_state   TEXT NOT NULL,
+    actor      TEXT NOT NULL,
+    steps      TEXT NOT NULL DEFAULT '[]'
+);
+
+CREATE INDEX IF NOT EXISTS attempts_by_case ON case_attempts(case_id, attempt_id);
 """
 
 
@@ -279,6 +295,12 @@ class Store:
                     "INSERT INTO case_events (case_id, at, from_state, to_state, actor,"
                     " detail, idempotency_key) VALUES (?,?,?,?,?,?,?)",
                     (case_id, now(), current, to_state, actor, detail, idempotency_key))
+                if fields.get("steps"):
+                    db.execute(
+                        "INSERT INTO case_attempts (case_id, at, to_state, actor, steps)"
+                        " VALUES (?,?,?,?,?)",
+                        (case_id, now(), to_state, actor,
+                         json.dumps(fields["steps"], ensure_ascii=False)))
                 db.execute("COMMIT")
                 return True
             except Exception:
@@ -366,6 +388,19 @@ class Store:
         with self.connect() as db:
             return [dict(r) for r in db.execute(
                 "SELECT * FROM case_events WHERE case_id = ? ORDER BY event_id", (case_id,))]
+
+    def attempts(self, case_id: str) -> list[dict]:
+        """Every attempt at this case, oldest first, each with its own transcript."""
+        with self.connect() as db:
+            rows = db.execute(
+                "SELECT * FROM case_attempts WHERE case_id = ? ORDER BY attempt_id",
+                (case_id,)).fetchall()
+        out = []
+        for r in rows:
+            row = dict(r)
+            row["steps"] = json.loads(row.get("steps") or "[]")
+            out.append(row)
+        return out
 
     def flow(self, batch_id: str) -> dict:
         """What the pipeline actually did, shaped for the flow view.

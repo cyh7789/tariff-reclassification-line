@@ -277,7 +277,11 @@ def get_case(case_id: str, x_role: str = Header(None), x_tenant: str = Header(No
     if not case:
         raise HTTPException(404, "no such case for this product line")
     return {"case": case.__dict__ | {"state": str(case.state)},
-            "events": store.events(case_id)}
+            "events": store.events(case_id),
+            # Every attempt, not just the last one. The refusal and the decision
+            # that followed it are two different pieces of reasoning and the
+            # person signing is entitled to both.
+            "attempts": store.attempts(case_id)}
 
 
 @app.post("/api/cases/{case_id}/fact")

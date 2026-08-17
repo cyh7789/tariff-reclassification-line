@@ -158,3 +158,33 @@ def test_the_transcript_survives_the_round_trip_and_reaches_replay(store, batch)
     assert store.case(case.case_id).steps == rows
     landed = [e for e in store.timeline(batch) if e["to_state"] == "READY"]
     assert landed[0]["steps"] == rows
+
+
+def test_each_attempt_keeps_its_own_transcript(store, batch):
+    """A case refused for a missing fact and re-run after engineering answered has
+    two attempts, and the first is where the refusal was reasoned. The case row
+    holds the latest; overwriting the rest would leave the signature resting on a
+    decision whose earlier half is gone."""
+    case = store.cases(batch)[0]
+    store.transition(case.case_id, CaseState.CLASSIFYING, "worker", "a1")
+    store.transition(case.case_id, CaseState.NEEDS_INPUT, "classifier", "a2",
+                     steps=[{"kind": "refuse", "text": "no sleeve length stated"}],
+                     missing_property="are the sleeves long or is it sleeveless?")
+    store.transition(case.case_id, CaseState.CLASSIFYING, "contributor", "a3",
+                     detail="sleeves -> long, hemmed")
+    store.transition(case.case_id, CaseState.READY, "classifier", "a4",
+                     steps=[{"kind": "select", "text": "selected 62012040"}])
+
+    attempts = store.attempts(case.case_id)
+    assert [a["to_state"] for a in attempts] == ["NEEDS_INPUT", "READY"]
+    assert attempts[0]["steps"][0]["text"] == "no sleeve length stated"
+    assert attempts[1]["steps"][0]["text"] == "selected 62012040"
+    assert store.case(case.case_id).steps == attempts[-1]["steps"]
+
+
+def test_a_transition_with_no_transcript_does_not_open_an_attempt(store, batch):
+    """Supplying a fact is a move, not an attempt at classifying."""
+    case = store.cases(batch)[0]
+    store.transition(case.case_id, CaseState.CLASSIFYING, "worker", "b1")
+
+    assert store.attempts(case.case_id) == []

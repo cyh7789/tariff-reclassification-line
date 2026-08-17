@@ -850,7 +850,7 @@ function explainNode(id) {
 
 window.openCase = async (id) => {
   try {
-    const {case: k, events} = await api('/api/cases/'+id);
+    const {case: k, events, attempts} = await api('/api/cases/'+id);
     $('#dTitle').textContent = `${k.item_id} · ${k.state.replace('_',' ').toLowerCase()}`;
     const cites = (k.citations||[]).map(c =>
       `<div class="cite"><code>${c.kind}</code> · ${c.ref}
@@ -869,7 +869,15 @@ window.openCase = async (id) => {
         : '<span class="muted">settled without a model</span>'],
       k.missing_property ? ['Missing', `${k.missing_property}<br><span class="muted">ask ${k.ask_department||'?'}</span>`] : null,
       k.verify_reason ? ['Verifier', `<span class="err">${k.verify_reason}</span>`] : null,
-      ['How it got there', (k.steps || []).length
+      ['How it got there', (attempts || []).length > 1
+        ? attempts.map((a, i) => `<div style="margin-bottom:8px">
+            <div class="muted">attempt ${i + 1} · ${a.to_state.toLowerCase().replace('_',' ')}
+              · ${a.at.replace('T',' ').slice(0,19)}</div>
+            <div style="font:12px/1.6 ui-monospace,Menlo,monospace">` + a.steps.map(s =>
+              `<div class="tl ${s.kind}"><span class="ic">${ICON[s.kind]||'·'}</span>
+                <span class="tx">${esc(s.text)}</span>
+                <span class="dt">${esc(s.detail||'')}</span></div>`).join('') + '</div></div>').join('')
+        : (k.steps || []).length
         ? `<div style="font:12px/1.6 ui-monospace,Menlo,monospace">` + k.steps.map(s =>
             `<div class="tl ${s.kind}"><span class="ic">${ICON[s.kind]||'·'}</span>
               <span class="tx">${esc(s.text)}</span>
