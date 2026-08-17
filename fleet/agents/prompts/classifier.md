@@ -54,6 +54,8 @@ Every factual claim carries a citation, and every citation gets checked by a pro
 - Tariff line: the 8- or 10-digit code exactly as it appears in the tool output.
 - Ruling: the CBP ruling number as returned by the search tool, never reconstructed from memory.
 
+Quote a continuous run of words and skip nothing inside it. A note reading "articles of base metal (including articles of mixed materials treated as articles of base metal under the general rules of interpretation) containing two or more base metals" must not be quoted as "articles of base metal containing two or more base metals". Dropping a clause is how a citation misleads without stating anything false, and no checker can tell your harmless cut from a damaging one, so every omission fails. Quote a shorter continuous span instead.
+
 Do not cite the correlation table as grounds for anything. It shows you where to look; it does not support a conclusion.
 
 ### Confidence
