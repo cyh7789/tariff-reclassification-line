@@ -17,10 +17,13 @@ def triage(items: Sequence[LineItem], snapshot_dir: Path) -> list[TriageResult]:
     assert_healthy(snapshot_dir, sources=("hts", "correlation"))
     snapshot_id = _load_snapshot_id(snapshot_dir)
     hts_rows = _load_jsonl(snapshot_dir / "hts.jsonl")
+    # Only 6844 of the 14957 distinct 8-digit codes in 2026HTSRev16 get a row of
+    # their own; the rest exist solely as the prefix of their 10-digit lines.
+    # Requiring an exact 8-digit row would report 54% of a live catalog as withdrawn.
     current_hts8 = {
-        str(row["htsno"])
+        str(row["htsno"])[:8]
         for row in hts_rows
-        if row.get("htsno") and len(str(row["htsno"])) == 8
+        if row.get("htsno") and len(str(row["htsno"])) >= 8
     }
     correlations = _load_correlations(snapshot_dir / "correlation.csv")
 

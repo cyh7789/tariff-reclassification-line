@@ -19,6 +19,10 @@ def resolve(hts_code: str, hts_rows: Sequence[dict]) -> DutyRate | None:
     if len(hts_code) not in (8, 10) or not hts_code.isdigit():
         return None
 
+    # An 8-digit code usually has no row of its own: 8113 of the 14957 in
+    # 2026HTSRev16 appear only as the prefix of their 10-digit lines, and 8112 of
+    # those lines carry the rate directly. Prefer the code's own row, fall back to
+    # the first line sitting under it.
     hts8 = hts_code[:8]
     matched_index = next(
         (
@@ -28,6 +32,15 @@ def resolve(hts_code: str, hts_rows: Sequence[dict]) -> DutyRate | None:
         ),
         None,
     )
+    if matched_index is None:
+        matched_index = next(
+            (
+                index
+                for index, row in enumerate(hts_rows)
+                if row.get("htsno") and str(row["htsno"]).startswith(hts8)
+            ),
+            None,
+        )
     if matched_index is None:
         return None
 
