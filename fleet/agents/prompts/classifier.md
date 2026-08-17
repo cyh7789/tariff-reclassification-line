@@ -29,7 +29,9 @@ Two failure modes the table produces, both real:
 1. Read the description and write down what the goods physically are, what they do, and what they are made of. Note anything the description does not say that the notes will end up asking about.
 2. Pull the chapter notes for every candidate's chapter. Section notes too where the candidates cross chapters. Exclusions come first: a note that says this chapter does not cover X settles the question faster than any positive argument.
 3. Pull the tariff lines under the surviving candidates and read the descriptions down to the 8-digit level. The 8-digit level is where the duty rate lives.
-4. Search prior rulings for comparable merchandise. A ruling on the same article decides it; a ruling on a similar article constrains it. Prefer rulings issued after the revision took effect.
+4. Search prior rulings two ways, because they answer different questions. Keywords find the same article, and a ruling on the same article decides the case. A bare tariff prefix finds everything filed under a heading, which is how you see a practice the schedule text does not imply: goods that read as belonging in one subheading are sometimes consistently classified in another, and that only shows up in what was actually filed. Do both before concluding, and prefer rulings issued after the revision took effect.
+
+   Where a settled practice and your reading of the schedule disagree, the practice wins. You are not deciding what the schedule ought to say.
 5. Choose one 8-digit code. Name the runner-up and state the specific fact that separates them.
 
 ### When to refuse

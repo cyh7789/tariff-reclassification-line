@@ -236,10 +236,23 @@ class PrecedentIndex:
 
     def search(self, query: str, tariff_prefix: str | None = None,
                since: str | None = None, limit: int = 8) -> list[Precedent]:
+        """Rulings matching keywords, or everything filed under a tariff prefix.
+
+        A prefix is a question on its own: what has this heading been used for?
+        Answering it requires no keyword, and a keyword that happens to match no
+        title must not turn the answer into silence. Heading 0309 is the case that
+        forced this: its five rulings are titled after the species (whitefish,
+        cod, shrimp), so `0309` plus `crustaceans` matched nothing and the agent
+        was left to reason from the schedule text alone.
+
+        With both, the prefix selects and the keyword ranks. With neither a prefix
+        nor a usable keyword there is nothing to answer.
+        """
         terms = tokenize(query)
-        if not terms:
-            return []
         prefix = _digits(tariff_prefix) if tariff_prefix else None
+        if not terms and not prefix:
+            return []
+
         hits: list[Precedent] = []
         for row in self.rulings:
             if since and (row.get("ruling_date") or "") < since:
@@ -248,11 +261,11 @@ class PrecedentIndex:
             if prefix and not any(c.startswith(prefix) for c in codes):
                 continue
             overlap = terms & row["_tokens"]
-            if not overlap:
+            if not overlap and not prefix:
                 continue
-            # Favour rulings that match on more distinct terms, then on a tighter
-            # subject: a short subject matching three terms is about those goods,
-            # a long one matching three terms may merely mention them.
+            # Favour rulings matching more distinct terms, then a tighter subject:
+            # a short title matching three terms is about those goods, a long one
+            # matching three may merely mention them.
             score = len(overlap) + len(overlap) / (1 + len(row["_tokens"]))
             hits.append(Precedent(
                 ruling_number=row["ruling_number"],

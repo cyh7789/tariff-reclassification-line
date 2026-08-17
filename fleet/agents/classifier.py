@@ -113,8 +113,10 @@ TOOL_DECLARATIONS = [
     {
         "name": "search_precedents",
         "description": (
-            "Search CBP rulings by merchandise keywords, optionally restricted to a tariff "
-            "prefix or a date. Returns ruling numbers that can be cited."
+            "Find prior CBP rulings. Give keywords, or a tariff prefix, or both. A prefix "
+            "on its own answers 'what has actually been classified here', which is often "
+            "the only way to see a practice that the schedule text does not imply. "
+            "Returns ruling numbers that can be cited."
         ),
         "parameters": {
             "type": "OBJECT",
@@ -228,10 +230,10 @@ class Runner:
                 return {"lines": [asdict(line) for line in lines]}
 
             if name == "search_precedents":
-                query = args.get("query")
-                if not query:
-                    return {"error": "search_precedents needs a query of merchandise "
-                                     "keywords; tariff_prefix alone does not select anything"}
+                query = args.get("query") or ""
+                if not query and not args.get("tariff_prefix"):
+                    return {"error": "search_precedents needs merchandise keywords, "
+                                     "a tariff_prefix, or both"}
                 hits = self.index.search(
                     str(query),
                     tariff_prefix=args.get("tariff_prefix"),
