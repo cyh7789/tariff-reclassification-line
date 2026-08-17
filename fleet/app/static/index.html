@@ -60,6 +60,11 @@
   #flow .nl { font: 620 13px ui-sans-serif, system-ui; fill: #0f172a; }
   #flow .ns { font: 11.5px ui-sans-serif, system-ui; fill: #7c8798; }
   #flow .nn { font: 700 20px ui-sans-serif, system-ui; text-anchor: end; }
+  #flow .gb { font: 700 10.5px ui-sans-serif, system-ui; letter-spacing: .2px; }
+  /* A gate somebody else holds is drawn as a gate, not as a disabled control:
+     the work is really waiting there, it is just not yours to release. */
+  #flow .node.locked rect { stroke-dasharray: 5 4; }
+  #flow .node.mine rect { stroke: #d97706; stroke-width: 2.2; }
   #flow .el { font: 11.5px ui-sans-serif, system-ui; fill: #b0b9c6; }
   #flow .el.on { fill: #475569; }
   #flow .es { font-weight: 700; fill: #0ea5e9; }
@@ -118,6 +123,13 @@
                 padding: 2px 10px; font-size: 11px; font-weight: 600; }
   #trace .who.auto { background: #0ea5e9; }
   #trace .who.done { background: #15803d; }
+  /* Same vocabulary in the table's "With" column, so the diagram, the trace bar
+     and the row all name the desk the same way. */
+  td .who { display: inline-block; background: #7c3aed; color: #fff;
+            border-radius: 999px; padding: 2px 10px; font-size: 11px; font-weight: 600; }
+  td .who.auto { background: #e2e8f0; color: #475569; font-weight: 500; }
+  td .who.done { background: var(--ok-soft); color: var(--ok); }
+  td .who.you { background: #d97706; }
   #flow .node.here rect { stroke: #7c3aed; stroke-width: 2.6; }
   tbody tr.traced td { background: #f5f3ff; }
   #replayBar { display: none; align-items: center; gap: 12px; padding: 8px 12px;
@@ -255,7 +267,7 @@
         <th style="width:104px">Item</th><th style="width:92px">Filed as</th>
         <th>Goods</th><th style="width:126px">Now</th>
         <th style="width:70px">Duty</th><th style="width:74px">Effort</th>
-        <th style="width:126px">State</th>
+        <th style="width:126px">State</th><th style="width:124px">With</th>
       </tr></thead>
       <tbody id="rows"></tbody>
     </table>
@@ -450,7 +462,7 @@ function render(data, flow, moves) {
   renderFlow($('#flow'), flow, id => {
     filter = (filter === id) ? null : id;
     render(data, flow);
-  }, id => explainNode(id), traceView, moves);
+  }, id => explainNode(id), traceView, moves, $('#role').value);
   $('#flowNote').textContent = flowSummary(flow);
   const busy = flow.active || [];
   $('#live').innerHTML = busy.length
@@ -488,6 +500,7 @@ function render(data, flow, moves) {
       <td>${x.duty_rate||'<span class="muted">—</span>'}</td>
       <td class="muted">${e.tool_calls ? e.tool_calls+' calls' : '—'}</td>
       <td><span class="pill ${x.state}">${x.state.replace('_',' ').toLowerCase()}</span></td>
+      <td>${desk(x.state)}</td>
     </tr>`;}).join('');
 
   const c = data.counts;
@@ -504,6 +517,20 @@ function render(data, flow, moves) {
     ($('#role').value !== 'approver' ? 'signed in as ' + $('#role').value + ' · ' : '') +
     `${ready} ready to sign${held ? `, ${held} held back` : ''}` +
     (stranded ? ` · <button class="mini2" onclick="window.restartStranded()">restart ${stranded} stuck</button>` : '');
+}
+
+//: Whose desk this line is on. The state says what happened to it; this says who
+//: it is waiting for, which is the question anybody actually opens the table to
+//: answer. "Nobody" is the answer for most of a batch, and saying so is the claim.
+const DESK_ROLE = {NEEDS_INPUT: 'contributor', SETTLED: 'approver',
+                   READY: 'approver', BLOCKED: 'operator'};
+
+function desk(state) {
+  const step = NEXT_STEP[state] || {who: '?'};
+  const mine = DESK_ROLE[state] === $('#role').value;
+  const cls = step.who === 'automatic' ? 'auto' : step.who === 'nobody' ? 'done' : '';
+  return `<span class="who ${cls} ${mine ? 'you' : ''}">${
+    mine ? 'you' : step.who}</span>`;
 }
 
 let traced = null, traceView = null;

@@ -22,6 +22,18 @@ const ZONES = [
     note: 'one approval, one exception', colour: '#d97706', tint: '#fffbeb' },
 ];
 
+//: Who can act at each node. Most of the pipeline answers "nobody, it moves on
+//: its own", and that is the product: the three places a person is needed are the
+//: ones worth drawing, and each belongs to one role. These are the same rules the
+//: API enforces, so a badge here and a 403 there cannot drift apart.
+const OWNER = {
+  gate: 'operator', intake: 'operator',
+  needs: 'contributor', dept: 'contributor',
+  settled: 'approver', ready: 'approver',
+};
+
+const ROLE_LABEL = {operator: 'operator', contributor: 'engineering', approver: 'approver'};
+
 const NODES = [
   { id: 'sources', x: 58, y: 176, w: 160, h: 68, zone: 'z-src',
     label: 'Snapshot', sub: 'HTS · notes · rulings',
@@ -222,7 +234,26 @@ function parkedDots(node, n, colour) {
   return out;
 }
 
-export function renderFlow(svg, flow, onPick, onHover, trace, moves) {
+//: The gate badge. Signed in as the role that owns a node, it reads as a desk with
+//: your name on it; signed in as anyone else, it is locked. Switching role has to
+//: change the picture, because the difference between the roles is the point: the
+//: engineer who answers the question is not the person who may sign.
+function gateBadge(node, role) {
+  const owner = OWNER[node.id];
+  if (!owner) return '';
+  const mine = owner === role;
+  const x = node.x + node.w, y = node.y - 7;
+  const text = `${mine ? '' : '🔒 '}${ROLE_LABEL[owner]}`;
+  const w = text.length * 6.4 + 16;
+  return `<g class="gate ${mine ? 'mine' : ''}">
+    <rect x="${x - w}" y="${y - 15}" width="${w}" height="18" rx="9"
+          fill="${mine ? '#d97706' : '#fff'}" stroke="#d97706"
+          stroke-width="1.2" opacity="${mine ? 1 : .65}"/>
+    <text x="${x - w / 2}" y="${y - 2}" text-anchor="middle" class="gb"
+          fill="${mine ? '#fff' : '#b45309'}">${text}</text></g>`;
+}
+
+export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
   // `trace` follows one item: the nodes it has stood at, and where it is now.
   const visited = new Set(trace?.nodes || []);
   const travelled = new Set(trace?.edges || []);
@@ -286,7 +317,9 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves) {
     const zone = ZONES.find(z => z.id === node.zone);
     const here = trace && trace.at === node.id;
     const stood = visited.has(node.id);
-    out.push(`<g class="node ${n > 0 ? 'on' : ''} ${stood ? 'stood' : ''} ${here ? 'here' : ''}"
+    const locked = OWNER[node.id] && OWNER[node.id] !== role;
+    out.push(`<g class="node ${n > 0 ? 'on' : ''} ${stood ? 'stood' : ''} ${here ? 'here' : ''}
+                 ${locked ? 'locked' : OWNER[node.id] ? 'mine' : ''}"
                  data-id="${node.id}"
                  style="--zc:${zone.colour}; opacity:${trace && !stood ? .45 : 1}">
       ${here ? `<rect x="${node.x - 7}" y="${node.y - 7}" width="${node.w + 14}"
@@ -300,6 +333,7 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves) {
       ${n > 0 ? `<text x="${node.x + node.w - 13}" y="${node.y + 30}" class="nn"
                        fill="${zone.colour}">${n}</text>` : ''}
       ${parkedDots(node, n, zone.colour)}
+      ${gateBadge(node, role)}
     </g>`);
   }
 
