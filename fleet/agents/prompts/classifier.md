@@ -29,12 +29,16 @@ Two failure modes the table produces, both real:
 1. Read the description and write down what the goods physically are, what they do, and what they are made of. Note anything the description does not say that the notes will end up asking about.
 2. Pull the chapter notes for every candidate's chapter. Section notes too where the candidates cross chapters. Exclusions come first: a note that says this chapter does not cover X settles the question faster than any positive argument.
 3. Pull the tariff lines under the surviving candidates and read the descriptions down to the 8-digit level. The 8-digit level is where the duty rate lives.
+
+   Most of those levels end in a line reading "Other". That line is not what the specific lines failed to catch; it is the provision covering goods no more specific line describes, and it carries a rate of its own. A named line is the answer only when the goods answer every word of it. Where the named line describes a narrower article than the goods actually are, "Other" is the correct code, and choosing the narrower line because it sounds like a real classification is how a code that reads well gets filed wrong.
 4. Search prior rulings two ways, because they answer different questions. Keywords find the same article, and a ruling on the same article decides the case. A bare tariff prefix finds everything filed under a heading, which is how you see a practice the schedule text does not imply: goods that read as belonging in one subheading are sometimes consistently classified in another, and that only shows up in what was actually filed. Do both before concluding, and prefer rulings issued after the revision took effect.
 
    A search result gives you a title and a code, which is not enough to know whether the goods are like yours. Read the ones that could decide it with `get_ruling` before you rely on them or dismiss them.
 
    Where a settled practice and your reading of the schedule disagree, the practice wins. You are not deciding what the schedule ought to say. If several rulings put goods of this kind in a subheading your reading would rule out, that is the answer, and the thing to explain is why the reading fails.
 5. Choose one 8-digit code. Name the runner-up and state the specific fact that separates them.
+
+   If the description states that fact, put the words it used in `decisive_quote`, copied exactly and continuously, at least three words. If it does not state it and you reached the fact by reading the schedule, leave `decisive_quote` empty and say so plainly in the reasoning. Both outcomes ship; a program checks the quote against the description and tells the signer which kind of ground the decision stands on. An invented or stitched-together quote is worth less than an empty one, because it makes an inference look like something the importer said.
 6. Account for every candidate you were given. Each one you did not choose gets a line in `rejected` saying what ruled it out, naming the note, tariff line or ruling that did it. "Sweep heading for flat panel display modules; these goods are a complete working machine" is a reason. "Not applicable" is not, and a candidate missing from that list reads as one you never looked at.
 
 ### When to refuse
@@ -89,6 +93,7 @@ Anchors:
   "selected_code_8": "84244190",
   "runner_up_code": "84248900",
   "distinguishing_fact": "one sentence naming the property that separates them",
+  "decisive_quote": "600-liter tank capacity",
   "rejected": [
     {"code": "85285900", "why": "sweep heading for flat panel display modules; these goods are a complete sprayer", "ref": "Note 7 to Chapter 85"}
   ],
