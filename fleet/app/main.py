@@ -27,7 +27,7 @@ import re
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, Header, HTTPException, UploadFile
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -363,7 +363,17 @@ app.mount("/static", StaticFiles(directory=HERE / "static"), name="static")
 
 @app.get("/")
 def index():
-    return FileResponse(HERE / "static" / "index.html")
+    """The page, with the module's version stamped into its import.
+
+    A browser holds an ES module by URL, so an edited `flow.js` keeps rendering
+    the old diagram until somebody thinks to hard-reload. That is a bad way to
+    find out mid-recording, and worse when a judge is the one looking at a screen
+    that disagrees with the description.
+    """
+    html = (HERE / "static" / "index.html").read_text(encoding="utf-8")
+    version = int((HERE / "static" / "flow.js").stat().st_mtime)
+    html = html.replace("/static/flow.js", f"/static/flow.js?v={version}")
+    return HTMLResponse(html, headers={"Cache-Control": "no-store"})
 
 
 @app.exception_handler(IllegalTransition)
