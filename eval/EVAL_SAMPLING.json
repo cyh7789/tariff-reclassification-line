@@ -1,0 +1,31 @@
+{
+  "dev_ids_excluded": 150,
+  "drawn_by_stratum": {
+    "DEAD_CODE": 288,
+    "SCOPE_REVIEW": 90,
+    "SURVIVED": 122
+  },
+  "eligible_by_stratum": {
+    "DEAD_CODE": 288,
+    "SCOPE_REVIEW": 3174,
+    "SURVIVED": 4309
+  },
+  "excluded": {
+    "in_dev_set": 150,
+    "no_applicable_subheading": 459,
+    "no_dear_no_subheading": 41,
+    "no_dear_salutation": 66,
+    "no_substantive_tariff": 2768,
+    "subheading_before_salutation": 1,
+    "text_not_cached": 1,
+    "unmapped_hs6": 15
+  },
+  "n": 500,
+  "note": "Eligibility decided before drawing; no item is removed afterwards.",
+  "quota": {
+    "DEAD_CODE": 288,
+    "SCOPE_REVIEW": 90,
+    "SURVIVED": 122
+  },
+  "seed": 20260817
+}
