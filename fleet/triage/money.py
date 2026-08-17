@@ -42,14 +42,26 @@ class Rate:
 
 @dataclass(frozen=True)
 class Duty:
-    """What the shipment owes, or what stops us from saying."""
+    """What the shipment owes, or as much of it as the data supports.
+
+    A compound rate is two charges, and losing the whole figure because one of
+    them is missing throws away work that was already done. On a jacket at
+    49.7¢/kg + 19.7% with an invoice but no weight, the officer can be told the
+    19.7% part to the cent and exactly what is still owed on top.
+    """
     amount: float | None
     basis: str                          # how it was worked out, for the officer
     missing: str = ""                   # what would settle it, when amount is None
+    subtotal: float | None = None       # the part that could be worked out anyway
+    subtotal_basis: str = ""
 
     @property
     def known(self) -> bool:
         return self.amount is not None
+
+    @property
+    def partial(self) -> bool:
+        return self.amount is None and self.subtotal is not None
 
 
 def parse_rate(text: str) -> Rate:
@@ -89,21 +101,30 @@ def duty_owed(rate: Rate, value: float | None, quantity: float | None = None,
         return Duty(None, "the schedule states this rate in words",
                     missing=f"a person has to read: “{rate.prose}”")
 
-    parts, total = [], 0.0
+    parts, total, done = [], 0.0, None
     if rate.percent is not None:
         if value is None:
             return Duty(None, f"{rate.percent:g}% of the customs value",
                         missing="the customs value of the shipment")
         total += value * rate.percent / 100
         parts.append(f"{rate.percent:g}% of ${value:,.0f}")
+        done = (round(total, 2), parts[0])
 
     if rate.per_unit is not None:
+        basis = f"${rate.per_unit:,.3f} per {rate.unit}"
         if quantity is None:
-            return Duty(None, f"${rate.per_unit:,.3f} per {rate.unit}",
-                        missing=f"the quantity in {rate.unit}")
-        if unit and rate.unit and unit.lower().rstrip(".") != rate.unit:
-            return Duty(None, f"${rate.per_unit:,.3f} per {rate.unit}",
-                        missing=f"a quantity in {rate.unit}; the entry states {unit}")
+            missing = f"the quantity in {rate.unit}"
+        elif unit and rate.unit and unit.lower().rstrip(".") != rate.unit:
+            missing = f"a quantity in {rate.unit}; the entry states {unit}"
+        else:
+            missing = ""
+        if missing:
+            # Hand back what is settled along with what is not. "Unknown" and
+            # "19.7% of the invoice, plus a per-kilo charge nobody can size yet"
+            # are different messages, and only the second one can be acted on.
+            return Duty(None, basis, missing=missing,
+                        subtotal=done[0] if done else None,
+                        subtotal_basis=done[1] if done else "")
         total += quantity * rate.per_unit
         parts.append(f"${rate.per_unit:,.3f} × {quantity:,g} {rate.unit}")
 

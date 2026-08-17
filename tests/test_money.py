@@ -80,3 +80,20 @@ def test_the_odd_units_in_the_schedule_survive_parsing():
     assert parse_rate("68¢/head").unit == "head"
     assert parse_rate("2.5¢/liter").per_unit == 0.025
     assert parse_rate("$0.33/doz").unit == "doz"
+
+
+def test_a_compound_rate_missing_its_weight_still_reports_the_part_it_can():
+    """49.7¢/kg + 19.7% on a $100,000 invoice with no weight: the officer can be
+    told $19,700 and exactly what is still outstanding."""
+    duty = duty_owed(parse_rate("49.7¢/kg + 19.7%"), value=100_000)
+
+    assert not duty.known and duty.partial
+    assert duty.subtotal == 19_700
+    assert duty.missing == "the quantity in kg"
+    assert "19.7% of $100,000" in duty.subtotal_basis
+
+
+def test_a_purely_specific_rate_has_no_part_to_report():
+    duty = duty_owed(parse_rate("1¢/kg"), value=100_000)
+
+    assert not duty.known and not duty.partial and duty.subtotal is None

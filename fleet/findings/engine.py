@@ -154,12 +154,15 @@ def assess(case: dict, snapshot, screening_list) -> list[Finding]:
                     f"{_money(owed.amount)} on this entry rather than a percentage "
                     f"of its value."))
             else:
+                part = (f"{_money(owed.subtotal)} of it is settled already "
+                        f"({owed.subtotal_basis}), and " if owed.partial else "")
                 out.append(Finding(
                     "DUTY_NOT_COMPUTABLE", Severity.HUMAN,
-                    f"Duty cannot be worked out: {owed.missing}",
-                    f"Line {selected[:8]} is charged at {owed.basis}. "
-                    f"Nobody can state what this entry owes until somebody supplies "
-                    f"{owed.missing}, so the figure is missing rather than zero."))
+                    (f"{_money(owed.subtotal)} so far, and {owed.missing} to finish"
+                     if owed.partial else f"Duty cannot be worked out: {owed.missing}"),
+                    f"Line {selected[:8]} is charged at {owed.basis}. {part}"
+                    f"nobody can state the rest until somebody supplies "
+                    f"{owed.missing}, so the figure is incomplete rather than zero."))
 
     # 4. The chapter 99 add-on, which is where the real money usually is.
     origin = (case.get("country_of_origin") or "").strip().lower()
