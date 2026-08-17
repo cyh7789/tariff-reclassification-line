@@ -119,11 +119,17 @@ TOOL_DECLARATIONS = [
             "Returns ruling numbers that can be cited."
         ),
         "parameters": {
+            # Neither field is required on its own: a prefix with no keywords is a
+            # valid question. Marking `query` required is enough to stop the model
+            # asking it at all, whatever the description says.
             "type": "OBJECT",
-            "required": ["query"],
+            "required": [],
             "properties": {
-                "query": {"type": "STRING", "description": "Merchandise keywords"},
-                "tariff_prefix": {"type": "STRING", "nullable": True},
+                "query": {"type": "STRING", "nullable": True,
+                          "description": "Merchandise keywords. Omit to list a whole heading."},
+                "tariff_prefix": {"type": "STRING", "nullable": True,
+                                  "description": "4 to 8 digits. On its own, returns every "
+                                                 "ruling filed under that heading."},
                 "since": {"type": "STRING", "nullable": True, "description": "YYYY-MM-DD"},
             },
         },
