@@ -22,6 +22,8 @@ import re
 from dataclasses import dataclass
 from enum import IntEnum
 
+from fleet.triage.money import duty_owed, parse_rate
+
 #: Ordered worst first, because that is the order they are shown in.
 class Severity(IntEnum):
     HUMAN = 0    # a person has to decide; the machine will not
@@ -66,14 +68,15 @@ def _rate(code: str, rows) -> tuple[float | None, dict | None]:
 
 
 def _as_percent(rate: str) -> float | None:
-    """Percentage rates only. A specific duty ("6.8¢/kg") needs a quantity, and
-    inventing one to make the arithmetic work would be worse than saying nothing."""
+    """The ad valorem part of a rate, for comparing two lines against each other.
+
+    A specific duty ("6.8¢/kg") has no percentage to compare, which is why the
+    money difference is worked out separately by `fleet.triage.money` from the
+    entry's own quantity rather than guessed at here.
+    """
     if not rate:
         return None
-    if rate.strip().lower() == "free":
-        return 0.0
-    match = re.search(r"([\d.]+)\s*%", rate)
-    return float(match.group(1)) if match else None
+    return parse_rate(rate).percent
 
 
 def _money(value: float) -> str:
@@ -136,7 +139,29 @@ def assess(case: dict, snapshot, screening_list) -> list[Finding]:
                 f"where the correct line {selected[:8]} is {new_rate:.1f}%."
                 + amount))
 
-    # 3. The chapter 99 add-on, which is where the real money usually is.
+    # 3. Lines that are not charged on value at all. Nearly a tenth of the
+    #    schedule charges by weight or by head, and staying silent about those
+    #    reads on screen as "nothing owed" rather than "I need the weight".
+    if new_row:
+        rate = parse_rate(str(new_row.get("general") or ""))
+        if rate.needs_quantity or rate.prose:
+            owed = duty_owed(rate, value, case.get("quantity"), case.get("quantity_unit"))
+            if owed.known:
+                out.append(Finding(
+                    "DUTY_BY_QUANTITY", Severity.INFO,
+                    f"Charged by {rate.unit}: {_money(owed.amount)}",
+                    f"Line {selected[:8]} is charged at {owed.basis}, which is "
+                    f"{_money(owed.amount)} on this entry rather than a percentage "
+                    f"of its value."))
+            else:
+                out.append(Finding(
+                    "DUTY_NOT_COMPUTABLE", Severity.HUMAN,
+                    f"Duty cannot be worked out: {owed.missing}",
+                    f"Line {selected[:8]} is charged at {owed.basis}. "
+                    f"Nobody can state what this entry owes until somebody supplies "
+                    f"{owed.missing}, so the figure is missing rather than zero."))
+
+    # 4. The chapter 99 add-on, which is where the real money usually is.
     origin = (case.get("country_of_origin") or "").strip().lower()
     if new_row and origin in SECTION_301_ORIGINS:
         for note in new_row.get("footnotes") or []:
@@ -153,7 +178,7 @@ def assess(case: dict, snapshot, screening_list) -> list[Finding]:
                     f"also be reported under {match.group(1)}."))
                 break
 
-    # 4. Screening. Raised, never decided.
+    # 5. Screening. Raised, never decided.
     supplier = _normalise(case.get("supplier"))
     if supplier:
         for entry in screening_list:

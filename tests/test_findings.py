@@ -148,3 +148,40 @@ def test_findings_come_back_worst_first():
     assert [f.severity for f in out] == sorted([f.severity for f in out],
                                                key=lambda s: list(Severity).index(s))
     assert out[0].severity in (Severity.HUMAN, Severity.ACTION)
+
+
+HTS_ROWS.extend([
+    {"htsno": "02013000", "indent": 3, "row_index": 30, "description": "Boneless",
+     "general": "26.4%", "special": "", "other": "31.1%", "footnotes": []},
+    {"htsno": "04061000", "indent": 3, "row_index": 31, "description": "Fresh cheese",
+     "general": "$1.104/kg", "special": "", "other": "20%", "footnotes": []},
+    {"htsno": "20096100", "indent": 3, "row_index": 32, "description": "Grape juice",
+     "general": "The rate applicable to the natural juice in heading 2009",
+     "special": "", "other": "", "footnotes": []},
+])
+
+
+def test_a_rate_charged_by_weight_is_costed_when_the_quantity_is_known():
+    out = assess(case(selected_code="04061000", runner_up_code="04061000",
+                      quantity=1_000, quantity_unit="kg"), FakeSnapshot(), SCREENING)
+
+    found = next(f for f in out if f.kind == "DUTY_BY_QUANTITY")
+    assert "$1,104" in found.detail
+
+
+def test_a_rate_charged_by_weight_without_a_quantity_is_named_not_ignored():
+    """Silence here reads as "no duty", which is the expensive kind of wrong."""
+    out = assess(case(selected_code="04061000", runner_up_code="04061000"),
+                 FakeSnapshot(), SCREENING)
+
+    found = next(f for f in out if f.kind == "DUTY_NOT_COMPUTABLE")
+    assert found.severity is Severity.HUMAN
+    assert "the quantity in kg" in found.headline
+
+
+def test_a_rate_written_in_words_goes_to_a_person_with_the_words():
+    out = assess(case(selected_code="20096100", runner_up_code="20096100"),
+                 FakeSnapshot(), SCREENING)
+
+    found = next(f for f in out if f.kind == "DUTY_NOT_COMPUTABLE")
+    assert "heading 2009" in found.detail
