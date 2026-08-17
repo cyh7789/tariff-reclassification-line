@@ -91,3 +91,15 @@ def test_preserves_input_order_and_snapshot_id():
 
     assert [result.item_id for result in results] == ["first", "second"]
     assert {result.snapshot_id for result in results} == {"fixture-2026-08-17"}
+
+
+def test_code_living_only_as_a_ten_digit_row_is_not_reported_dead():
+    """A code whose 8-digit level has no row of its own is still current.
+
+    Treating "no 8-digit row" as "code withdrawn" would send 54% of a real
+    catalog into the reclassification queue.
+    """
+    result = run_triage(item("ten-digit-only", "0101300000"))[0]
+
+    assert result.bucket is Bucket.SURVIVED
+    assert result.route is Route.DETERMINISTIC
