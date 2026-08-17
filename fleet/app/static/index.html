@@ -432,9 +432,18 @@ function camFit() {
     cam.x = from.x0 + (p.x - from.x); cam.y = from.y0 + (p.y - from.y);
     applyCam();
   });
-  const stop = () => { from = null; svg.classList.remove('panning');
-                       // Let the click through on the next tick if it was a click.
-                       setTimeout(() => { dragged = false; }, 0); };
+  const stop = (e) => {
+    // A click on empty canvas clears the filter and stops following an item.
+    // Clicking the node again also works and nobody ever finds it: a filter you
+    // cannot see how to leave reads as a table that lost your rows.
+    if (!dragged && e && e.target && e.target.classList.contains('ground')
+        && (filter || traced)) {
+      filter = null; traced = null; traceView = null;
+      $('#trace').className = ''; forceRedraw(); drawTape(); poll();
+    }
+    from = null; svg.classList.remove('panning');
+    setTimeout(() => { dragged = false; }, 0);
+  };
   svg.addEventListener('pointerup', stop);
   svg.addEventListener('pointercancel', stop);
   svg.addEventListener('wheel', e => {
@@ -636,8 +645,9 @@ function render(data, flow, moves) {
   if (!replay) tapeAppend(flow.cases, data.batch.batch_id);
 
   const shown = casesAt(filter, data.cases);
-  $('#filterNote').textContent = filter
-    ? `showing ${shown.length} at “${filter}”, click the node again to clear` : '';
+  $('#filterNote').innerHTML = filter
+    ? `<button class="mini2" onclick="window.clearFilter()">✕ showing ${shown.length}
+       at “${filter}”</button>` : '';
 
   const effort = Object.fromEntries(flow.cases.map(c => [c.case_id, c]));
   $('#rows').innerHTML = shown.map(x => {
@@ -727,6 +737,11 @@ let traced = null, traceView = null;
 //: Rows the officer has ticked. Empty means the whole batch, which is the normal
 //: case; a selection is for the review that happens before signing part of it.
 const selected = new Set();
+
+window.clearFilter = () => {
+  filter = null; traced = null; traceView = null;
+  $('#trace').className = ''; forceRedraw(); drawTape(); poll();
+};
 
 window.pick = (el) => {
   el.checked ? selected.add(el.value) : selected.delete(el.value);
