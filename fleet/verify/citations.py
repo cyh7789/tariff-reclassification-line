@@ -64,6 +64,15 @@ class VerificationResult:
     passed: bool
     reason: str
     citations: list[CitationResult] = field(default_factory=list)
+    #: The authority behind each candidate that was ruled out. Kept apart from
+    #: the citations because it answers a different question: the citations hold
+    #: up the answer, these hold up the discards.
+    rejections: list[CitationResult] = field(default_factory=list)
+
+    @property
+    def bad_rejections(self) -> list[CitationResult]:
+        return [r for r in self.rejections
+                if not r.resolved and "without naming" not in r.detail]
 
     @property
     def unresolved(self) -> list[CitationResult]:
@@ -253,9 +262,18 @@ class CitationVerifier:
             self._dispatch(c.get("kind", ""), c.get("ref", ""), c.get("quote"))
             for c in (answer.get("citations") or [])
         ]
-        verdict = VerificationResult(item_id, True, "ok", results)
+        verdict = VerificationResult(item_id, True, "ok", results,
+                                     self.check_rejections(answer))
 
-        if not results:
+        if verdict.bad_rejections:
+            # An authority that does not exist is a false claim wherever it sits.
+            # Measured over the 141 development items: 845 rejection lines, 710
+            # naming an authority that resolves, none naming one that does not,
+            # so this closes the hole at no cost to anything the model does today.
+            verdict.passed = False
+            verdict.reason = ("ruled a candidate out on an authority that does not exist: "
+                              + "; ".join(f"{r.ref} ({r.detail})" for r in verdict.bad_rejections))
+        elif not results:
             verdict.passed, verdict.reason = False, "classified with no citations"
         elif verdict.unresolved:
             verdict.passed = False
@@ -266,6 +284,47 @@ class CitationVerifier:
             verdict.reason = (f"{len(verdict.misquoted)} quote(s) not found in the cited source: "
                               + "; ".join(c.ref for c in verdict.misquoted))
         return verdict
+
+    #: A rejection names the authority that killed a candidate, in whatever form
+    #: the model reached for: a note, a subheading, a ruling number. Unlike a
+    #: citation it carries no `kind`, so the shape of the reference has to say.
+    def _infer_kind(self, ref: str) -> str:
+        ref = (ref or "").strip()
+        if NOTE_REF.search(ref):
+            return "chapter_note"
+        # NY rulings are lettered ("N323816"), HQ rulings are bare numbers
+        # ("HQ 963283"), so the collection prefix is what identifies the latter.
+        if re.match(r"^(?:NY|HQ)\s*[A-Z]?\d{5,}$|^[A-Z]\d{5,}$", ref, re.IGNORECASE):
+            return "ruling"
+        return "tariff_line" if _digits(ref) else ""
+
+    def check_rejections(self, answer: dict) -> list[CitationResult]:
+        """Re-resolve the authority behind every candidate the answer ruled out.
+
+        These are the most forgeable lines on the screen: a static map from
+        heading prefix to a canned sentence produces exactly what a real run
+        produces, and nothing else in the answer was checking them. Resolving the
+        reference is what a template cannot survive.
+
+        The quote is not compared here. A rejection cites the source that excludes
+        a class of goods rather than quoting it, and demanding a quote would push
+        the model into inventing one.
+        """
+        out = []
+        for entry in answer.get("rejected") or []:
+            ref = (entry.get("ref") or "").strip()
+            if not ref:
+                out.append(CitationResult("rejection", entry.get("code", "?"), False, None,
+                                          "ruled out without naming an authority"))
+                continue
+            kind = self._infer_kind(ref)
+            if not kind:
+                out.append(CitationResult("rejection", ref, False, None,
+                                          "not a note, a code or a ruling number"))
+                continue
+            result = self._dispatch(kind, ref, None)
+            out.append(CitationResult("rejection", ref, result.resolved, None, result.detail))
+        return out
 
     def _dispatch(self, kind: str, ref: str, quote: str | None) -> CitationResult:
         if kind == "ruling":

@@ -444,3 +444,49 @@ def test_a_fabricated_ruling_still_fails_with_a_prefix(real_verifier):
     ))
 
     assert not result.passed
+
+
+class TestRejectionAuthorities:
+    """The most forgeable lines on the screen are the ones nothing was checking.
+
+    A candidate ruled out "because heading 8549 covers electrical waste" is
+    indistinguishable from a static map of heading prefixes to canned sentences,
+    unless the authority it names is resolved against the snapshot.
+    """
+
+    #: Codes and rulings that exist in the fixture snapshot, so the test is about
+    #: the rejections rather than about the answer around them.
+    def answer(self, rejected):
+        return {"item_id": "T-1", "status": "CLASSIFIED", "selected_code_8": "01012100",
+                "citations": [{"kind": "tariff_line", "ref": "01012100"}],
+                "rejected": rejected}
+
+    def test_a_candidate_ruled_out_on_a_ruling_that_does_not_exist_fails(self, verifier):
+        verdict = verifier.check(self.answer(
+            [{"code": "01012900", "why": "not a purebred", "ref": "N999999"}]))
+
+        assert not verdict.passed
+        assert "does not exist" in verdict.reason
+
+    def test_an_hq_ruling_is_a_bare_number_and_still_resolves(self, verifier):
+        """CBP numbers NY rulings with a letter and HQ rulings without one."""
+        assert verifier._infer_kind("HQ 963283") == "ruling"
+        assert verifier._infer_kind("N323816") == "ruling"
+        assert verifier._infer_kind("Note 6 to Section XVI") == "chapter_note"
+        assert verifier._infer_kind("8524.11") == "tariff_line"
+
+    def test_ruling_out_without_naming_anything_is_recorded_but_not_fatal(self, verifier):
+        """The prompt asks for the authority; 16% of real lines still omit it, and
+        failing those would throw away good classifications over a missing field."""
+        verdict = verifier.check(self.answer([{"code": "01012900", "why": "not a purebred"}]))
+
+        assert verdict.passed
+        assert verdict.rejections[0].resolved is False
+        assert verdict.bad_rejections == []
+
+    def test_a_real_authority_resolves(self, verifier):
+        verdict = verifier.check(self.answer(
+            [{"code": "01012900", "why": "not a purebred", "ref": "0101.29"}]))
+
+        assert verdict.passed
+        assert verdict.rejections[0].resolved
