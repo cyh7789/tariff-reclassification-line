@@ -189,12 +189,31 @@ class Runner:
             temperature=0.0,
         )
         tool_calls = []
+        usage = {"prompt": 0, "output": 0, "total": 0, "billed_calls": 0}
         started = time.time()
+
+        def record(response):
+            """Accumulate what Vertex says it billed, not what we guess it sent.
+
+            Cost here is dominated by re-sending the whole conversation each turn,
+            so per-item spend grows with the square of the tool-call count rather
+            than linearly. Estimating that from payload sizes is guesswork; the
+            usage metadata is the invoice.
+            """
+            meta = getattr(response, "usage_metadata", None)
+            if meta:
+                usage["prompt"] += getattr(meta, "prompt_token_count", 0) or 0
+                usage["output"] += getattr(meta, "candidates_token_count", 0) or 0
+                # total exceeds prompt + candidates: reasoning tokens are billed
+                # too and appear in neither of the other two counters.
+                usage["total"] += getattr(meta, "total_token_count", 0) or 0
+                usage["billed_calls"] += 1
 
         for turn in range(MAX_TOOL_TURNS):
             response = self.client.models.generate_content(
                 model=MODEL, contents=contents, config=config
             )
+            record(response)
             candidate = response.candidates[0]
             # A turn can come back with no parts at all (a safety stop, a token
             # limit, an empty thought). Appending it produces a Content with an
@@ -233,6 +252,7 @@ class Runner:
                 temperature=0.0,
             ),
         )
+        record(final)
         try:
             answer = json.loads(final.text)
         except (ValueError, TypeError) as exc:
@@ -262,6 +282,7 @@ class Runner:
         answer["stratum"] = item.stratum
         answer["tool_calls"] = tool_calls
         answer["tool_call_count"] = len(tool_calls)
+        answer["usage"] = usage
         answer["seconds"] = round(time.time() - started, 1)
         return answer
 
