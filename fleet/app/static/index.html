@@ -359,6 +359,7 @@ function alertBox(title, body, kind='bad', actions=[]) {
 // everyone to try. The camera lives outside the render because the diagram is
 // redrawn every poll and nobody wants their view snapped back twice a second.
 const cam = {x: 0, y: 0, k: 1};
+let dragged = false;
 
 function applyCam() {
   const g = document.getElementById('cam');
@@ -389,6 +390,9 @@ function camFit() {
 (function panning() {
   const svg = $('#flow');
   let from = null;
+  //: Whether this pointer gesture turned into a pan. A node click that follows a
+  //: drag is the tail of the drag, not a click on the node.
+  dragged = false;
   const point = e => {
     const r = svg.getBoundingClientRect(), v = svg.viewBox.baseVal;
     return {x: (e.clientX - r.left) / r.width * v.width,
@@ -396,15 +400,23 @@ function camFit() {
   };
   svg.addEventListener('pointerdown', e => {
     from = {...point(e), x0: cam.x, y0: cam.y};
-    svg.classList.add('panning'); svg.setPointerCapture(e.pointerId);
+    // Not captured yet, and not called a drag yet. Capturing on the way down
+    // takes the click away from whatever was under the pointer, which is how
+    // clicking a node stopped filtering the table.
+    dragged = false;
   });
   svg.addEventListener('pointermove', e => {
     if (!from) return;
     const p = point(e);
+    if (!dragged && Math.hypot(p.x - from.x, p.y - from.y) < 5) return;
+    if (!dragged) { dragged = true; svg.classList.add('panning');
+                    svg.setPointerCapture(e.pointerId); }
     cam.x = from.x0 + (p.x - from.x); cam.y = from.y0 + (p.y - from.y);
     applyCam();
   });
-  const stop = () => { from = null; svg.classList.remove('panning'); };
+  const stop = () => { from = null; svg.classList.remove('panning');
+                       // Let the click through on the next tick if it was a click.
+                       setTimeout(() => { dragged = false; }, 0); };
   svg.addEventListener('pointerup', stop);
   svg.addEventListener('pointercancel', stop);
   svg.addEventListener('wheel', e => {
@@ -564,6 +576,7 @@ function render(data, flow, moves) {
   if (signature !== drawn) {
     drawn = signature;
     renderFlow($('#flow'), flow, id => {
+      if (dragged) return;
       filter = (filter === id) ? null : id;
       drawn = '';
       render(data, flow);
@@ -584,10 +597,9 @@ function render(data, flow, moves) {
   // backwards has to take lines away again.
   if (!replay) tapeAppend(flow.cases, data.batch.batch_id);
 
-  const wanted = filter ? NODE_STATES[filter] : null;
-  const shown = wanted ? data.cases.filter(c => wanted.includes(c.state)) : data.cases;
+  const shown = casesAt(filter, data.cases);
   $('#filterNote').textContent = filter
-    ? `showing ${shown.length} at "${filter}" — click the node again to clear` : '';
+    ? `showing ${shown.length} at “${filter}”, click the node again to clear` : '';
 
   const effort = Object.fromEntries(flow.cases.map(c => [c.case_id, c]));
   $('#rows').innerHTML = shown.map(x => {
@@ -625,6 +637,18 @@ function render(data, flow, moves) {
     ($('#role').value !== 'approver' ? 'signed in as ' + $('#role').value + ' · ' : '') +
     `${ready} ready to sign${held ? `, ${held} held back` : ''}` +
     (stranded ? ` · <button class="mini2" onclick="window.restartStranded()">restart ${stranded} stuck</button>` : '');
+}
+
+//: Which lines a node is about. Most nodes are a state, but two are not: the
+//: compliance pass is about every line it found something on, and the intake is
+//: about all of them. Clicking those used to filter to nothing, which reads as a
+//: broken table rather than as a node with no queue.
+function casesAt(node, cases) {
+  if (!node) return cases;
+  if (node === 'compliance') return cases.filter(c => (c.findings || []).length);
+  if (node === 'intake') return cases;
+  const states = NODE_STATES[node] || [];
+  return cases.filter(c => states.includes(c.state));
 }
 
 //: Whose desk this line is on. The state says what happened to it; this says who
