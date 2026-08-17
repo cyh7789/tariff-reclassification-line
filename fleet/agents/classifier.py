@@ -34,6 +34,38 @@ from fleet.agents.tools import PrecedentIndex, Snapshot
 
 MODEL = "gemini-3.7-flash"
 
+#: Nothing in this repository may call a paid endpoint unless somebody switched
+#: it on for that command. Six development runs cost $36 of a credit belonging to
+#: a different project, and every one of them was started because the code made
+#: it easy, not because a question needed answering. The default is off.
+API_SWITCH = "FLEET_ALLOW_API"
+
+
+class ApiDisabled(RuntimeError):
+    """Raised instead of spending money. Set FLEET_ALLOW_API=1 to allow a run."""
+
+
+def api_allowed() -> bool:
+    import os
+    return os.environ.get(API_SWITCH) == "1"
+
+
+#: Half price, several times slower. The owner chose it for batch work and said
+#: plainly that waiting was fine; a later run went out on the standard tier on a
+#: throughput argument nobody asked for, and the six full runs cost $36 where
+#: flex would have cost about $18. Cheap is the default now, and the expensive
+#: tier has to be named.
+def default_flex() -> bool:
+    import os
+    return os.environ.get("FLEET_TIER", "flex").lower() != "standard"
+
+
+def assert_api_allowed() -> None:
+    if not api_allowed():
+        raise ApiDisabled(
+            f"model calls are switched off. Re-run with {API_SWITCH}=1 if this "
+            f"command is meant to spend money, and say what it costs first.")
+
 # Vertex ignores `service_tier` in the request body; the tier is selected by these
 # headers instead. Confirmed server-side: the response comes back with
 # traffic_type ON_DEMAND_FLEX, and latency goes from ~2s to ~12s on a trivial
@@ -251,16 +283,18 @@ def render_item(item: Item) -> str:
 
 class Runner:
     def __init__(self, snapshot_dir: Path, excluded: set[str] | None = None,
-                 flex: bool = False):
+                 flex: bool | None = None):
         self.snapshot = Snapshot(snapshot_dir)
         self.index = PrecedentIndex(snapshot_dir, excluded=excluded)
-        http_options = types.HttpOptions(headers=FLEX_HEADERS) if flex else None
+        self.flex = default_flex() if flex is None else flex
+        http_options = types.HttpOptions(headers=FLEX_HEADERS) if self.flex else None
         self.client = genai.Client(vertexai=True, project=PROJECT, location=LOCATION,
                                    http_options=http_options)
         self.system_prompt = load_prompt()
 
     def _generate(self, **kwargs):
         """Call the model, waiting out the refusals that a shared tier produces."""
+        assert_api_allowed()
         last = None
         for attempt, wait in enumerate((*RETRY_WAITS, None)):
             try:
@@ -494,11 +528,16 @@ def main(argv: list[str] | None = None) -> int:
                         help="Items run independently, so this is wall-clock only. "
                              "Flex is several times slower per item; parallelism is "
                              "what makes it usable, not a shorter backoff.")
-    parser.add_argument("--flex", action="store_true",
-                        help="Half price, several times slower. For batches, never for filming.")
+    parser.add_argument("--tier", choices=("flex", "standard"), default="flex",
+                        help="flex is half price and several times slower, and is the "
+                             "default for batch work. standard costs twice as much and "
+                             "has to be asked for.")
     parser.add_argument("--exclude-ids", type=Path, default=None,
                         help="Ruling numbers kept out of the precedent index")
     args = parser.parse_args(argv)
+    # Fail here rather than per item: a batch that runs to completion producing
+    # 141 empty refusals looks like a result and is not one.
+    assert_api_allowed()
 
     excluded = set()
     if args.exclude_ids:
@@ -508,8 +547,12 @@ def main(argv: list[str] | None = None) -> int:
     items = load_dev_items(args.dev, candidates, args.limit)
     # A development item is its own answer key, so it has to leave the index too.
     runner = Runner(args.snapshot, excluded=excluded | {i.item_id for i in items},
-                    flex=args.flex)
-    print(f"items={len(items)} precedent_index={len(runner.index.rulings)} "
+                    flex=args.tier == "flex")
+    # What this is about to cost, before it costs it. Roughly 52k input and 3.4k
+    # output tokens per item, measured over dev-09's 141 items.
+    rate = (52_473 * 0.75 + 3_400 * 3.75) / 1e6 * (0.5 if runner.flex else 1)
+    print(f"items={len(items)} tier={args.tier} estimated cost "
+          f"${rate * len(items):.2f} precedent_index={len(runner.index.rulings)} "
           f"excluded={len(runner.index.excluded)}")
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
