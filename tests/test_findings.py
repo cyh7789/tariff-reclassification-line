@@ -228,3 +228,21 @@ def test_the_duty_consequence_never_reaches_the_classifier():
 
     for word in ("9903", "chapter 99", "Section 301", "duty", "rate"):
         assert word.lower() not in shown.lower()
+
+
+def test_every_listed_party_a_supplier_resembles_is_raised():
+    """One name can resemble several listed parties, and the person confirming
+    identity needs all of them. Stopping at the first hit means whichever entry
+    happens to sit earlier in a 25,939-row file decides what a person gets to
+    see, and a weak resemblance can hide a strong one behind it."""
+    lists = [
+        {"name": "Orient", "source_list": "Entity List"},
+        {"name": "Orient Precision Industries", "source_list": "SDN List",
+         "license_requirement": "Presumption of denial"},
+    ]
+    out = assess(case(supplier="Orient Precision Industries Co., Ltd."),
+                 FakeSnapshot(), lists)
+
+    hits = [f for f in out if f.kind == "SCREENING_MATCH"]
+    assert len(hits) == 2, "both listed parties resemble this supplier"
+    assert "SDN List" in " ".join(f.detail for f in hits)
