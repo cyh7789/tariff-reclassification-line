@@ -171,7 +171,7 @@ const SUBS = [
 const EDGES = [
   ['intake',     'triage',    'received',      'the batch',      'fwd'],
   ['gate',       'triage',    'received',      'law, gated',     'fwd'],
-  ['triage',     'settled',   'deterministic', 'yes · look it up',        'fwd'],
+  ['triage',     'settled',   'deterministic', 'yes · look it up',        'up'],
   ['triage',     'agent',     'agent',         'no · needs judgment',     'fwd'],
   ['agent',      'verify',    'classified',    'proposed code',  'fwd'],
   ['verify',     'compliance','verified',      'citations hold', 'fwd'],
@@ -217,8 +217,16 @@ function path(a, b, kind) {
   const A = N[a], B = N[b], p = outPort(A), q = inPort(B);
   switch (kind) {
     case 'fwd': {
-      const d = Math.max(40, (q.x - p.x) / 2);
+      // The horizontal half-distance alone is not enough when the two ports are
+      // far apart vertically: a 250px drop over an 80px run left a visible kink
+      // at both ends. Taking the larger of the two keeps the curve tangent.
+      const d = Math.max(40, (q.x - p.x) / 2, Math.abs(q.y - p.y) * 0.7);
       return `M ${p.x} ${p.y} C ${p.x + d} ${p.y}, ${q.x - d} ${q.y}, ${q.x} ${q.y}`;
+    }
+    case 'up': {  // a decision's other answer, leaving the top rather than the side
+      const ax = A.x + wOf(A) / 2, bx = B.x + wOf(B) / 2;
+      const gap = Math.max(40, (A.y - (B.y + hOf(B))) * 0.6);
+      return `M ${ax} ${A.y} C ${ax} ${A.y - gap}, ${bx} ${B.y + hOf(B) + gap}, ${bx} ${B.y + hOf(B) + 6}`;
     }
     case 'over':   // the lookup half going straight to the signature, over the top
       return `M ${p.x} ${p.y} C ${p.x + 420} ${p.y - 70}, ${q.x + 150} ${q.y - 230}, ${q.x + wOf(B) / 2} ${q.y - hOf(B) / 2 - 6}`;
@@ -241,6 +249,13 @@ function labelPoint(a, b, kind) {
     // Above the boxes, not between them: the gap between two nodes is 74px and
     // no useful label is that short.
     case 'fwd':   return {x: (p.x + q.x) / 2, y: Math.min(A.y, B.y) - 12, anchor: 'middle'};
+    case 'up': {  // a decision's other answer, leaving the top rather than the side
+      const ax = A.x + wOf(A) / 2, bx = B.x + wOf(B) / 2;
+      const gap = Math.max(40, (A.y - (B.y + hOf(B))) * 0.6);
+      return `M ${ax} ${A.y} C ${ax} ${A.y - gap}, ${bx} ${B.y + hOf(B) + gap}, ${bx} ${B.y + hOf(B) + 6}`;
+    }
+    case 'up':    return {x: (A.x + wOf(A) / 2 + B.x + wOf(B) / 2) / 2 + 14,
+                          y: (A.y + B.y + hOf(B)) / 2, anchor: 'start'};
     case 'over':  return {x: (p.x + q.x) / 2 + 120, y: Math.min(p.y, q.y) - 118, anchor: 'middle'};
     case 'down':  return {x: (A.x + wOf(A) / 2 + q.x) / 2, y: Math.max(p.y, q.y) + 34, anchor: 'middle'};
     case 'under': return {x: (A.x + B.x) / 2, y: A.y + 176, anchor: 'middle'};
@@ -299,20 +314,14 @@ function gateBadge(node, role) {
   const owner = OWNER[node.id];
   if (!owner) return '';
   const mine = owner === role;
-  //: A stripe down the node's own left edge and a word inside it. The badge used
-  //: to be an amber pill with a padlock hanging outside the box, which read as a
-  //: mislabelled node: amber is the colour this diagram uses for "waiting for a
-  //: person", so an amber tag under a blue box said the wrong thing twice.
-  return `<rect x="${node.x}" y="${node.y}" width="4" height="${hOf(node)}"
-                fill="#d97706" opacity="${mine ? 1 : .45}"/>
-    <text x="${node.x + 11}" y="${node.y + hOf(node) - 7}" class="gb"
+  //: A word in the corner, and nothing else. The border already carries the
+  //: colour; a stripe down the edge as well was a third element saying the same
+  //: thing, and it read as part of the frame rather than as a label.
+  return `<text x="${node.x + 11}" y="${node.y + hOf(node) - 7}" class="gb"
           fill="${mine ? '#b45309' : '#a8b0bd'}"
           >${mine ? 'yours' : ROLE_LABEL[owner]}</text>`;
 }
 
-//: The rectangle the work occupies. Fitting the view cannot ask the group for its
-//: bounding box: the dotted ground is a 12,000px square riding in the same group,
-//: so the answer would be the ground and the graph would vanish to a speck.
 //: One source for where the legend row sits, so fitting the view cannot crop it.
 //: It used to be computed inline and `graphBounds` never knew about it, which
 //: put the whole legend outside the fitted viewBox.

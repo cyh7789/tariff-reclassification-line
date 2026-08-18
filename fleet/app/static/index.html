@@ -76,8 +76,10 @@
   /* Named, not positional. The node's own rect is one of several: the badge is a
      rect, and so is the highlight drawn around a traced node, which took the
      first-of-type rule with it and left the node itself filled black. */
-  #flow .node rect.box { fill: #fff; stroke: #dbe2ec; stroke-width: 1.5;
-                         filter: drop-shadow(0 2px 5px rgba(15,23,42,.08)); }
+  /* No drop-shadow. A shadow cast by a *stroked* rect draws a second offset
+     copy of the stroke, and on a dashed 2.2px border that reads as two frames
+     around one node. The dotted ground already separates the boxes from it. */
+  #flow .node rect.box { fill: #fff; stroke: #dbe2ec; stroke-width: 1.5; }
   #flow .node.on rect.box { stroke: var(--zc); stroke-width: 2.2; }
   #flow .node { cursor: pointer; }
   #flow .node:hover rect.box { stroke: var(--zc); }
