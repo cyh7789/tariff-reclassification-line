@@ -35,6 +35,23 @@
   /* flow diagram, explainer style: coloured zones, numbered steps */
   /* The canvas is pannable, so it does not need a scrollbar and must not clip
      what a drag brings into view. */
+  /* What the batch came to, before the diagram. Big enough to read from the
+     back of a room, because this is the only part of the screen that answers
+     "how much of this is off my desk". */
+  #outcome { display: flex; gap: 10px; flex-wrap: wrap; align-items: stretch;
+             padding: 0 0 12px; }
+  .oc { flex: 1 1 190px; background: var(--card); border: 1px solid var(--line);
+        border-radius: 10px; padding: 14px 16px; border-left-width: 4px;
+        border-left-color: var(--idle); }
+  .oc.good { border-left-color: var(--ok); }
+  .oc.warn { border-left-color: var(--warn); }
+  .ocn { font: 700 34px/1.05 ui-sans-serif, system-ui; letter-spacing: -.5px; }
+  .oc.good .ocn { color: var(--ok); }
+  .oc.warn .ocn { color: var(--warn); }
+  .ocl { font-size: 14px; margin-top: 3px; }
+  .ocs { color: var(--dim); font-size: 12.5px; margin-top: 4px; }
+  #outcomeCost { color: var(--dim); font-size: 12.5px; padding: 0 0 14px; }
+
   /* Full bleed. The card frame around the canvas cost the width twice, once for
      the page's own max-width and again for the card's margin, and what it bought
      was a border nobody needed: the diagram is the page's subject, not a widget
@@ -338,6 +355,11 @@
     </div>
   </div>
 
+  <!-- What the batch came to. Above the diagram, because the diagram answers
+       "how does this work" and this answers "what did it do for me". -->
+  <div id="outcome"></div>
+  <div id="outcomeCost"></div>
+
   <!-- The batch against a clock. The diagram says where work goes; this says how
        long it sat there, which is the half a flow chart cannot show. -->
   <div class="card" id="bandCard">
@@ -398,6 +420,7 @@
 import { renderFlow, flowSummary, graphBounds, NODE_STATES, NODE_INFO, STATE_NODE,
          NEXT_STEP } from '/static/flow.js';
 import { renderBand } from '/static/band.js';
+import { renderOutcome } from '/static/outcome.js';
 
 // Only transitions since the last look get a moving dot.
 let lastEvent = 0;
@@ -717,6 +740,9 @@ function render(data, flow, moves) {
     }, id => explainNode(id), traceView, moves, $('#role').value);
     applyCam();
   }
+  const head = renderOutcome(flow);
+  $('#outcome').innerHTML = head.body;
+  $('#outcomeCost').textContent = head.cost;
   $('#flowNote').textContent = flowSummary(flow);
   const busy = flow.active || [];
   $('#live').innerHTML = busy.length
