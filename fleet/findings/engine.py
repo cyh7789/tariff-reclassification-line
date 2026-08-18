@@ -43,6 +43,16 @@ class Finding:
 #: reason chapter 99 subheadings exist on a tariff line at all.
 SECTION_301_ORIGINS = {"china", "hong kong", "macau"}
 
+#: An ERP export writes the ISO code, a person writes the name, and the add-on
+#: is owed either way. Reading only the prose names meant every catalog that
+#: used codes silently owed nothing.
+ISO_ORIGINS = {"cn": "china", "hk": "hong kong", "mo": "macau"}
+
+
+def _origin_key(origin: str) -> str:
+    key = (origin or "").strip().lower()
+    return ISO_ORIGINS.get(key, key)
+
 CH99 = re.compile(r"\b(99\d\d\.\d\d(?:\.\d\d)?)\b")
 DIGITS = re.compile(r"\D")
 
@@ -89,6 +99,31 @@ def _normalise(name: str) -> str:
     drop = {"ltd", "limited", "llc", "inc", "incorporated", "co", "corp",
             "corporation", "gmbh", "sa", "bv", "pte", "plc", "company", "the"}
     return " ".join(w for w in name.split() if w not in drop)
+
+
+#: A listed name has to share whole words with the supplier, not letters. The
+#: substring test that came before this reported "Nordvale Diagnostics BV" as
+#: resembling "TIC LTD": strip the corporate suffix and "tic" sits inside
+#: "diagnostics". Five of twenty demo items matched that way, and a person who
+#: is shown that noise stops reading the flag at all.
+#:
+#: One-word listed names are compared whole and must be long enough to mean
+#: something; a three-letter token is an accident waiting for a long supplier
+#: name.
+MIN_SOLO_TOKEN = 4
+
+
+def _resembles(supplier_tokens: set[str], listed: str) -> bool:
+    tokens = set(listed.split())
+    if not tokens or not supplier_tokens:
+        return False
+    if len(tokens) == 1:
+        only = next(iter(tokens))
+        return len(only) >= MIN_SOLO_TOKEN and only in supplier_tokens
+    # Either name may carry extra words: a supplier is often the listed party
+    # plus a country arm, and a listed party is often the supplier plus a former
+    # trading name.
+    return tokens <= supplier_tokens or supplier_tokens <= tokens
 
 
 def assess(case: dict, snapshot, screening_list) -> list[Finding]:
@@ -191,7 +226,7 @@ def assess(case: dict, snapshot, screening_list) -> list[Finding]:
                 f"additional duty is owed at all."))
 
     # 5. The chapter 99 add-on, which is where the real money usually is.
-    origin = (case.get("country_of_origin") or "").strip().lower()
+    origin = _origin_key(case.get("country_of_origin"))
     if new_row and origin in SECTION_301_ORIGINS:
         for note in new_row.get("footnotes") or []:
             match = CH99.search(note.get("value") or "")
@@ -217,9 +252,9 @@ def assess(case: dict, snapshot, screening_list) -> list[Finding]:
         # The list is walked whole rather than capped because the fan-out is
         # small in practice: 17 against the shortest name in the current list,
         # 0 or 1 for ordinary supplier names.
+        theirs = set(supplier.split())
         hits = [entry for entry in screening_list
-                if (listed := _normalise(entry.get("name")))
-                and (listed in supplier or supplier in listed)]
+                if _resembles(theirs, _normalise(entry.get("name")))]
         # Closest first: a longer name that still matches shares more with the
         # supplier, and is the one worth reading before the rest.
         for entry in sorted(hits, key=lambda e: len(_normalise(e.get("name"))), reverse=True):
