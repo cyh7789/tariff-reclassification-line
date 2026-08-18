@@ -221,6 +221,28 @@ def get_batch(batch_id: str, x_role: str = Header(None), x_tenant: str = Header(
     }
 
 
+#: Row counts read from the snapshot's own manifests, so the diagram states the
+#: size of what the agent reached into rather than a number somebody typed. They
+#: were hardcoded in `flow.js` under a comment claiming they came from here, and
+#: a snapshot revision would have quietly turned them into fiction on a screen
+#: whose entire purpose is being checkable.
+def corpus_sizes() -> dict:
+    out = {}
+    for source in ("hts", "notes", "cross", "csl", "correlation"):
+        path = SNAPSHOT / f"{source}.manifest.json"
+        if path.exists():
+            manifest = json.loads(path.read_text(encoding="utf-8"))
+            out[source] = {"rows": manifest.get("row_count"),
+                           "revision": manifest.get("revision")}
+    # Not a fetched source: the full ruling texts are a file, not a manifest.
+    texts = SNAPSHOT / "ruling_text.jsonl"
+    if texts.exists():
+        out["ruling_text"] = {"rows": sum(1 for line in
+                                          texts.open(encoding="utf-8") if line.strip()),
+                              "revision": None}
+    return out
+
+
 @app.get("/api/batches/{batch_id}/flow")
 def get_flow(batch_id: str, since: int = 0,
              x_role: str = Header(None), x_tenant: str = Header(None)):
@@ -236,6 +258,7 @@ def get_flow(batch_id: str, since: int = 0,
     events = [e for e in store.timeline(batch_id) if e["event_id"] > since]
     flow["moves"] = [{"event_id": e["event_id"], "from": e["from_state"],
                       "to": e["to_state"], "item_id": e["item_id"]} for e in events]
+    flow["corpus"] = corpus_sizes()
     flow["last_event_id"] = max((e["event_id"] for e in store.timeline(batch_id)),
                                 default=0)
     flow["active"] = [dict(v, case_id=k) for k, v in worker.active.items()]

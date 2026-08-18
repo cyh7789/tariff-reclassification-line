@@ -40,14 +40,21 @@ const W = 176, H = 68;
 const wOf = n => n.w || W;
 const hOf = n => n.h || H;
 
-//: The corpora the agent can reach into, with what is actually in them. A count
-//: is what separates "it has tools" from "it went and read 218,606 rulings":
-//: these are row counts from the snapshot manifest, not round numbers.
+//: The corpora the agent can reach into. The label is fixed; the size comes from
+//: the snapshot's own manifests through `flow.corpus`, because a hardcoded
+//: "218,606 rulings" becomes fiction the day the snapshot moves, on a screen
+//: whose whole claim is that it can be checked.
 const CORPUS = {
-  get_chapter_notes: {label: 'chapter & section notes', size: '98 chapters'},
-  get_tariff_lines:  {label: 'the tariff schedule',     size: '35,791 lines'},
-  search_precedents: {label: 'past CBP rulings',        size: '218,606 rulings'},
-  get_ruling:        {label: 'what the goods were',     size: '8,581 full texts'},
+  get_chapter_notes: {label: 'chapter & section notes', source: 'notes',  unit: 'chapters'},
+  get_tariff_lines:  {label: 'the tariff schedule',     source: 'hts',    unit: 'lines'},
+  search_precedents: {label: 'past CBP rulings',        source: 'cross',  unit: 'rulings'},
+  get_ruling:        {label: 'what the goods were',     source: 'ruling_text', unit: 'full texts'},
+};
+
+const corpusSize = (flow, tool) => {
+  const meta = CORPUS[tool];
+  const rows = ((flow.corpus || {})[meta.source] || {}).rows;
+  return rows ? `${rows.toLocaleString('en-US')} ${meta.unit}` : '';
 };
 
 //: What the agent is not allowed to touch. Drawn inside its own box rather than
@@ -176,6 +183,31 @@ const EDGES = [
   ['verify',     'agent',     'held',          'held back',      'back'],
 ];
 
+//: A state change the diagram draws as more than one hop. `CLASSIFYING -> READY`
+//: goes through the checker and the costing, and neither of those is a state, so
+//: matching a state pair against a single edge silently dropped every successful
+//: shipment: 8 of 30 events in a real batch, and the only 8 that show the agent
+//: finishing its work.
+const MULTI_HOP = {
+  'agent->ready': ['agent->verify', 'verify->compliance', 'compliance->ready'],
+};
+
+const HOP_MS = 1400;
+
+//: One entry per leg a move travels, with when that leg starts, so a three-hop
+//: journey reads as one dot crossing three edges rather than three dots at once.
+function legs(moves) {
+  const out = {};
+  for (const m of moves || []) {
+    const key = `${STATE_NODE[m.from] || 'intake'}->${STATE_NODE[m.to]}`;
+    const chain = MULTI_HOP[key] || [key];
+    chain.forEach((edge, i) => {
+      (out[edge] = out[edge] || []).push(i * HOP_MS);
+    });
+  }
+  return out;
+}
+
 const N = Object.fromEntries(NODES.map(n => [n.id, n]));
 const inPort = n => ({x: n.x, y: n.y + hOf(n) / 2});
 const outPort = n => ({x: n.x + wOf(n), y: n.y + hOf(n) / 2});
@@ -298,6 +330,7 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
   const visited = new Set(trace?.nodes || []);
   const travelled = new Set(trace?.edges || []);
   const t = tally(flow), occ = occupancy(flow), out = [];
+  const moving = legs(moves);
 
   out.push(`<defs>
     <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
@@ -336,12 +369,12 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
       stroke-width="${walked ? 3 : on ? 2 : 1.4}"
       opacity="${trace && !walked ? .2 : 1}"
       marker-end="url(#${walked ? 'tipTrace' : on ? 'tipOn' : 'tipOff'})"/>`);
-    for (const m of (moves || [])) {
-      if (`${STATE_NODE[m.from] || 'intake'}->${STATE_NODE[m.to]}` !== `${a}->${b}`) continue;
-      out.push(`<circle r="5" fill="#0ea5e9">
-        <animateMotion dur="1.4s" repeatCount="1" fill="freeze" path="${d}"/>
-        <animate attributeName="opacity" values="0;1;1;0" dur="1.4s" repeatCount="1"
-                 fill="freeze"/></circle>`);
+    for (const delay of (moving[`${a}->${b}`] || [])) {
+      out.push(`<circle r="5" fill="#0ea5e9" opacity="0">
+        <animateMotion dur="${HOP_MS}ms" begin="${delay}ms" repeatCount="1"
+                       fill="freeze" path="${d}"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="${HOP_MS}ms"
+                 begin="${delay}ms" repeatCount="1" fill="freeze"/></circle>`);
     }
     if (walked) out.push(`<circle r="5.5" fill="#7c3aed">
       <animateMotion dur="3s" repeatCount="indefinite" path="${d}"/></circle>`);
@@ -356,7 +389,8 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
   for (const sub of SUBS) {
     const parent = N[sub.of];
     const calls = (flow.tools_used || {})[sub.tool] || 0;
-    const corpus = CORPUS[sub.tool] || {label: sub.tool, size: ''};
+    const corpus = CORPUS[sub.tool] || {label: sub.tool};
+    const size = corpusSize(flow, sub.tool);
     const colour = KIND[parent.kind].colour;
     const cx = parent.x + wOf(parent) / 2, cy = parent.y + hOf(parent) / 2;
     const below = sub.y > cy;
@@ -369,7 +403,7 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
       <text x="${sub.x}" y="${sub.y + 6}" text-anchor="middle" class="subn"
             fill="${calls ? colour : '#94a3b8'}">${calls || '·'}</text>
       <text x="${sub.x}" y="${sub.y + (below ? 46 : -38)}" text-anchor="middle"
-            class="nl2">${corpus.size}</text>
+            class="nl2">${size}</text>
       <text x="${sub.x}" y="${sub.y + (below ? 61 : -24)}" text-anchor="middle"
             class="ns">${corpus.label}</text>
     </g>`);
