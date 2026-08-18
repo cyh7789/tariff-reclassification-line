@@ -3,3 +3,6 @@ __pycache__/
 *.pyc
 .venv/
 .env
+
+# uvicorn 的執行日誌，每跑一次就變，不是原始碼
+runs/*.log
