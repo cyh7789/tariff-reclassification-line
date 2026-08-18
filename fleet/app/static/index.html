@@ -74,6 +74,13 @@
   #flow .ni { font: 700 20px ui-sans-serif, system-ui; }
   #flow .lg { font: 12.5px ui-sans-serif, system-ui; fill: #64748b; }
   #flow .subn { font: 700 13px ui-sans-serif, system-ui; }
+  /* The agent is the subject of this view, so it is the only thing set larger. */
+  #flow .nlBig { font: 700 19px ui-sans-serif, system-ui; fill: #064e3b; }
+  /* What it may not touch, inside its own box. Muted: it is a boundary, not a
+     warning, and it should read as part of the design rather than an error. */
+  #flow .cant { font: 12px ui-sans-serif, system-ui; fill: #6b7f76; }
+  /* How big a corpus is, above or below the count that went into it. */
+  #flow .nl2 { font: 700 12.5px ui-sans-serif, system-ui; fill: #334155; }
   #flow .sub circle { transition: none; }
   #flow .ns { font: 13px ui-sans-serif, system-ui; fill: #7c8798; }
   #flow .nn { font: 700 14px ui-sans-serif, system-ui; fill: #fff; }
