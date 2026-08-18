@@ -17,7 +17,7 @@ arrived while nobody was looking, a question nobody answered yet.
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def _when(stamp: str) -> datetime | None:
@@ -68,3 +68,53 @@ def card(attempts: list[dict], facts: list[dict], selected_code: str | None) -> 
         "outcome": (after or {}).get("to_state"),
         "selected_code": selected_code if after else None,
     }
+
+
+def outstanding(case: dict, events: list[dict], now: str | None = None) -> dict | None:
+    """A question that went out and has not come back.
+
+    The completed round trip is the better story and the open one is the more
+    honest picture: at any moment most of what a compliance officer is waiting
+    on is still out. A screen that only draws the finished ones would show a
+    system that never waits, which is the opposite of the claim being made.
+    """
+    if case.get("state") != "NEEDS_INPUT":
+        return None
+    # From the events, not the attempt transcripts. A transcript is written per
+    # run and older runs predate the table; the transition is append-only and is
+    # always there, which is the whole reason that table exists.
+    refusal = next((e for e in reversed(events) if e["to_state"] == "NEEDS_INPUT"), None)
+    if refusal is None:
+        return None
+    return {
+        "case_id": case.get("case_id"), "item_id": case.get("item_id"),
+        "asked": case.get("missing_property") or "a fact the description did not state",
+        "asked_of": case.get("ask_department") or "somebody",
+        "asked_at": refusal["at"],
+        "waiting": elapsed(refusal["at"],
+                           now or datetime.now(timezone.utc).isoformat(timespec="seconds")),
+        "open": True,
+    }
+
+
+def batch(rows: list[dict], now: str | None = None) -> list[dict]:
+    """Every question this batch has asked, open ones first.
+
+    `rows` is `[{"case": {...}, "facts": [...], "attempts": [...], "events": [...]}]`.
+    Open first
+    because they are the ones somebody still has to act on; a finished round trip
+    is evidence, an open one is work.
+    """
+    out = []
+    for row in rows:
+        case, facts = row["case"], row.get("facts") or []
+        attempts, events = row.get("attempts") or [], row.get("events") or []
+        still = outstanding(case, events, now)
+        if still:
+            out.append(still)
+            continue
+        done = card(attempts, facts, case.get("selected_code"))
+        if done:
+            out.append(done | {"case_id": case.get("case_id"),
+                               "item_id": case.get("item_id"), "open": False})
+    return sorted(out, key=lambda r: (not r["open"], r.get("asked_at") or ""))

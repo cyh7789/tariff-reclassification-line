@@ -204,6 +204,22 @@
                    align-items: center; }
   /* Following one item is the question a person actually asks: where is mine, and
      is anybody waiting on me. */
+  /* Questions the system put to a person. Open ones read as work, answered
+     ones as evidence, and the difference is the border colour. */
+  #asked { padding: 10px 14px 4px; border-top: 1px solid var(--line); }
+  #asked:empty { display: none; }
+  .askHead { display: flex; gap: 10px; align-items: baseline; padding-bottom: 7px; }
+  .ask { border-left: 3px solid var(--warn); background: #fffdf7; border-radius: 6px;
+         padding: 7px 11px; margin-bottom: 6px; cursor: pointer; }
+  .ask.done { border-left-color: var(--ok); background: #f6fbf7; }
+  .ask:hover { filter: brightness(.985); }
+  .askTop { display: flex; gap: 9px; align-items: baseline; font-size: 13px; }
+  .askWho { background: var(--warn); color: #fff; border-radius: 999px;
+            padding: 1px 9px; font-size: 11.5px; font-weight: 700; }
+  .askWho.done { background: var(--ok); }
+  .askQ { font-size: 13px; margin-top: 3px; }
+  .askA { font-size: 13px; margin-top: 3px; color: #14532d; }
+
   /* What the agent asked a corpus, and what came back. A count is a number
      anybody can type; twenty-seven real queries with their results are not. */
   #calls { display: none; padding: 10px 14px 12px; border-top: 1px solid var(--line);
@@ -344,6 +360,7 @@
       <button id="camIn">+</button><button id="camOut">−</button>
     </div>
     <div id="explain" class="blank">Hover any box to see what it does. Click a row below to follow one item.</div>
+    <div id="asked"></div>
     <div id="calls"></div>
     <div id="trace"></div>
     <div id="live"></div>
@@ -438,6 +455,7 @@ import { renderFlow, flowSummary, graphBounds, NODE_STATES, NODE_INFO, STATE_NOD
 import { renderBand } from '/static/band.js';
 import { renderOutcome } from '/static/outcome.js';
 import { renderCalls } from '/static/calls.js';
+import { renderAsked } from '/static/asked.js';
 
 // Only transitions since the last look get a moving dot.
 let lastEvent = 0;
@@ -775,6 +793,9 @@ function render(data, flow, moves) {
     applyCam();
   }
   const head = renderOutcome(flow);
+  $('#asked').innerHTML = renderAsked(flow);
+  for (const el of $('#asked').querySelectorAll('.ask'))
+    el.onclick = () => window.openCase(el.dataset.case);
   $('#outcome').innerHTML = head.body;
   $('#outcomeCost').textContent = head.cost;
   $('#flowNote').textContent = flowSummary(flow);

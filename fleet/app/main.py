@@ -34,6 +34,7 @@ from pydantic import BaseModel
 from fleet.workflow.store import (CaseState, IllegalTransition, Store,
                                   UndecidedFinding)
 from fleet.verify.faultinject import NothingToInject, inject
+from fleet.workflow.roundtrip import batch as roundtrip_batch
 from fleet.workflow.roundtrip import card as roundtrip_card
 from fleet.workflow.timeline import band as timeline_band
 from fleet.workflow.worker import Worker
@@ -259,6 +260,14 @@ def get_flow(batch_id: str, since: int = 0,
     flow["moves"] = [{"event_id": e["event_id"], "from": e["from_state"],
                       "to": e["to_state"], "item_id": e["item_id"]} for e in events]
     flow["corpus"] = corpus_sizes()
+    # Every question this batch has asked, open ones first. The finished round
+    # trip is the better story; the open one is the more honest picture, and a
+    # screen that drew only the finished ones would show a system that never waits.
+    flow["roundtrips"] = roundtrip_batch(
+        [{"case": store.case(c.case_id).__dict__ | {"case_id": c.case_id},
+          "facts": store.facts(c.case_id), "attempts": store.attempts(c.case_id),
+          "events": store.events(c.case_id)}
+         for c in store.cases(batch_id, tenant)])
     flow["last_event_id"] = max((e["event_id"] for e in store.timeline(batch_id)),
                                 default=0)
     flow["active"] = [dict(v, case_id=k) for k, v in worker.active.items()]

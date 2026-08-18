@@ -1,6 +1,6 @@
 """The card claims cross-department work happened, so it has to be picky."""
 
-from fleet.workflow.roundtrip import card, elapsed
+from fleet.workflow.roundtrip import batch, card, elapsed, outstanding
 
 
 def attempt(state, at):
@@ -14,6 +14,8 @@ def fact(at, prop="sleeve construction", value="long, hemmed sleeves"):
 REFUSED = attempt("NEEDS_INPUT", "2026-08-14T09:00:00+00:00")
 DECIDED = attempt("READY", "2026-08-16T11:30:00+00:00")
 ANSWERED = fact("2026-08-16T11:00:00+00:00")
+#: Fourteen days after the refusal, so an unanswered question has a real wait.
+NOW = "2026-08-28T09:00:00+00:00"
 
 
 def test_a_completed_round_trip_says_what_changed_it():
@@ -57,3 +59,58 @@ def test_a_wait_that_cannot_be_computed_is_left_blank_not_guessed():
 def test_a_question_with_no_property_recorded_still_reads_as_a_question():
     c = card([REFUSED], [fact("2026-08-16T11:00:00+00:00", prop="")], None)
     assert c["asked"] == "a fact the description did not state"
+
+
+OPEN_CASE = {"case_id": "C-9", "item_id": "SKU-1013", "state": "NEEDS_INPUT",
+             "missing_property": "what is the water resistance rating?",
+             "ask_department": "engineering", "selected_code": None}
+DONE_CASE = {"case_id": "C-1", "item_id": "SKU-1013b", "state": "READY",
+             "missing_property": "", "ask_department": "",
+             "selected_code": "62012040"}
+
+
+def test_a_question_nobody_has_answered_is_still_shown():
+    """Most of what an officer waits on is still out. A screen that only drew
+    the finished ones would show a system that never waits."""
+    out = outstanding(OPEN_CASE, [REFUSED], NOW)
+
+    assert out["asked_of"] == "engineering"
+    assert out["open"] is True
+    assert out["waiting"] == "14 days"
+
+
+def test_the_asking_time_comes_from_the_events_not_the_transcripts():
+    """A transcript is written per run and the older batches predate that table;
+    the transition is append-only and is always there. Reading the attempts left
+    every real open question invisible on the batches that already exist."""
+    assert outstanding(OPEN_CASE, [], NOW) is None
+    assert outstanding(OPEN_CASE, [REFUSED], NOW)["waiting"] == "14 days"
+
+
+def test_a_case_that_is_not_waiting_has_no_open_question():
+    assert outstanding(DONE_CASE, [REFUSED, DECIDED], NOW) is None
+
+
+def test_the_batch_puts_the_open_questions_first():
+    rows = [{"case": DONE_CASE, "facts": [ANSWERED], "attempts": [REFUSED, DECIDED],
+             "events": [REFUSED, DECIDED]},
+            {"case": OPEN_CASE, "facts": [], "attempts": [], "events": [REFUSED]}]
+    out = batch(rows, NOW)
+
+    assert [r["open"] for r in out] == [True, False], "work before evidence"
+    assert out[0]["item_id"] == "SKU-1013"
+    assert out[1]["selected_code"] == "62012040"
+
+
+def test_a_case_that_never_asked_anything_is_not_in_the_list():
+    quiet = {"case_id": "C-2", "item_id": "SKU-1002", "state": "SETTLED",
+             "selected_code": "732690"}
+    assert batch([{"case": quiet, "facts": [], "attempts": [], "events": []}], NOW) == []
+
+
+def test_it_works_without_being_told_what_time_it_is():
+    """Every other test passes `now`, so the default path was never executed and
+    a missing import for it shipped."""
+    out = outstanding(OPEN_CASE, [REFUSED])
+
+    assert out["waiting"], "an open question always has a wait"
