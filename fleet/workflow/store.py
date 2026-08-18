@@ -14,9 +14,12 @@ item that never got its missing fact cannot be waved through by a UI bug.
 second classification or a second approval. Every transition carries an idempotency
 key, and a repeat writes nothing.
 
-SQLite locally, Postgres in Cloud SQL. The schema is plain SQL for that reason:
-the only Postgres-specific piece is row-level security, which is added in the
-deployment migration and has no SQLite equivalent.
+**SQLite, and only SQLite.** `connect` opens `sqlite3` and the migration reads
+`PRAGMA table_info`, neither of which Postgres answers, so there is no Cloud SQL
+path in this file today. The schema is written in plain SQL to keep one possible,
+which is a different thing from having one. It matters where the database lives:
+on a container filesystem the record dies with the revision, and this store is
+the only place a case's history exists.
 """
 
 from __future__ import annotations
