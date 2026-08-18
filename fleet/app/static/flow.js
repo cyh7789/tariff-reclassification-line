@@ -36,7 +36,7 @@ const ROLE_LABEL = {operator: 'operator', contributor: 'engineering', approver: 
 
 //: Default node size. The agent carries its own, because the whole point of this
 //: view is that it is not one box among ten.
-const W = 176, H = 68;
+const W = 236, H = 68;
 const wOf = n => n.w || W;
 const hOf = n => n.h || H;
 
@@ -91,7 +91,7 @@ const NODES = [
   //: work by whether judgment is needed, and everything past it goes to the same
   //: single agent. What it does answer is the harder half of the same question,
   //: which is when the system refuses to spend a model call at all.
-  { id: 'triage', x: 286, y: 322, kind: 'machine', icon: '⋔', w: 200, h: 96,
+  { id: 'triage', x: 346, y: 322, kind: 'machine', icon: '⋔', w: 200, h: 96,
     label: 'Can a program', sub: 'settle it alone?',
     what: 'Set arithmetic against the current schedule: code still valid, code '
         + 'withdrawn, or code valid but its coverage moved. A withdrawn code the '
@@ -100,13 +100,13 @@ const NODES = [
         + 'these to a model would pad the autonomy figure with free wins, and it is '
         + 'also what decides what the agent is measured on.' },
 
-  { id: 'settled', x: 286, y: 150, kind: 'machine', icon: '✓',
+  { id: 'settled', x: 346, y: 150, kind: 'machine', icon: '✓',
     label: 'Answered by lookup', sub: 'never reaches the agent',
     what: 'Lines whose code is unchanged, plus withdrawn codes the official table '
         + 'maps one-to-one. Answered by lookup and closed.',
     why:  'Sending these to a model would pad the autonomy figure with free wins.' },
 
-  { id: 'agent', x: 590, y: 288, kind: 'agent', icon: '◇', w: 340, h: 134,
+  { id: 'agent', x: 640, y: 288, kind: 'agent', icon: '◇', w: 340, h: 134,
     label: 'Tariff research agent', sub: 'Gemini 3.7 Flash',
     what: 'Reads the chapter and section notes, the tariff lines under each candidate '
         + 'and prior rulings on comparable goods, then chooses one 8-digit code, names '
@@ -116,8 +116,8 @@ const NODES = [
     why:  'The correlation table states that it has "no legal status" and is "a guide '
         + 'only". It says where to look. Deciding needs the notes and the precedents.' },
 
-  { id: 'verify', x: 1024, y: 336, kind: 'machine', icon: '⚖',
-    label: 'Citation check', sub: 'every reference re-resolved',
+  { id: 'verify', x: 1070, y: 336, kind: 'machine', icon: '⚖',
+    label: 'Citation check', sub: 'references re-resolved',
     what: 'A program, not a model. Does the ruling exist, does the note number exist, '
         + 'are the quoted words really in it. The authority behind every candidate the '
         + 'agent ruled out is re-resolved too.',
@@ -125,8 +125,8 @@ const NODES = [
         + 'a stronger model check it" is not available. A model that never read the '
         + 'note paraphrases it, and a paraphrase fails a substring check.' },
 
-  { id: 'compliance', x: 1264, y: 336, kind: 'machine', icon: '$',
-    label: 'What it costs', sub: 'seven kinds of consequence',
+  { id: 'compliance', x: 1376, y: 336, kind: 'machine', icon: '$',
+    label: 'What it costs', sub: 'what this entry owes',
     what: 'What the settled code means for this entry: the gap against what was filed, '
         + 'the chapter 99 add-on, the duty on lines charged by weight, what the choice '
         + 'was worth, whether the eighth digit decided the Section 301 exposure, and '
@@ -135,21 +135,21 @@ const NODES = [
         + 'resemblance is constant, so that one is handed over with what matched and '
         + 'what differs, never decided here.' },
 
-  { id: 'ready', x: 1504, y: 336, kind: 'person', icon: '✎',
+  { id: 'ready', x: 1682, y: 336, kind: 'person', icon: '✎',
     label: 'Ready to sign', sub: 'evidence pack attached',
     what: 'Selected code, runner-up, the fact that separates them, what the entry owes '
         + 'and where that came from, the notes and rulings behind it, verified.',
     why:  'The licensed person is signing a legal declaration. What they need is a '
         + 'decision they can check, not a shortlist to work through.' },
 
-  { id: 'approved', x: 1744, y: 336, kind: 'person', icon: '✔',
+  { id: 'approved', x: 1988, y: 336, kind: 'person', icon: '✔',
     label: 'Approved', sub: 'one action, whole batch',
     what: 'One signature releases everything that passed. Anything refused or '
         + 'unverified is held back and named.',
     why:  'Signing row by row is the hand-holding this system exists to remove.' },
 
-  { id: 'needs', x: 1520, y: 528, kind: 'person', icon: '?',
-    label: "On somebody's desk", sub: 'the question, and who holds it',
+  { id: 'needs', x: 1700, y: 528, kind: 'person', icon: '?',
+    label: "On somebody's desk", sub: 'who owes the answer',
     what: 'Lines the system refused to settle: a property the description never '
         + 'stated, a quantity the entry never carried, a supplier that resembles a '
         + 'listed party. Each says what is missing and which function holds it.',
@@ -161,10 +161,10 @@ const NODES = [
 //: outward from it. Each carries how big the corpus is and how many times this
 //: batch went into it.
 const SUBS = [
-  { of: 'agent', id: 'notes',  x: 545, y: 148, tool: 'get_chapter_notes' },
-  { of: 'agent', id: 'lines',  x: 975, y: 148, tool: 'get_tariff_lines' },
-  { of: 'agent', id: 'search', x: 545, y: 566, tool: 'search_precedents' },
-  { of: 'agent', id: 'ruling', x: 975, y: 566, tool: 'get_ruling' },
+  { of: 'agent', id: 'notes',  x: 595, y: 148, tool: 'get_chapter_notes' },
+  { of: 'agent', id: 'lines',  x: 1025, y: 148, tool: 'get_tariff_lines' },
+  { of: 'agent', id: 'search', x: 595, y: 566, tool: 'search_precedents' },
+  { of: 'agent', id: 'ruling', x: 1025, y: 566, tool: 'get_ruling' },
 ];
 
 // from, to, count key, label, routing
@@ -234,8 +234,13 @@ function path(a, b, kind) {
       const drop = Math.max(p.y, q.y) + 40;
       return `M ${A.x + wOf(A) / 2} ${A.y + hOf(A)} C ${A.x + wOf(A) / 2} ${drop}, ${q.x - 120} ${q.y}, ${q.x} ${q.y}`;
     }
-    case 'under':  // the answered question coming back, below everything
-      return `M ${A.x} ${A.y + hOf(A) / 2} C ${A.x - 400} ${A.y + 190}, ${B.x - 50} ${B.y + 210}, ${B.x - 6} ${B.y + hOf(B) / 2 + 4}`;
+    case 'under': {  // the answered question coming back, below everything
+      // Arrives at the bottom of the target rather than at its left port: the
+      // control point that produced the sideways approach sat below and to the
+      // left, which swung the curve up through the box's own lower corner.
+      const bx = B.x + wOf(B) / 2;
+      return `M ${A.x} ${A.y + hOf(A) / 2} C ${A.x - 380} ${A.y + 200}, ${bx} ${B.y + hOf(B) + 190}, ${bx} ${B.y + hOf(B) + 8}`;
+    }
     case 'back':   // a failed citation check going back for another attempt
       return `M ${A.x} ${A.y + 16} C ${A.x - 70} ${A.y - 70}, ${B.x + wOf(B) + 70} ${B.y - 70}, ${B.x + wOf(B)} ${B.y + 16}`;
     default:
@@ -258,7 +263,7 @@ function labelPoint(a, b, kind) {
                           y: (A.y + B.y + hOf(B)) / 2, anchor: 'start'};
     case 'over':  return {x: (p.x + q.x) / 2 + 120, y: Math.min(p.y, q.y) - 118, anchor: 'middle'};
     case 'down':  return {x: (A.x + wOf(A) / 2 + q.x) / 2, y: Math.max(p.y, q.y) + 34, anchor: 'middle'};
-    case 'under': return {x: (A.x + B.x) / 2, y: A.y + 176, anchor: 'middle'};
+    case 'under': return {x: (A.x + B.x + wOf(B)) / 2, y: A.y + 186, anchor: 'middle'};
     case 'back':  return {x: (A.x + B.x + wOf(B)) / 2, y: Math.min(A.y, B.y) - 46, anchor: 'middle'};
     default:      return {x: (p.x + q.x) / 2, y: (p.y + q.y) / 2, anchor: 'middle'};
   }
@@ -297,7 +302,9 @@ const occupancy = f => ({
 //: parked at any moment, and that is the honest picture.
 function parkedDots(node, n, colour) {
   if (!n) return '';
-  const shown = Math.min(n, 10), gap = 9;
+  // Room stops where the gate word starts; ten dots ran straight through it.
+  const room = wOf(node) - 58 - (OWNER[node.id] ? 74 : 12);
+  const shown = Math.min(n, Math.max(3, Math.floor(room / 9))), gap = 9;
   const y = node.y + hOf(node) - 9;
   let out = '';
   for (let i = 0; i < shown; i++)
@@ -317,8 +324,8 @@ function gateBadge(node, role) {
   //: A word in the corner, and nothing else. The border already carries the
   //: colour; a stripe down the edge as well was a third element saying the same
   //: thing, and it read as part of the frame rather than as a label.
-  return `<text x="${node.x + 11}" y="${node.y + hOf(node) - 7}" class="gb"
-          fill="${mine ? '#b45309' : '#a8b0bd'}"
+  return `<text x="${node.x + wOf(node) - 11}" y="${node.y + hOf(node) - 7}"
+          text-anchor="end" class="gb" fill="${mine ? '#b45309' : '#a8b0bd'}"
           >${mine ? 'yours' : ROLE_LABEL[owner]}</text>`;
 }
 

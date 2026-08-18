@@ -15,8 +15,13 @@ mod.renderFlow(svg, flow, ()=>{}, null, null, [], 'operator');
 const s = svg.innerHTML;
 
 // node rects: from the <g class="node" ...><rect x= y= width= height=
-const nodes = [...s.matchAll(/data-id="([a-z]+)"[\s\S]*?<rect x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" height="([\d.]+)"/g)]
+// The node's own rect, named. Matching a bare `<rect x=` picked up the 42x42
+// icon square instead, so every check below was testing connectors and labels
+// against a badge rather than against the box: the crossing gate was passing
+// because almost nothing can cross a 42px square.
+const nodes = [...s.matchAll(/data-id="([a-z]+)"[\s\S]*?<rect class="box" x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" height="([\d.]+)"/g)]
   .map(m => ({id:m[1], x:+m[2], y:+m[3], w:+m[4], h:+m[5]}));
+if (nodes.length < 5) { console.error('node parse broke:', nodes.length); process.exit(1); }
 const paths = [...s.matchAll(/<path d="([^"]+)" fill="none"/g)].map(m => m[1]);
 
 //: Points along the path. A cubic has to be evaluated rather than approximated by
@@ -72,5 +77,30 @@ for (const [, lx, ly, anchor, step, text] of labels) {
     if (overlap) { console.log(`標籤「${full}」被 ${r.id} 蓋住`); hidden++; break; }
   }
 }
+// Does any label run past the box it sits in? The two checks above look at
+// connectors and at labels hidden behind boxes, and neither notices text
+// spilling out of its own node: seven of nine shipped that way and it took a
+// screenshot to catch.
+//
+// Widths are estimated, not measured, because there is no browser here. The
+// factors are generous for the fonts in use (640-weight 15.5px label, 13px
+// subtitle), so this catches an overflow rather than proving a fit.
+const LABEL_PX = 15.5 * 0.55, SUB_PX = 13 * 0.5, TEXT_X = 60, PAD = 12;
+const box = Object.fromEntries(nodes.map(n => [n.id, n.w]));
+let spilled = 0;
+for (const [, id, label, sub] of s.matchAll(
+       /data-id="(\w+)"[\s\S]*?class="(?:nl|nlBig)"\s*>([^<]*)<[\s\S]*?class="ns"\s*>([^<]*)</g)) {
+  const room = (box[id] || 0) - TEXT_X - PAD;
+  const need = Math.max(label.trim().length * LABEL_PX, sub.trim().length * SUB_PX);
+  if (need > room) {
+    console.log(`${id} 的文字寬約 ${Math.round(need)}px，框內只有 ${Math.round(room)}px`);
+    spilled++;
+  }
+}
+
 console.log(bad ? `${bad} 條線穿過方框` : '沒有線穿過方框');
 console.log(hidden ? `${hidden} 個標籤被方框蓋住` : `${labels.length} 個標籤都沒有被蓋住`);
+console.log(spilled ? `${spilled} 個節點的文字溢出框外` : '沒有文字溢出框外');
+
+// A lint that always exits 0 is a report, not a gate.
+if (bad || hidden || spilled) process.exit(1);
