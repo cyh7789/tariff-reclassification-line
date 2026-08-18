@@ -246,3 +246,37 @@ def test_every_listed_party_a_supplier_resembles_is_raised():
     hits = [f for f in out if f.kind == "SCREENING_MATCH"]
     assert len(hits) == 2, "both listed parties resemble this supplier"
     assert "SDN List" in " ".join(f.detail for f in hits)
+
+
+def test_a_short_listed_name_does_not_match_inside_a_longer_word():
+    """Measured on the real list once the demo catalog carried suppliers:
+    "Nordvale Diagnostics BV" was reported as resembling "TIC LTD", because
+    stripping the corporate suffix leaves "tic", which is a substring of
+    "diagnostics". Five of twenty items matched that way. A person handed that
+    noise stops reading the flag."""
+    lists = [{"name": "TIC LTD", "source_list": "Denied Persons List"},
+             {"name": "ALE", "source_list": "SDN List"},
+             {"name": "LIA", "source_list": "SDN List"}]
+    for supplier in ("Nordvale Diagnostics BV", "Aurelia Coated Fabrics"):
+        out = assess(case(supplier=supplier), FakeSnapshot(), lists)
+        assert "SCREENING_MATCH" not in kinds(out), f"{supplier} is not any of these"
+
+
+def test_a_real_resemblance_still_matches():
+    """The one it must never miss: the same name with corporate furniture on it."""
+    lists = [{"name": "NEL Electronics", "source_list": "Entity List",
+              "license_requirement": "For all items subject to the EAR."}]
+    out = assess(case(supplier="NEL Electronics Pte Ltd"), FakeSnapshot(), lists)
+
+    assert "SCREENING_MATCH" in kinds(out)
+
+
+def test_an_iso_country_code_counts_as_the_country():
+    """An ERP export writes CN, not "China". The chapter 99 add-on read a set of
+    prose names, so every catalog that used codes silently owed nothing."""
+    from fleet.findings.engine import SECTION_301_ORIGINS, _origin_key
+
+    assert _origin_key("CN") in SECTION_301_ORIGINS
+    assert _origin_key("China") in SECTION_301_ORIGINS
+    assert _origin_key("HK") in SECTION_301_ORIGINS
+    assert _origin_key("VN") not in SECTION_301_ORIGINS
