@@ -254,3 +254,43 @@ def test_both_doors_into_approved_are_the_same_gate(store, batch):
 
     store.decide_finding(case.case_id, 0, "cleared", "approver", "different owner")
     assert store.transition(case.case_id, CaseState.APPROVED, "approver", "one-off-2")
+
+
+def test_an_answered_question_stops_being_shown_as_outstanding(store, batch):
+    """A case that came back from the department still carried its question.
+
+    The screen renders `missing_property` whenever it is set, so a case sitting
+    in READY with a selected code was also telling the officer that a fact was
+    still missing. Which of the two a person believes is not something a demo
+    should be leaving to them.
+    """
+    case = store.cases(batch)[0]
+    store.transition(case.case_id, CaseState.CLASSIFYING, "triage", "t1")
+    store.transition(case.case_id, CaseState.NEEDS_INPUT, "classifier", "t2",
+                     missing_property="what is the sleeve construction?",
+                     ask_department="engineering")
+    store.add_fact(case.case_id, "sleeve construction", "long, hemmed sleeves",
+                   "engineering")
+    store.transition(case.case_id, CaseState.CLASSIFYING, "worker", "t3")
+    store.transition(case.case_id, CaseState.READY, "classifier", "t4",
+                     selected_code="62012040")
+
+    answered = store.case(case.case_id)
+    assert answered.selected_code == "62012040"
+    assert not answered.missing_property
+    assert not answered.ask_department
+    # The fact itself is not what gets cleared: it is why the case moved.
+    assert store.facts(case.case_id)[0]["value"] == "long, hemmed sleeves"
+
+
+def test_a_failed_check_stops_being_shown_once_the_rerun_passes(store, batch):
+    """Same generator as the question above, on the other field."""
+    case = store.cases(batch)[1]
+    store.transition(case.case_id, CaseState.CLASSIFYING, "triage", "v1")
+    store.transition(case.case_id, CaseState.VERIFY_FAILED, "verifier", "v2",
+                     verify_reason="quote is not in chapter 74's notes")
+    store.transition(case.case_id, CaseState.CLASSIFYING, "worker", "v3")
+    store.transition(case.case_id, CaseState.READY, "classifier", "v4",
+                     selected_code="74198050")
+
+    assert not store.case(case.case_id).verify_reason
