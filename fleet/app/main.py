@@ -279,7 +279,8 @@ def get_band(batch_id: str, x_role: str = Header(None), x_tenant: str = Header(N
     lanes: dict[str, dict] = {}
     for event in store.timeline(batch_id):
         lane = lanes.setdefault(event["case_id"],
-                                {"item_id": event.get("item_id", "?"), "events": []})
+                                {"case_id": event["case_id"],
+                                 "item_id": event.get("item_id", "?"), "events": []})
         lane["events"].append(event)
     return timeline_band(list(lanes.values()))
 

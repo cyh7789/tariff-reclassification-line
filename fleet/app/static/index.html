@@ -89,6 +89,38 @@
   #flow .es { font-weight: 700; fill: #0ea5e9; }
   .flowNote { color: var(--dim); font-size: 12.5px; padding: 2px 12px 2px; }
 
+  /* The batch on a clock. Solid is the machine working; hollow is a case
+     sitting on somebody's desk. Two inks, because the comparison between those
+     two is the only thing this view exists to make. */
+  #bandHead { display: flex; align-items: baseline; gap: 10px;
+              padding: 11px 14px 7px; border-bottom: 1px solid var(--line); }
+  #bandBody { padding: 8px 14px 2px; }
+  .lane { display: flex; align-items: center; gap: 10px; height: 22px; }
+  .lane .id { width: 96px; font: 12px ui-monospace, Menlo, monospace;
+              color: var(--dim); text-align: right; flex: none; }
+  .lane .track { position: relative; flex: 1; height: 13px;
+                 background: #f2f4f7; border-radius: 3px; overflow: hidden; }
+  .lane .now { width: 168px; flex: none; font-size: 11.5px; color: var(--dim);
+               white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .seg { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
+  .seg.work { background: #0284c7; }
+  /* Hollow on purpose: waiting is absence of work, and it should read as a gap
+     with an owner rather than as another kind of activity. */
+  .seg.wait { background: #fff8ec; border: 1px solid #f0c078; }
+  .seg.stop { background: var(--bad-soft); border: 1px solid #e79a95; }
+  /* In flight or left behind by a dead worker; the event log cannot tell which,
+     so it is drawn as neither. */
+  .seg.unknown { background: repeating-linear-gradient(135deg,
+                 #dfe4ea 0 4px, #f2f4f7 4px 8px); }
+  .seg.done { background: var(--ok); }
+  #bandAxis { display: flex; padding: 2px 14px 10px; margin-left: 106px;
+              margin-right: 178px; border-top: 1px solid var(--line); }
+  #bandAxis span { flex: 1; font-size: 11px; color: var(--dim);
+                   border-left: 1px solid var(--line); padding: 3px 0 0 4px; }
+  #bandAxis span:last-child { flex: 0 0 auto; }
+  .bandKey { display: inline-flex; align-items: center; gap: 5px; margin-right: 12px; }
+  .bandKey i { width: 16px; height: 9px; border-radius: 2px; display: inline-block; }
+
   /* who is working right now */
   #live { display: flex; gap: 8px; flex-wrap: wrap; padding: 8px 12px 4px;
           min-height: 34px; }
@@ -286,6 +318,20 @@
     </div>
   </div>
 
+  <!-- The batch against a clock. The diagram says where work goes; this says how
+       long it sat there, which is the half a flow chart cannot show. -->
+  <div class="card" id="bandCard">
+    <div id="bandHead">
+      <strong>On the clock</strong>
+      <span class="sub" id="bandSpan"></span>
+      <span class="grow" style="flex:1"></span>
+      <span class="sub" id="bandTotals"></span>
+    </div>
+    <div id="bandBody"></div>
+    <div id="bandAxis"></div>
+    <div class="flowNote" id="bandNote"></div>
+  </div>
+
   <div class="bar">
     <strong id="batchLabel" class="sub"></strong>
     <span class="grow"></span>
@@ -331,6 +377,7 @@
 <script type="module">
 import { renderFlow, flowSummary, graphBounds, NODE_STATES, NODE_INFO, STATE_NODE,
          NEXT_STEP } from '/static/flow.js';
+import { renderBand } from '/static/band.js';
 
 // Only transitions since the last look get a moving dot.
 let lastEvent = 0;
@@ -597,6 +644,11 @@ function poll() {
       render(batch, flow, flow.moves);
       if (first) camFit();
       lastEvent = flow.last_event_id ?? lastEvent;
+      const bandKey = `${batchId}:${lastEvent}`;
+      if (bandKey !== bandFor) {
+        bandFor = bandKey;
+        drawBand(await api(`/api/batches/${batchId}/band`));
+      }
     } catch (e) {
       // A restarted server produces a bare "Failed to fetch". Keep polling; only
       // complain once the outage has lasted long enough to be worth mentioning.
@@ -605,6 +657,21 @@ function poll() {
     }
   };
   tick(); timer = setInterval(tick, 1500);
+}
+
+//: The batch on a clock. Refetched only when an event lands, because the axis
+//: spans days and an open span growing by 1.5 seconds is not visible on it.
+let bandFor = null;
+
+function drawBand(band) {
+  const view = renderBand(band);
+  $('#bandBody').innerHTML = view.body;
+  $('#bandAxis').innerHTML = view.axis;
+  $('#bandSpan').textContent = view.span;
+  $('#bandTotals').innerHTML = view.totals;
+  $('#bandNote').textContent = view.note;
+  for (const lane of document.querySelectorAll('#bandBody .lane'))
+    lane.onclick = () => window.trace(lane.dataset.case);
 }
 
 //: What the diagram is currently showing. Rebuilding the SVG destroys every

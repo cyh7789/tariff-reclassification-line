@@ -111,6 +111,7 @@ def band(rows: list[dict], now: str | None = None) -> dict:
         lane = spans(row.get("events") or [], now)
         if lane:
             lanes.append({"item_id": row.get("item_id", "?"),
+                          "case_id": row.get("case_id", ""),
                           "spans": [s.__dict__ | {"working": s.working, "open": s.open}
                                     for s in lane]})
     if not lanes:
