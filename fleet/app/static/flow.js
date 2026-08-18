@@ -269,8 +269,8 @@ function gateBadge(node, role) {
   //: person", so an amber tag under a blue box said the wrong thing twice.
   return `<rect x="${node.x}" y="${node.y}" width="4" height="${hOf(node)}"
                 fill="#d97706" opacity="${mine ? 1 : .45}"/>
-    <text x="${node.x + wOf(node) - 10}" y="${node.y + hOf(node) - 9}" text-anchor="end"
-          class="gb" fill="${mine ? '#b45309' : '#a8b0bd'}"
+    <text x="${node.x + 11}" y="${node.y + hOf(node) - 7}" class="gb"
+          fill="${mine ? '#b45309' : '#a8b0bd'}"
           >${mine ? 'yours' : ROLE_LABEL[owner]}</text>`;
 }
 
@@ -382,11 +382,11 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
                  ${locked ? 'locked' : OWNER[node.id] ? 'mine' : ''}"
                  data-id="${node.id}"
                  style="--zc:${meta.colour}; opacity:${trace && !stood ? .4 : 1}">
-      ${here ? `<rect x="${node.x - 7}" y="${node.y - 7}" width="${W + 14}" height="${H + 14}"
+      ${here ? `<rect x="${node.x - 7}" y="${node.y - 7}" width="${wOf(node) + 14}" height="${hOf(node) + 14}"
                       rx="15" fill="none" stroke="#7c3aed" stroke-width="2.4" opacity=".55">
                   <animate attributeName="opacity" values=".15;.7;.15" dur="1.6s"
                            repeatCount="indefinite"/></rect>` : ''}
-      <rect class="box" x="${node.x}" y="${node.y}" width="${W}" height="${H}" rx="11"/>
+      <rect class="box" x="${node.x}" y="${node.y}" width="${wOf(node)}" height="${hOf(node)}" rx="11"/>
       <rect x="${node.x + 10}" y="${node.y + 13}" width="42" height="42" rx="9"
             fill="${meta.tint}" stroke="${meta.colour}" stroke-width="1.2"/>
       <text x="${node.x + 31}" y="${node.y + 41}" text-anchor="middle" class="ni"
@@ -399,13 +399,13 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
       ${node.kind === 'agent' ? OUT_OF_REACH.map((line, i) =>
           `<text x="${node.x + 16}" y="${node.y + 76 + i * 17}" class="cant">${line}</text>`
         ).join('') : ''}
-      ${n > 0 ? `<g><circle cx="${node.x + W - 4}" cy="${node.y + 4}" r="15"
+      ${n > 0 ? `<g><circle cx="${node.x + wOf(node) - 4}" cy="${node.y + 4}" r="15"
                            fill="${meta.colour}"/>
-                    <text x="${node.x + W - 4}" y="${node.y + 10}" text-anchor="middle"
+                    <text x="${node.x + wOf(node) - 4}" y="${node.y + 10}" text-anchor="middle"
                           class="nn">${n}</text></g>` : ''}
-      <circle cx="${node.x}" cy="${node.y + H / 2}" r="4.5" fill="#fff"
+      <circle cx="${node.x}" cy="${node.y + hOf(node) / 2}" r="4.5" fill="#fff"
               stroke="${meta.colour}" stroke-width="1.6"/>
-      <circle cx="${node.x + W}" cy="${node.y + H / 2}" r="4.5" fill="${meta.colour}"/>
+      <circle cx="${node.x + wOf(node)}" cy="${node.y + hOf(node) / 2}" r="4.5" fill="${meta.colour}"/>
       ${parkedDots(node, n, meta.colour)}
       ${gateBadge(node, role)}
     </g>`);

@@ -35,12 +35,17 @@
   /* flow diagram, explainer style: coloured zones, numbered steps */
   /* The canvas is pannable, so it does not need a scrollbar and must not clip
      what a drag brings into view. */
-  #flowCard { padding: 0; margin-bottom: 10px; overflow: hidden; position: relative; }
+  /* Full bleed. The card frame around the canvas cost the width twice, once for
+     the page's own max-width and again for the card's margin, and what it bought
+     was a border nobody needed: the diagram is the page's subject, not a widget
+     sitting on it. Everything below stays inside `main`. */
+  #flowCard { padding: 0; margin: 0 calc(50% - 50vw) 12px; border-radius: 0;
+              border-left: 0; border-right: 0; overflow: hidden; position: relative; }
   /* Drawn at its own size on a canvas that scrolls, rather than shrunk to fit.
      Fitting a wide graph into a card is what made every box small: the nodes are
      designed at a readable size and the card pans, which is how a node editor
      works anyway. */
-  svg#flow { width: 100%; height: 620px; display: block; cursor: grab;
+  svg#flow { width: 100%; height: min(74vh, 760px); display: block; cursor: grab;
              touch-action: none; }
   svg#flow.panning { cursor: grabbing; }
   #camBtns { position: absolute; bottom: 14px; right: 14px; z-index: 2; display: flex;
