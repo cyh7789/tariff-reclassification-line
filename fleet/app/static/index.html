@@ -850,7 +850,7 @@ function explainNode(id) {
 
 window.openCase = async (id) => {
   try {
-    const {case: k, events, attempts} = await api('/api/cases/'+id);
+    const {case: k, events, attempts, roundtrip} = await api('/api/cases/'+id);
     $('#dTitle').textContent = `${k.item_id} · ${k.state.replace('_',' ').toLowerCase()}`;
     const cites = (k.citations||[]).map(c =>
       `<div class="cite"><code>${c.kind}</code> · ${c.ref}
@@ -891,6 +891,17 @@ window.openCase = async (id) => {
       }).join('')] : null,
       k.missing_property ? ['Missing', `${k.missing_property}<br><span class="muted">ask ${k.ask_department||'?'}</span>`] : null,
       k.verify_reason ? ['Verifier', `<span class="err">${k.verify_reason}</span>`] : null,
+      // The wait is the product, so it is stated rather than left to be inferred
+      // from two timestamps in the history.
+      roundtrip ? ['Went out and came back', `
+        <div class="cite" style="border-left-color:#d97706">
+          <div>Asked <strong>${esc(roundtrip.answered_by)}</strong>: ${esc(roundtrip.asked)}</div>
+          <div class="quote">“${esc(roundtrip.answered)}”</div>
+          <div class="muted">${esc(roundtrip.waited)} later${
+            roundtrip.selected_code
+              ? ` · re-ran on the answer and chose <code>${esc(roundtrip.selected_code)}</code>`
+              : ' · the answer is in, the re-run has not finished'}</div>
+        </div>`] : null,
       ['How it got there', (attempts || []).length > 1
         ? attempts.map((a, i) => `<div style="margin-bottom:8px">
             <div class="muted">attempt ${i + 1} · ${a.to_state.toLowerCase().replace('_',' ')}

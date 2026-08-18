@@ -33,6 +33,7 @@ from pydantic import BaseModel
 
 from fleet.workflow.store import (CaseState, IllegalTransition, Store,
                                   UndecidedFinding)
+from fleet.workflow.roundtrip import card as roundtrip_card
 from fleet.workflow.worker import Worker
 
 HERE = Path(__file__).parent
@@ -283,13 +284,17 @@ def get_case(case_id: str, x_role: str = Header(None), x_tenant: str = Header(No
     case = store.case(case_id, tenant)
     if not case:
         raise HTTPException(404, "no such case for this product line")
+    facts, attempts = store.facts(case_id), store.attempts(case_id)
     return {"case": case.__dict__ | {"state": str(case.state)},
             "events": store.events(case_id),
-            "facts": store.facts(case_id),
+            "facts": facts,
+            # What the wait bought, stated rather than left for the reader to
+            # work out by diffing two transcripts.
+            "roundtrip": roundtrip_card(attempts, facts, case.selected_code),
             # Every attempt, not just the last one. The refusal and the decision
             # that followed it are two different pieces of reasoning and the
             # person signing is entitled to both.
-            "attempts": store.attempts(case_id)}
+            "attempts": attempts}
 
 
 @app.post("/api/cases/{case_id}/fact")
