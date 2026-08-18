@@ -204,6 +204,21 @@
                    align-items: center; }
   /* Following one item is the question a person actually asks: where is mine, and
      is anybody waiting on me. */
+  /* What the agent asked a corpus, and what came back. A count is a number
+     anybody can type; twenty-seven real queries with their results are not. */
+  #calls { display: none; padding: 10px 14px 12px; border-top: 1px solid var(--line);
+           max-height: 260px; overflow: auto; }
+  #calls.on { display: block; }
+  .callsHead { display: flex; gap: 10px; align-items: baseline; padding-bottom: 6px; }
+  .callRow { display: grid; grid-template-columns: 84px 1fr 200px; gap: 10px;
+             padding: 3px 0; font-size: 12.5px; align-items: baseline;
+             border-top: 1px solid #f1f4f8; cursor: pointer; }
+  .callRow:hover { background: var(--accent-soft); }
+  .callItem { color: var(--dim); font: 12px ui-monospace, Menlo, monospace; }
+  .callQ { font: 12px ui-monospace, Menlo, monospace; color: #0f172a;
+           overflow-wrap: anywhere; }
+  .callR { color: var(--dim); }
+
   #trace { display: none; align-items: center; gap: 12px; padding: 9px 14px;
            background: #f5f3ff; border-top: 1px solid #ddd6fe; font-size: 12.5px;
            color: #5b21b6; }
@@ -329,6 +344,7 @@
       <button id="camIn">+</button><button id="camOut">−</button>
     </div>
     <div id="explain" class="blank">Hover any box to see what it does. Click a row below to follow one item.</div>
+    <div id="calls"></div>
     <div id="trace"></div>
     <div id="live"></div>
     <div id="tape">
@@ -421,6 +437,7 @@ import { renderFlow, flowSummary, graphBounds, NODE_STATES, NODE_INFO, STATE_NOD
          NEXT_STEP } from '/static/flow.js';
 import { renderBand } from '/static/band.js';
 import { renderOutcome } from '/static/outcome.js';
+import { renderCalls } from '/static/calls.js';
 
 // Only transitions since the last look get a moving dot.
 let lastEvent = 0;
@@ -738,6 +755,23 @@ function render(data, flow, moves) {
       drawn = '';
       render(data, flow);
     }, id => explainNode(id), traceView, moves, $('#role').value);
+    // The corpus circles are not nodes, so they get their own handler: clicking
+    // one opens the calls the agent really made into it on this batch.
+    for (const g of $('#flow').querySelectorAll('.sub[data-tool]')) {
+      g.style.cursor = 'pointer';
+      g.onclick = e => {
+        e.stopPropagation();
+        const panel = $('#calls');
+        if (panel.dataset.tool === g.dataset.tool && panel.classList.contains('on')) {
+          panel.classList.remove('on'); panel.dataset.tool = ''; return;
+        }
+        panel.dataset.tool = g.dataset.tool;
+        panel.innerHTML = renderCalls(flow, g.dataset.tool, g.dataset.label);
+        panel.classList.add('on');
+        for (const row of panel.querySelectorAll('.callRow'))
+          row.onclick = () => window.openCase(row.dataset.case);
+      };
+    }
     applyCam();
   }
   const head = renderOutcome(flow);

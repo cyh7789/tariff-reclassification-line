@@ -416,7 +416,7 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
     out.push(`<path d="M ${cx} ${cy} L ${sub.x} ${sub.y + (below ? -26 : 26)}"
       stroke="${calls ? colour : '#cdd5e0'}" stroke-width="${calls ? 1.8 : 1.2}"
       stroke-dasharray="5 5" fill="none" opacity="${trace ? .2 : 1}"/>
-    <g class="sub">
+    <g class="sub" data-tool="${sub.tool}" data-label="${corpus.label}">
       <circle cx="${sub.x}" cy="${sub.y}" r="26" fill="#fff"
               stroke="${calls ? colour : '#cdd5e0'}" stroke-width="${calls ? 2.4 : 1.4}"/>
       <text x="${sub.x}" y="${sub.y + 6}" text-anchor="middle" class="subn"
