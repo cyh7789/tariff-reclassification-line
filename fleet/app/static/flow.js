@@ -77,11 +77,14 @@ const NODES = [
         + 'body. An empty screening list passes every party, so the line stops rather '
         + 'than working from a file that only looks fine.' },
 
-  //: The delegation decision, drawn as a decision. "Which of these deserves a
-  //: model call" is the question the track asks about delegating to specialists,
-  //: and it was previously a blue box indistinguishable from a data loader.
+  //: Where authority is decided, drawn as a decision rather than as another blue
+  //: box. It is not what the track means by delegating to specialist sub-agents,
+  //: and calling it that would be a claim the code does not support: this splits
+  //: work by whether judgment is needed, and everything past it goes to the same
+  //: single agent. What it does answer is the harder half of the same question,
+  //: which is when the system refuses to spend a model call at all.
   { id: 'triage', x: 286, y: 322, kind: 'machine', icon: '⋔', w: 200, h: 96,
-    label: 'Which deserve', sub: 'a model call?',
+    label: 'Can a program', sub: 'settle it alone?',
     what: 'Set arithmetic against the current schedule: code still valid, code '
         + 'withdrawn, or code valid but its coverage moved. A withdrawn code the '
         + 'official table maps one-to-one is answered here and closed.',
@@ -160,8 +163,8 @@ const SUBS = [
 const EDGES = [
   ['intake',     'triage',    'received',      'the batch',      'fwd'],
   ['gate',       'triage',    'received',      'law, gated',     'fwd'],
-  ['triage',     'settled',   'deterministic', 'no, look it up', 'fwd'],
-  ['triage',     'agent',     'agent',         'yes, judgment',  'fwd'],
+  ['triage',     'settled',   'deterministic', 'yes · look it up',        'fwd'],
+  ['triage',     'agent',     'agent',         'no · needs judgment',     'fwd'],
   ['agent',      'verify',    'classified',    'proposed code',  'fwd'],
   ['verify',     'compliance','verified',      'citations hold', 'fwd'],
   ['compliance', 'ready',     'settledHere',   'costed',         'fwd'],

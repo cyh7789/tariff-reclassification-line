@@ -33,6 +33,7 @@ from pydantic import BaseModel
 
 from fleet.workflow.store import (CaseState, IllegalTransition, Store,
                                   UndecidedFinding)
+from fleet.verify.faultinject import NothingToInject, inject
 from fleet.workflow.roundtrip import card as roundtrip_card
 from fleet.workflow.timeline import band as timeline_band
 from fleet.workflow.worker import Worker
@@ -318,6 +319,43 @@ def get_case(case_id: str, x_role: str = Header(None), x_tenant: str = Header(No
             # that followed it are two different pieces of reasoning and the
             # person signing is entitled to both.
             "attempts": attempts}
+
+
+@app.post("/api/cases/{case_id}/inject-fault")
+def inject_fault(case_id: str, x_role: str = Header(None), x_tenant: str = Header(None)):
+    """Alter one word of one citation and let the real checker refuse it.
+
+    A control nobody has watched fail is a claim. This takes the citations this
+    case actually shipped with, inserts a single word into one quote, and runs
+    the same `CitationVerifier.check` every case goes through. The snapshot is
+    untouched, no ruling number is invented, and the stored case is not changed:
+    the fault lives in the copy that is checked, which is where a hallucinated
+    citation would live.
+
+    It deliberately does not move the case to VERIFY_FAILED. `READY` has one
+    legal exit and it is `APPROVED`; widening the state machine so a
+    demonstration can reach a state the run never reached would be a worse lie
+    than the one this is here to disprove.
+    """
+    role, tenant = identity(x_role, x_tenant)
+    require(role, "operator", "approver")
+    case = store.case(case_id, tenant)
+    if not case:
+        raise HTTPException(404, "no such case for this product line")
+    if not case.citations:
+        raise HTTPException(409, "this case shipped no citations, so there is nothing to alter")
+
+    answer = {"item_id": case.item_id, "status": "CLASSIFIED",
+              "selected_code_8": re.sub(r"\D", "", case.selected_code or "")[:8],
+              "citations": [dict(c) for c in case.citations]}
+    before = worker.verifier.check(answer)
+    try:
+        faulted, note = inject(answer)
+    except NothingToInject as exc:
+        raise HTTPException(409, str(exc))
+    after = worker.verifier.check(faulted)
+    return {"note": note, "passed_before": before.passed,
+            "passed_after": after.passed, "reason": after.reason}
 
 
 @app.post("/api/cases/{case_id}/fact")

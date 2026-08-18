@@ -833,6 +833,25 @@ window.pick = (el) => {
   updateApprove();
 };
 
+//: Break a citation on purpose and let the production checker refuse it. The
+//: stored case is untouched; what is checked is an altered copy, which is where
+//: a hallucinated citation would sit.
+window.injectFault = async (caseId) => {
+  const out = $('#faultOut');
+  out.innerHTML = '<span class="muted">running the checker…</span>';
+  try {
+    const d = await api(`/api/cases/${caseId}/inject-fault`, {method: 'POST'});
+    out.innerHTML = `<div class="cite" style="border-left-color:var(--bad);margin-top:8px">
+      <strong>citation fault injection</strong>
+      <div class="muted">${esc(d.note.ref)} · ${esc(d.note.change)}</div>
+      <div class="quote">was: “${esc(d.note.original)}”</div>
+      <div class="quote">now: “${esc(d.note.altered)}”</div>
+      <div style="margin-top:6px">before <strong>${d.passed_before ? 'passed' : 'failed'}</strong>
+        · after <strong class="err">${d.passed_after ? 'passed' : 'refused'}</strong></div>
+      <div class="err">${esc(d.reason)}</div></div>`;
+  } catch (e) { out.innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+};
+
 window.trace = async (caseId) => {
   if (traced === caseId) { traced = null; traceView = null; drawTape(); poll(); return; }
   traced = caseId;
@@ -1003,7 +1022,12 @@ window.openCase = async (id) => {
             </div>`).join('') + '</div>'
         : '<span class="muted">—</span>'],
       ['Reasoning', k.reasoning || '<span class="muted">—</span>'],
-      ['Evidence', cites],
+      ['Evidence', cites + ((k.citations || []).length && $('#role').value !== 'contributor'
+        ? `<div style="margin-top:8px">
+             <button class="mini2" onclick="window.injectFault('${k.case_id}')">Break one citation</button>
+             <span class="muted" style="margin-left:8px">alters one word of one quote and runs the
+             real checker over the copy; nothing stored changes</span>
+             <div id="faultOut"></div></div>` : '')],
       ['History', events.map(e =>
         `<div class="muted">${e.at} · ${e.from_state} → ${e.to_state} · ${e.actor}${
           e.detail?` · ${e.detail.slice(0,140)}`:''}</div>`).join('')],
