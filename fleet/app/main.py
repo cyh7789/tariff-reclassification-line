@@ -34,6 +34,7 @@ from pydantic import BaseModel
 from fleet.workflow.store import (CaseState, IllegalTransition, Store,
                                   UndecidedFinding)
 from fleet.workflow.roundtrip import card as roundtrip_card
+from fleet.workflow.timeline import band as timeline_band
 from fleet.workflow.worker import Worker
 
 HERE = Path(__file__).parent
@@ -260,6 +261,27 @@ def get_timeline(batch_id: str, x_role: str = Header(None), x_tenant: str = Head
     events = store.timeline(batch_id)
     return {"batch": batch, "total_cases": len(store.cases(batch_id, tenant)),
             "events": events}
+
+
+@app.get("/api/batches/{batch_id}/band")
+def get_band(batch_id: str, x_role: str = Header(None), x_tenant: str = Header(None)):
+    """The batch on a clock: which stretches were worked, which were waited out.
+
+    Reads the same event list replay does, grouped per case. A batch's own run
+    takes minutes and the weeks come from cases that stopped and were picked up
+    days later, so both have to be drawn against the same axis to read as the
+    different things they are.
+    """
+    _, tenant = identity(x_role, x_tenant)
+    batch = store.batch(batch_id)
+    if not batch or batch["tenant"] != tenant:
+        raise HTTPException(404, "no such batch for this product line")
+    lanes: dict[str, dict] = {}
+    for event in store.timeline(batch_id):
+        lane = lanes.setdefault(event["case_id"],
+                                {"item_id": event.get("item_id", "?"), "events": []})
+        lane["events"].append(event)
+    return timeline_band(list(lanes.values()))
 
 
 @app.get("/api/batches/{batch_id}/audit")
