@@ -41,6 +41,12 @@
      sitting on it. Everything below stays inside `main`. */
   #flowCard { padding: 0; margin: 0 calc(50% - 50vw) 12px; border-radius: 0;
               border-left: 0; border-right: 0; overflow: hidden; position: relative; }
+  /* Only the canvas is full bleed. Everything else in the card is prose or a
+     control, and prose that runs the full width of a monitor is unreadable, so
+     the rest lines up with the table below it. */
+  #flowCard > *:not(svg):not(#camBtns):not(#fsBtn) {
+    max-width: 1720px; margin-left: auto; margin-right: auto;
+    padding-left: 26px; padding-right: 26px; box-sizing: border-box; }
   /* Drawn at its own size on a canvas that scrolls, rather than shrunk to fit.
      Fitting a wide graph into a card is what made every box small: the nodes are
      designed at a readable size and the card pans, which is how a node editor
