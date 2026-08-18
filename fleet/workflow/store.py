@@ -61,6 +61,21 @@ LEGAL: dict[CaseState, frozenset[CaseState]] = {
 }
 
 
+#: Columns that describe why a case is in one particular state, and mean nothing
+#: anywhere else. Leaving a state has to clear them, because the update only
+#: writes the columns a caller passed: a case that answered its question and
+#: reached READY went on reporting the question as outstanding, and the screen
+#: showed a selected code and a missing fact at the same time.
+#:
+#: Cleared here rather than at each caller. Every path out of these states would
+#: otherwise have to remember, and the one that forgets is invisible until
+#: somebody reads the screen.
+STATE_FIELDS = {
+    CaseState.NEEDS_INPUT: ("missing_property", "ask_department"),
+    CaseState.VERIFY_FAILED: ("verify_reason",),
+}
+
+
 class IllegalTransition(Exception):
     """Raised when a move is not in `LEGAL`. Never caught to 'recover'."""
 
@@ -324,6 +339,12 @@ class Store:
                         raise UndecidedFinding(
                             f"{case_id} carries a finding only a person can settle: "
                             f"{undecided[0].get('headline', 'unnamed')}")
+
+                for state, columns in STATE_FIELDS.items():
+                    if state is to_state:
+                        continue
+                    for column in columns:
+                        fields.setdefault(column, "")
 
                 sets, values = ["state = ?", "updated_at = ?"], [to_state, now()]
                 for column, value in fields.items():

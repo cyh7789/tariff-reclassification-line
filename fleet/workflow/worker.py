@@ -263,5 +263,4 @@ class Worker:
             reasoning=answer.get("reasoning", ""),
             citations=answer.get("citations", []),
             duty_rate=duty.general if duty else None,
-            prior_duty_rate=prior.general if prior else None,
-            verify_reason="", **effort)
+            prior_duty_rate=prior.general if prior else None, **effort)
