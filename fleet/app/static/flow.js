@@ -77,9 +77,10 @@ const NODES = [
 
   { id: 'gate', x: 40, y: 452, kind: 'machine', icon: '⛨',
     label: 'Snapshot', sub: 'dated · hashed · gated',
-    what: 'A frozen copy of the law, checked before use: 35,791 tariff lines, the '
-        + 'notes of all 98 chapters, 218,606 past rulings, 25,939 screening entries. '
-        + 'Row counts, sizes, hashes and age are verified before anything reads it.',
+    what: 'A frozen copy of the law, checked before use. Row counts, byte sizes, '
+        + 'hashes and age are verified against each source\'s manifest before '
+        + 'anything reads it; the sizes are on the corpora around the agent, taken '
+        + 'from those same manifests rather than typed here.',
     why:  'These government endpoints answer a wrong URL with HTTP 200 and an empty '
         + 'body. An empty screening list passes every party, so the line stops rather '
         + 'than working from a file that only looks fine.' },
@@ -109,9 +110,9 @@ const NODES = [
     label: 'Tariff research agent', sub: 'Gemini 3.7 Flash',
     what: 'Reads the chapter and section notes, the tariff lines under each candidate '
         + 'and prior rulings on comparable goods, then chooses one 8-digit code, names '
-        + 'the runner-up, and accounts for every candidate it dropped. Measured over '
-        + '141 items: 1,034 tool calls, a median of 7 per item, 504 of them searches '
-        + 'through past rulings.',
+        + 'the runner-up, and accounts for every candidate it dropped. How many '
+        + 'lookups that took on this batch is on the subtitle, and which corpus each '
+        + 'one went into is on the circles around it.',
     why:  'The correlation table states that it has "no legal status" and is "a guide '
         + 'only". It says where to look. Deciding needs the notes and the precedents.' },
 
@@ -129,7 +130,7 @@ const NODES = [
     what: 'What the settled code means for this entry: the gap against what was filed, '
         + 'the chapter 99 add-on, the duty on lines charged by weight, what the choice '
         + 'was worth, whether the eighth digit decided the Section 301 exposure, and '
-        + 'any supplier resembling one of 25,939 listed parties.',
+        + 'any supplier sharing its whole name with a listed party.',
     why:  'Money follows arithmetic, so the arithmetic is done. Identity does not: '
         + 'resemblance is constant, so that one is handed over with what matched and '
         + 'what differs, never decided here.' },
@@ -174,7 +175,7 @@ const EDGES = [
   ['triage',     'agent',     'agent',         'no · needs judgment',     'fwd'],
   ['agent',      'verify',    'classified',    'proposed code',  'fwd'],
   ['verify',     'compliance','verified',      'citations hold', 'fwd'],
-  ['compliance', 'ready',     'settledHere',   'costed',         'fwd'],
+  ['compliance', 'ready',     'verified',      'costed',         'fwd'],
   ['ready',      'approved',  'approvedAgent', 'sign',           'fwd'],
   ['settled',    'approved',  'approvedDet',   'sign',           'over'],
   ['agent',      'needs',     'refused',       'will not guess', 'down'],
