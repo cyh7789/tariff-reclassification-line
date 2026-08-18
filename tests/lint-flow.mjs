@@ -98,9 +98,30 @@ for (const [, id, label, sub] of s.matchAll(
   }
 }
 
+// Do the corpus circles clear the boxes and each other, and does a count badge
+// clear the circle beside it? Widening the nodes moved their right edge into a
+// satellite that had not moved with them, and nothing here noticed.
+const circles = [...s.matchAll(/<circle cx="([\d.]+)" cy="([\d.]+)" r="(2[0-9])"/g)]
+  .map(m => ({x:+m[1], y:+m[2], r:+m[3]}));
+const badges = [...s.matchAll(/<circle cx="([\d.]+)" cy="([\d.]+)" r="15"/g)]
+  .map(m => ({x:+m[1], y:+m[2], r:15}));
+let crowded = 0;
+const near = (c, r) =>
+  c.x + c.r > r.x && c.x - c.r < r.x + r.w && c.y + c.r > r.y && c.y - c.r < r.y + r.h;
+for (const c of circles) {
+  for (const r of nodes) if (near(c, r)) {
+    console.log(`語料圈 (${c.x},${c.y}) 壓到 ${r.id}`); crowded++; break;
+  }
+}
+for (const c of circles) for (const b of badges) {
+  const d = Math.hypot(c.x - b.x, c.y - b.y);
+  if (d < c.r + b.r) { console.log(`語料圈 (${c.x},${c.y}) 壓到計數徽章`); crowded++; }
+}
+
 console.log(bad ? `${bad} 條線穿過方框` : '沒有線穿過方框');
 console.log(hidden ? `${hidden} 個標籤被方框蓋住` : `${labels.length} 個標籤都沒有被蓋住`);
 console.log(spilled ? `${spilled} 個節點的文字溢出框外` : '沒有文字溢出框外');
+console.log(crowded ? `${crowded} 處圓形與方框相壓` : '圓形與方框沒有相壓');
 
 // A lint that always exits 0 is a report, not a gate.
-if (bad || hidden || spilled) process.exit(1);
+if (bad || hidden || spilled || crowded) process.exit(1);

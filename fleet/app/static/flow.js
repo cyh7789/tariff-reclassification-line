@@ -161,8 +161,10 @@ const NODES = [
 //: outward from it. Each carries how big the corpus is and how many times this
 //: batch went into it.
 const SUBS = [
-  { of: 'agent', id: 'notes',  x: 595, y: 148, tool: 'get_chapter_notes' },
-  { of: 'agent', id: 'lines',  x: 1025, y: 148, tool: 'get_tariff_lines' },
+  //: The top pair sits closer in than the bottom pair: widening the nodes pushed
+  //: `settled`'s right edge under the left satellite, and its count badge with it.
+  { of: 'agent', id: 'notes',  x: 700, y: 138, tool: 'get_chapter_notes' },
+  { of: 'agent', id: 'lines',  x: 920, y: 138, tool: 'get_tariff_lines' },
   { of: 'agent', id: 'search', x: 595, y: 566, tool: 'search_precedents' },
   { of: 'agent', id: 'ruling', x: 1025, y: 566, tool: 'get_ruling' },
 ];
