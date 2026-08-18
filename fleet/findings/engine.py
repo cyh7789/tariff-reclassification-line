@@ -210,20 +210,27 @@ def assess(case: dict, snapshot, screening_list) -> list[Finding]:
     # 6. Screening. Raised, never decided.
     supplier = _normalise(case.get("supplier"))
     if supplier:
-        for entry in screening_list:
-            listed = _normalise(entry.get("name"))
-            if not listed:
-                continue
-            if listed in supplier or supplier in listed:
-                out.append(Finding(
-                    "SCREENING_MATCH", Severity.HUMAN,
-                    f"Possible match on the {entry.get('source_list', 'screening list')}",
-                    f"“{case['supplier']}” resembles “{entry['name']}” on the "
-                    f"{entry.get('source_list', 'screening list')}"
-                    + (f" ({entry['license_requirement']})" if entry.get("license_requirement") else "")
-                    + ". Names resemble each other for innocent reasons, so a person "
-                      "must confirm whether this is the same party."))
-                break
+        # Every listed party, not the first one found. Which entry sits earlier
+        # in a 25,939-row file is an accident of the file, and a person deciding
+        # whether two names are the same party needs all of them: a loose
+        # resemblance to a short name would otherwise hide a close one behind it.
+        # The list is walked whole rather than capped because the fan-out is
+        # small in practice: 17 against the shortest name in the current list,
+        # 0 or 1 for ordinary supplier names.
+        hits = [entry for entry in screening_list
+                if (listed := _normalise(entry.get("name")))
+                and (listed in supplier or supplier in listed)]
+        # Closest first: a longer name that still matches shares more with the
+        # supplier, and is the one worth reading before the rest.
+        for entry in sorted(hits, key=lambda e: len(_normalise(e.get("name"))), reverse=True):
+            out.append(Finding(
+                "SCREENING_MATCH", Severity.HUMAN,
+                f"Possible match on the {entry.get('source_list', 'screening list')}",
+                f"“{case['supplier']}” resembles “{entry['name']}” on the "
+                f"{entry.get('source_list', 'screening list')}"
+                + (f" ({entry['license_requirement']})" if entry.get("license_requirement") else "")
+                + ". Names resemble each other for innocent reasons, so a person "
+                  "must confirm whether this is the same party."))
 
     out.sort(key=lambda f: f.severity)
     return out
