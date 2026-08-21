@@ -176,9 +176,9 @@
   #tapeHead { display: flex; align-items: center; gap: 10px; padding: 7px 14px 2px;
               font-size: 12px; color: var(--dim); }
   #tapeHead strong { color: var(--text); font-size: 12.5px; }
-  #tapeBody { height: 170px; overflow-y: auto; padding: 2px 14px 10px;
+  #tapeBody { height: 260px; overflow-y: auto; padding: 2px 14px 10px;
               font: 12px/1.65 ui-monospace, SFMono-Regular, Menlo, monospace; }
-  #flowCard:fullscreen #tapeBody { height: 20vh; font-size: 13.5px; }
+  #flowCard:fullscreen #tapeBody { height: 34vh; font-size: 13.5px; }
   .tl { display: flex; gap: 8px; white-space: nowrap; }
   .tl .it { color: #94a3b8; flex: none; width: 96px; overflow: hidden;
             text-overflow: ellipsis; }
@@ -394,8 +394,8 @@
       <input type="range" id="scrub" min="0" value="0">
       <span id="replayStep"></span>
       <select id="speed">
-        <option value="120">1×</option><option value="60" selected>2×</option>
-        <option value="30">4×</option><option value="12">10×</option>
+        <option value="1600" selected>1×</option><option value="800">2×</option>
+        <option value="400">4×</option><option value="160">10×</option>
       </select>
       <button id="replayToggle">Pause</button>
       <button id="replayExit">Back to live</button>
@@ -788,6 +788,9 @@ function render(data, flow, moves) {
     // one opens the calls the agent really made into it on this batch.
     for (const g of $('#flow').querySelectorAll('.sub[data-tool]')) {
       g.style.cursor = 'pointer';
+      g.onkeydown = e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); g.onclick(e); }
+      };
       g.onclick = e => {
         e.stopPropagation();
         const panel = $('#calls');
@@ -847,7 +850,7 @@ function render(data, flow, moves) {
       <td class="muted">${e.tool_calls ? e.tool_calls+' calls' : '—'}</td>
       <td><span class="pill ${x.state}">${x.state.replace('_',' ').toLowerCase()}</span></td>
       <td>${desk(x.state)}</td>
-      <td>${disposition(x.findings)}</td>
+      <td>${disposition(x.findings, x.duty_rate)}</td>
     </tr>`;}).join('');
 
   const c = data.counts;
@@ -900,8 +903,14 @@ function desk(state) {
 //: What the compliance pass did with this line. Two shapes only: settled here,
 //: or raised for a person. Anything in between would be the system deciding
 //: something it has no business deciding.
-function disposition(findings) {
-  if (!findings || !findings.length) return '<span class="muted">nothing owed</span>';
+function disposition(findings, dutyRate) {
+  if (!findings || !findings.length) {
+    // Two silences that must not share a word: a rate was found and nothing is
+    // owed, or the code only resolves to six digits and no rate exists to check.
+    return dutyRate
+      ? '<span class="muted">nothing owed</span>'
+      : '<span class="muted">no rate at this depth</span>';
+  }
   const human = findings.filter(f => f.severity === 0);
   const rest = findings.filter(f => f.severity !== 0);
   const bits = [];
@@ -1036,7 +1045,11 @@ function actionFor(k) {
 function updateApprove() {
   const ready = window.__ready || 0;
   const btn = $('#approve');
-  btn.disabled = ready === 0;
+  // The diagram claims signing is the approver's alone; a button that lets an
+  // operator sign anyway would prove the claim painted on.
+  const canSign = $('#role').value === 'approver';
+  btn.disabled = ready === 0 || !canSign;
+  btn.title = canSign ? '' : 'Switch to the approver role to sign.';
   btn.textContent = selected.size
     ? `Approve ${selected.size} selected`
     : ready ? `Approve all ready (${ready})` : 'Nothing to approve';

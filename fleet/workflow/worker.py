@@ -146,8 +146,10 @@ class Worker:
                     # it. "Nothing to decide" is a finding, and an empty panel
                     # would read as a case nobody worked.
                     steps=[{"kind": "settle", "actor": "lookup",
-                            "text": f"settled without a model: {result.bucket}",
-                            "detail": result.reason}] + found["steps_extra"])
+                            "text": f"settled without a model: "
+                                    f"{case.prior_code} \u2192 {settled_code}",
+                            "detail": f"{result.bucket}: {result.reason}"}]
+                          + found["steps_extra"])
             else:
                 self.store.transition(
                     case.case_id, CaseState.CLASSIFYING, "triage", f"triage:{case.case_id}",

@@ -51,8 +51,13 @@ export function outcome(flow) {
                 note: 'one action, whole batch', tone: 'good'});
   }
   if (ready || !signed) {
+    // A lookup row's record is one settle line, not an evidence pack; claiming
+    // the pack for all of them is the over-claim the screen exists to avoid.
+    const lk = states.SETTLED || 0, ag = states.READY || 0;
+    const proof = [lk ? `${lk} by table lookup` : '',
+                   ag ? `${ag} with citations attached` : ''].filter(Boolean).join(' \u00b7 ');
     cards.push({n: ready, label: 'ready for one signature',
-                note: ready ? 'evidence pack attached to each' : 'nothing waiting on a signature',
+                note: ready ? proof : 'nothing waiting on a signature',
                 tone: ready ? 'good' : 'plain'});
   }
   cards.push({n: held, label: held === 1 ? 'held back' : 'held back',

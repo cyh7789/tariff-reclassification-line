@@ -60,6 +60,13 @@ const corpusSize = (flow, tool) => {
 //: What the agent is not allowed to touch. Drawn inside its own box rather than
 //: as a footnote, because bounded authority is the claim being made and a claim
 //: in a footnote is a claim nobody reads.
+//: The rule triage runs on, printed in the box: hover panels do not make it
+//: into a video frame, and this split is the answer to the delegation question.
+const TRIAGE_RULE = [
+  '1:1 in the official table \u2192 closed here',
+  'coverage moved \u2192 the agent decides',
+];
+
 const OUT_OF_REACH = [
   'no duty rates, no chapter 99, no money',
   'cannot sign, cannot release a batch',
@@ -416,7 +423,9 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
     out.push(`<path d="M ${cx} ${cy} L ${sub.x} ${sub.y + (below ? -26 : 26)}"
       stroke="${calls ? colour : '#cdd5e0'}" stroke-width="${calls ? 1.8 : 1.2}"
       stroke-dasharray="5 5" fill="none" opacity="${trace ? .2 : 1}"/>
-    <g class="sub" data-tool="${sub.tool}" data-label="${corpus.label}">
+    <g class="sub" data-tool="${sub.tool}" data-label="${corpus.label}"
+       tabindex="0" role="button">
+      <title>click to inspect the queries the agent really made here</title>
       <circle cx="${sub.x}" cy="${sub.y}" r="26" fill="#fff"
               stroke="${calls ? colour : '#cdd5e0'}" stroke-width="${calls ? 2.4 : 1.4}"/>
       <text x="${sub.x}" y="${sub.y + 6}" text-anchor="middle" class="subn"
@@ -454,6 +463,9 @@ export function renderFlow(svg, flow, onPick, onHover, trace, moves, role) {
                ? ` · ${flow.agent.tool_calls} lookups this batch` : ''}</text>
       ${node.kind === 'agent' ? OUT_OF_REACH.map((line, i) =>
           `<text x="${node.x + 16}" y="${node.y + 76 + i * 17}" class="cant">${line}</text>`
+        ).join('') : ''}
+      ${node.id === 'triage' ? TRIAGE_RULE.map((line, i) =>
+          `<text x="${node.x + 16}" y="${node.y + 66 + i * 15}" class="cant">${line}</text>`
         ).join('') : ''}
       ${n > 0 ? `<g><circle cx="${node.x + wOf(node) - 4}" cy="${node.y + 4}" r="15"
                            fill="${meta.colour}"/>
