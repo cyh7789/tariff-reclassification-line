@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Tariff Reclassification Fleet</title>
+<title>Tariff Reclassification Line</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root {
@@ -68,7 +68,7 @@
      Fitting a wide graph into a card is what made every box small: the nodes are
      designed at a readable size and the card pans, which is how a node editor
      works anyway. */
-  svg#flow { width: 100%; height: min(74vh, 760px); display: block; cursor: grab;
+  svg#flow { width: 100%; height: min(52vh, 560px); display: block; cursor: grab;
              touch-action: none; }
   svg#flow.panning { cursor: grabbing; }
   #camBtns { position: absolute; bottom: 14px; right: 14px; z-index: 2; display: flex;
@@ -327,7 +327,8 @@
 </head>
 <body>
 <header>
-  <h1>Tariff Reclassification Fleet</h1>
+  <h1>Tariff Reclassification Line</h1>
+  <span class="sub">one agent · four corpora · three deterministic gates · one signature</span>
   <span class="sub" id="snap"></span>
   <span class="grow"></span>
   <label class="sub">product line
@@ -351,6 +352,11 @@
 
 <main>
   <div id="msg"></div>
+
+  <!-- What the batch came to. Above the diagram, because the diagram answers
+       "how does this work" and this answers "what did it do for me". -->
+  <div id="outcome"></div>
+  <div id="outcomeCost"></div>
 
   <div class="card" id="flowCard">
     <button id="fsBtn">⤢ Full screen</button>
@@ -387,11 +393,6 @@
       <button id="replayExit">Back to live</button>
     </div>
   </div>
-
-  <!-- What the batch came to. Above the diagram, because the diagram answers
-       "how does this work" and this answers "what did it do for me". -->
-  <div id="outcome"></div>
-  <div id="outcomeCost"></div>
 
   <!-- The batch against a clock. The diagram says where work goes; this says how
        long it sat there, which is the half a flow chart cannot show. -->
