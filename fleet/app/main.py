@@ -526,7 +526,8 @@ def catalog():
 @app.get("/health")
 def health():
     db = "cloud-sql" if store.pg else str(DB_PATH)   # a DSN carries a password
-    return {"ok": True, "snapshot": SNAPSHOT.name, "db": db}
+    return {"ok": True, "snapshot": SNAPSHOT.name, "db": db,
+            "model_calls": bool(os.environ.get("FLEET_ALLOW_API"))}
 
 
 app.mount("/static", StaticFiles(directory=HERE / "static"), name="static")

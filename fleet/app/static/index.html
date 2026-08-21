@@ -212,6 +212,8 @@
   .ask { border-left: 3px solid var(--warn); background: #fffdf7; border-radius: 6px;
          padding: 7px 11px; margin-bottom: 6px; cursor: pointer; }
   .ask.done { border-left-color: var(--ok); background: #f6fbf7; }
+  .ask.failed { border-left-color: var(--bad); background: #fdf7f7; }
+  .askWho.failed { color: var(--bad); }
   .ask:hover { filter: brightness(.985); }
   .askTop { display: flex; gap: 9px; align-items: baseline; font-size: 13px; }
   .askWho { background: var(--warn); color: #fff; border-radius: 999px;
@@ -1378,6 +1380,14 @@ $('#tenant').onchange = async () => {
 (async () => {
   const h = await fetch('/health').then(r=>r.json());
   $('#snap').textContent = `snapshot ${h.snapshot}`;
+  if (!h.model_calls) {
+    // A visitor who starts a batch here gets twenty ApiDisabled rows, which
+    // reads as a broken product rather than a closed wallet. Point at Replay.
+    $('#new').disabled = true;
+    $('#csv').disabled = true;
+    $('#new').title = $('#csv').parentElement.title =
+      'Model calls are off on this site. The batches shown are real runs; use ▶ Replay.';
+  }
   const list = await loadBatches();
   if (list.length) poll();
 })();

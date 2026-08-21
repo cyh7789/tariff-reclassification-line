@@ -15,12 +15,22 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g,
 export function renderAsked(flow) {
   const rows = flow.roundtrips || [];
   if (!rows.length) return '';
-  const open = rows.filter(r => r.open).length;
-  const head = open
-    ? `${open} question${open === 1 ? '' : 's'} out with a named owner`
-    : `${rows.length} question${rows.length === 1 ? '' : 's'} asked and answered`;
+  const open = rows.filter(r => r.open && !r.failed).length;
+  const failed = rows.filter(r => r.failed).length;
+  const head = [
+    open ? `${open} question${open === 1 ? '' : 's'} out with a named owner` : '',
+    failed ? `${failed} run${failed === 1 ? '' : 's'} failed and held for a person` : '',
+    !open && !failed
+      ? `${rows.length} question${rows.length === 1 ? '' : 's'} asked and answered` : '',
+  ].filter(Boolean).join(' · ');
 
-  const body = rows.map(r => r.open
+  const body = rows.map(r => r.failed
+    ? `<div class="ask failed" data-case="${esc(r.case_id)}">
+         <div class="askTop"><strong>${esc(r.item_id)}</strong>
+           <span class="askWho failed">worker error</span>
+           <span class="muted">held ${esc(r.waiting)}</span></div>
+         <div class="askQ">the run stopped; a person has to look before anything moves</div></div>`
+    : r.open
     ? `<div class="ask open" data-case="${esc(r.case_id)}">
          <div class="askTop"><strong>${esc(r.item_id)}</strong>
            <span class="askWho">${esc(r.asked_of)}</span>

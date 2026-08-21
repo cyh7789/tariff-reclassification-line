@@ -114,3 +114,18 @@ def test_it_works_without_being_told_what_time_it_is():
     out = outstanding(OPEN_CASE, [REFUSED])
 
     assert out["waiting"], "an open question always has a wait"
+
+
+def test_a_worker_crash_is_marked_failed_not_dressed_as_a_question():
+    case = {"case_id": "C-err", "item_id": "X-9", "state": "NEEDS_INPUT",
+            "missing_property": "the classifier could not complete; a person should look",
+            "ask_department": "compliance"}
+    events = [{"to_state": "NEEDS_INPUT", "at": "2026-08-20T09:00:00+00:00",
+               "idempotency_key": "error:C-err:1"}]
+    row = outstanding(case, events, now="2026-08-21T09:00:00+00:00")
+    assert row["failed"] is True
+
+    asked = [{"to_state": "NEEDS_INPUT", "at": "2026-08-20T09:00:00+00:00",
+              "idempotency_key": "needs:C-ok:1"}]
+    row = outstanding(case | {"case_id": "C-ok"}, asked, now="2026-08-21T09:00:00+00:00")
+    assert row["failed"] is False

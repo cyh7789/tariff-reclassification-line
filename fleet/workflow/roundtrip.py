@@ -94,6 +94,11 @@ def outstanding(case: dict, events: list[dict], now: str | None = None) -> dict 
         "waiting": elapsed(refusal["at"],
                            now or datetime.now(timezone.utc).isoformat(timespec="seconds")),
         "open": True,
+        # A worker crash is escalated through the same NEEDS_INPUT door as a real
+        # refusal, but it is not a question the agent chose to ask, and drawing it
+        # as one dresses a failure up as diligence. The error path stamps its
+        # idempotency key, so the distinction survives in the audit trail.
+        "failed": refusal.get("idempotency_key", "").startswith("error:"),
     }
 
 
