@@ -672,7 +672,9 @@ function drawTape() {
     <div class="tl ${l.kind}"><span class="it">${l.item_id || ''}</span>
       <span class="ic">${ICON[l.kind] || '·'}</span>
       <span class="tx">${esc(l.text)}</span>
-      <span class="dt">${esc(l.detail || '')}${l.ref ? ` · ${esc(l.ref)}` : ''}</span>
+      <span class="dt">${l.kind === 'error'
+        ? 'stopped before it could finish; held for a person'
+        : esc(l.detail || '')}${l.ref ? ` · ${esc(l.ref)}` : ''}</span>
     </div>`).join('')
     : '<div class="idleNote">Nothing recorded yet. Lines appear as each case is settled.</div>';
   if ($('#tapeStick').checked) body.scrollTop = body.scrollHeight;
