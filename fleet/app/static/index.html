@@ -213,6 +213,8 @@
          padding: 7px 11px; margin-bottom: 6px; cursor: pointer; }
   .ask.done { border-left-color: var(--ok); background: #f6fbf7; }
   .ask.failed { border-left-color: var(--bad); background: #fdf7f7; }
+  .evBtn { font-size: 11px; padding: 2px 9px; }
+  .evBtn.on { background: #f5f3ff; border-color: #b9a8f5; }
   .askWho.failed { color: var(--bad); }
   .ask:hover { filter: brightness(.985); }
   .askTop { display: flex; gap: 9px; align-items: baseline; font-size: 13px; }
@@ -370,6 +372,7 @@
     <div id="explain" class="blank">Hover any box to see what it does. Click a row below to follow one item.</div>
     <div id="asked"></div>
     <div id="calls"></div>
+    <div id="faultMain"></div>
     <div id="trace"></div>
     <div id="live"></div>
     <div id="tape">
@@ -377,6 +380,9 @@
         <strong>Decision transcript</strong>
         <span id="tapeNote">every lookup, every candidate ruled out, in the order it happened</span>
         <span class="grow" style="flex:1"></span>
+        <button class="evBtn" id="evSuccess" title="the hardest case that passed the citation check">Success case</button>
+        <button class="evBtn" id="evRefusal" title="a case the agent refused rather than guessed">Refusal case</button>
+        <button class="evBtn" id="evFault" title="alter one word of a real citation and let the production checker refuse it">Break one citation</button>
         <label class="sub"><input type="checkbox" id="tapeStick" checked> follow</label>
       </div>
       <div id="tapeBody"></div>
@@ -670,6 +676,8 @@ function drawTape() {
     </div>`).join('')
     : '<div class="idleNote">Nothing recorded yet. Lines appear as each case is settled.</div>';
   if ($('#tapeStick').checked) body.scrollTop = body.scrollHeight;
+  $('#evSuccess').classList.toggle('on', !!traced && traced === pickEvidence('success'));
+  $('#evRefusal').classList.toggle('on', !!traced && traced === pickEvidence('refusal'));
   $('#tapeNote').textContent = shown.length
     // Candidates, not rows: the grouping above must not quietly shrink the claim.
     ? `${shown.filter(l => l.kind === 'reject')
@@ -905,6 +913,35 @@ function disposition(findings) {
 }
 
 let traced = null, traceView = null;
+
+// The two rows of evidence a video cannot fake, one click each: the hardest
+// case that survived the citation check, and the one the agent refused to
+// guess. Picked from the live tape rather than hard-coded, so a different
+// batch keeps the buttons honest.
+function pickEvidence(kind) {
+  const per = {};
+  for (const l of tape.lines) {
+    const c = per[l.case_id] ||= {tools: 0, select: false, verify: false, refuse: false};
+    if (l.kind === 'tool') c.tools++;
+    if (l.kind === 'select') c.select = true;
+    if (l.kind === 'verify') c.verify = true;
+    if (l.kind === 'refuse') c.refuse = true;
+  }
+  const ids = Object.keys(per);
+  if (kind === 'refusal') return ids.find(id => per[id].refuse) || null;
+  return ids.filter(id => per[id].select && per[id].verify)
+            .sort((a, b) => per[b].tools - per[a].tools)[0] || null;
+}
+function wireEvidence() {
+  for (const [btn, kind] of [['#evSuccess', 'success'], ['#evRefusal', 'refusal']]) {
+    $(btn).onclick = () => { const id = pickEvidence(kind); if (id) window.trace(id); };
+  }
+  $('#evFault').onclick = () => {
+    const id = traced || pickEvidence('success');
+    if (id) window.injectFault(id);
+  };
+}
+wireEvidence();
 //: Rows the officer has ticked. Empty means the whole batch, which is the normal
 //: case; a selection is for the review that happens before signing part of it.
 const selected = new Set();
@@ -923,7 +960,10 @@ window.pick = (el) => {
 //: stored case is untouched; what is checked is an altered copy, which is where
 //: a hallucinated citation would sit.
 window.injectFault = async (caseId) => {
-  const out = $('#faultOut');
+  // The dialog keeps its innerHTML after close(), so existence is not the test:
+  // only route there while it is actually open in front of the user.
+  const dlg = document.getElementById('detail');
+  const out = (dlg && dlg.open && $('#faultOut')) || $('#faultMain');
   out.innerHTML = '<span class="muted">running the checker…</span>';
   try {
     const d = await api(`/api/cases/${caseId}/inject-fault`, {method: 'POST'});
@@ -935,6 +975,12 @@ window.injectFault = async (caseId) => {
       <div style="margin-top:6px">before <strong>${d.passed_before ? 'passed' : 'failed'}</strong>
         · after <strong class="err">${d.passed_after ? 'passed' : 'refused'}</strong></div>
       <div class="err">${esc(d.reason)}</div></div>`;
+    if (!d.passed_after) {
+      // The checker that refused is a real node on the map; point the camera at
+      // it for a beat. A class toggle, not a state transition: nothing is stored.
+      const v = document.querySelector('#flow .node[data-id="verify"]');
+      if (v) { v.classList.add('here'); setTimeout(() => v.classList.remove('here'), 2000); }
+    }
   } catch (e) { out.innerHTML = `<span class="err">${esc(e.message)}</span>`; }
 };
 
