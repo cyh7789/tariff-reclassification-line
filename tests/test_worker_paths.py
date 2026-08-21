@@ -123,3 +123,18 @@ def test_facts_accumulate_rather_than_replace(running):
         worker.run_case(case.case_id)
 
     assert "long, hemmed" in seen["d"] and "1,000 kg" in seen["d"]
+
+
+def test_a_worked_case_never_lands_with_an_empty_transcript(running):
+    """dr13's regression: a batch once shipped with tool_calls > 0 on every case
+    and steps: [] on every case, so the screen claimed work it could not show.
+    The transcript is derived from the answer at the same write, and this pins it."""
+    store, worker, case = running
+
+    run_with(worker, case, answer(
+        tool_calls=[{"name": "tariff_lines", "query": "620120"}], tool_call_count=1))
+
+    landed = store.case(case.case_id)
+    assert landed.tool_calls == 1
+    assert landed.steps, "a case that spent tool calls landed with no transcript"
+    assert any(s.get("kind") == "tool" for s in landed.steps)
