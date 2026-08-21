@@ -18,8 +18,8 @@ pytestmark = pytest.mark.skipif(not SNAPSHOT.exists(), reason="needs the live sn
 
 
 @pytest.fixture
-def running(tmp_path):
-    store = Store(tmp_path / "cases.db")
+def running(tmp_path, make_store):
+    store = make_store(tmp_path)
     worker = Worker(store, SNAPSHOT)
     batch = store.create_batch("plant-a", "paths", "2026-08-18", [
         {"item_id": "X", "description": "a men's woven jacket", "prior_code": "620111"}])

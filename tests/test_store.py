@@ -17,8 +17,8 @@ ITEMS = [
 
 
 @pytest.fixture
-def store(tmp_path):
-    return Store(tmp_path / "cases.db")
+def store(tmp_path, make_store):
+    return make_store(tmp_path)
 
 
 @pytest.fixture

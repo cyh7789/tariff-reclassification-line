@@ -1,0 +1,9 @@
+.git
+runs/
+eval/
+tests/
+docs/
+data/cases.db*
+data/snapshots/*
+!data/snapshots/2026-08-18
+**/__pycache__

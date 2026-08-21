@@ -41,7 +41,8 @@ from fleet.workflow.worker import Worker
 
 HERE = Path(__file__).parent
 REPO = HERE.parent.parent
-DB_PATH = Path(os.environ.get("FLEET_DB", REPO / "data" / "cases.db"))
+DB_PATH = (os.environ.get("FLEET_PG_DSN")
+           or Path(os.environ.get("FLEET_DB", REPO / "data" / "cases.db")))
 SNAPSHOT = Path(os.environ.get("FLEET_SNAPSHOT", REPO / "data" / "snapshots" / "2026-08-18"))
 
 store = Store(DB_PATH)
@@ -524,7 +525,8 @@ def catalog():
 
 @app.get("/health")
 def health():
-    return {"ok": True, "snapshot": SNAPSHOT.name, "db": str(DB_PATH)}
+    db = "cloud-sql" if store.pg else str(DB_PATH)   # a DSN carries a password
+    return {"ok": True, "snapshot": SNAPSHOT.name, "db": db}
 
 
 app.mount("/static", StaticFiles(directory=HERE / "static"), name="static")
