@@ -1,8 +1,44 @@
-# Tariff Reclassification Fleet
+# Tariff Reclassification Line
 
-A fleet of agents that re-classifies a manufacturer's product catalog after a Harmonized System nomenclature revision, and hands the compliance officer a signable evidence pack instead of a list of guesses.
+Re-classifies a manufacturer's product catalog after a Harmonized System nomenclature revision, and hands the compliance officer a signable evidence pack instead of a list of guesses.
+
+One bounded classification agent runs under a deterministic control plane. A code the official correlation table maps one-to-one is settled by a program and never reaches the model; what is left is real judgment, and that is all the agent is asked for. Every citation it returns is re-resolved against a frozen snapshot by a checker the agent cannot influence.
 
 Built for the All Things Agentic Hackathon. Architecture starts at [`docs/INTERFACES.md`](docs/INTERFACES.md).
+
+## Spin-up
+
+### Run it locally
+
+```bash
+pip install -r requirements.txt
+brew install poppler                                  # pdftotext, for the PDF sources
+
+python -m fleet.sync.snapshot --out data/snapshots/2026-08-18   # a few minutes
+PYTHONPATH=. python -m uvicorn fleet.app.main:app --port 8080
+```
+
+Open `http://localhost:8080`. The model is off by default; nothing here calls a paid endpoint unless `FLEET_ALLOW_API=1` is set for that command. With it off the UI runs and the deterministic half of the work still happens.
+
+To let it call Gemini, authenticate to a project with Vertex AI enabled and switch it on:
+
+```bash
+gcloud auth application-default login
+FLEET_ALLOW_API=1 FLEET_VERTEX_PROJECT=<your-project> \
+  PYTHONPATH=. python -m uvicorn fleet.app.main:app --port 8080
+```
+
+Case history goes to SQLite at `data/cases.db` unless `FLEET_PG_DSN` names a Postgres.
+
+### Deploy it to Google Cloud
+
+```bash
+PROJECT=<your-project> bash deploy/cloudrun.sh
+```
+
+The script enables the APIs, creates a `db-f1-micro` Postgres 17 instance on Cloud SQL, grants the runtime service account `roles/aiplatform.user`, and deploys the container to Cloud Run with the Cloud SQL socket attached. It prints the service URL when it finishes. The snapshot ships inside the image on purpose: the frozen legal text and the revision that read it are one artifact.
+
+Three flags on the deploy step are load-bearing rather than tuning, and the reasons are written at the top of `deploy/cloudrun.sh`: `--no-cpu-throttling`, `--max-instances=1`, `--min-instances=1`.
 
 ## Data sources
 

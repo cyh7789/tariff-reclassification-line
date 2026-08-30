@@ -10,6 +10,9 @@
 #   --min-instances=1    the cross-week timeline is the exhibit; an instance that
 #                        scales to zero still keeps its history (Cloud SQL), but
 #                        the hourly heartbeat should not depend on a cold start.
+#   --memory=4Gi         the precedent index holds 218,606 rulings. At 1Gi the
+#                        container was killed mid-batch (1030 MiB used) and every
+#                        case the agent had open came back stranded.
 set -euo pipefail
 
 PROJECT=${PROJECT:-tariff-fleet-2026}
@@ -42,7 +45,7 @@ gcloud projects add-iam-policy-binding "$PROJECT" \
 
 gcloud run deploy fleet --source . --region="$REGION" --allow-unauthenticated \
   --min-instances=1 --max-instances=1 --no-cpu-throttling \
-  --memory=1Gi --cpu=1 \
+  --memory=4Gi --cpu=2 \
   --add-cloudsql-instances="$CONN" \
   --set-env-vars="FLEET_PG_DSN=postgresql://$DB_USER:$DB_PASS@/$DB?host=/cloudsql/$CONN,FLEET_VERTEX_PROJECT=$PROJECT,FLEET_ALLOW_API=1"
 
