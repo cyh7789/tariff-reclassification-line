@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+import threading
 import uuid
 from contextlib import contextmanager
 from dataclasses import dataclass, field
@@ -290,9 +291,32 @@ class Store:
     def __init__(self, path: Path | str):
         self.path = str(path)
         self.pg = self.path.startswith(("postgres://", "postgresql://"))
+        #: A connection every reader in the same thread borrows, when one is open.
+        #: Each accessor opening its own is fine per call and ruinous per request:
+        #: drawing the flow reads four tables for every case, so a twenty-case
+        #: batch asked Cloud SQL for eighty connections at once and got
+        #: "remaining connection slots are reserved" instead of a screen.
+        self._borrowed = threading.local()
         with self.connect() as db:
             db.executescript(self._schema())
             self._migrate(db)
+
+    @contextmanager
+    def shared(self):
+        """Open one connection and let every read inside this block reuse it.
+
+        Writers keep opening their own: a long-lived shared handle around a write
+        would hold the row locks for as long as the block lasts.
+        """
+        if getattr(self._borrowed, "db", None) is not None:
+            yield self._borrowed.db          # already inside an outer shared()
+            return
+        with self.connect() as db:
+            self._borrowed.db = db
+            try:
+                yield db
+            finally:
+                self._borrowed.db = None
 
     def _schema(self) -> str:
         if not self.pg:
@@ -313,6 +337,10 @@ class Store:
 
     @contextmanager
     def connect(self):
+        borrowed = getattr(self._borrowed, "db", None)
+        if borrowed is not None:
+            yield borrowed          # inside shared(); closing it is the block's job
+            return
         if self.pg:
             import psycopg2
             conn = psycopg2.connect(self.path)
