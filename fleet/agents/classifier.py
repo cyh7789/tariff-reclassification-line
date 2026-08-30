@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import re
 import sys
@@ -82,8 +83,8 @@ FLEX_HEADERS = {
 # overnight at half price beats one that fails at noon at full price.
 RETRY_STATUSES = (429, 503)
 RETRY_WAITS = (10, 30, 60, 120, 240, 480)
-PROJECT = "yuhina-496113"
-LOCATION = "global"
+PROJECT = os.environ.get("FLEET_VERTEX_PROJECT", "yuhina-496113")
+LOCATION = os.environ.get("FLEET_VERTEX_LOCATION", "global")
 MAX_TOOL_TURNS = 16
 CONFIDENCE_FLOOR = 0.80
 
