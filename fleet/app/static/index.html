@@ -743,6 +743,9 @@ function poll() {
     } catch (e) {
       // A restarted server produces a bare "Failed to fetch". Keep polling; only
       // complain once the outage has lasted long enough to be worth mentioning.
+      // Anything thrown by the drawing code lands here too, and swallowing that
+      // leaves a screen that stopped updating and says nothing about it.
+      console.error('tick failed', e);
       misses++;
       if (misses > 4) { note(`Lost the server: ${e.message}`, 'bad'); clearInterval(timer); }
     }

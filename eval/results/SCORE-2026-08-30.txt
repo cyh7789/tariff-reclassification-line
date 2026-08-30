@@ -1,0 +1,24 @@
+stratum          n        8-digit        6-digit      refused      shipped  cite fail
+-------------------------------------------------------------------------------------
+ALL            500     464  92.8%     479  95.8%      6   1.2%    487  97.4%         7
+DEAD_CODE      288     256  88.9%     269  93.4%      6   2.1%    278  96.5%         4
+SCOPE_REVIEW    90      86  95.6%      88  97.8%      0   0.0%     89  98.9%         1
+SURVIVED       122     122 100.0%     122 100.0%      0   0.0%    120  98.4%         2
+
+escalation rate 1.2% (within the 10% cap)
+accuracy on what shipped: 458/487 = 94.0% at 8 digits
+
+citations that did not resolve (7):
+  N340745: 1 quote(s) not found in the cited source: Note 1 to Chapter 48
+  N352325: ruled a candidate out on an authority that does not exist: Note 5 to Subheadings to Chapter 85 (no row in the current sc
+  N342693: ruled a candidate out on an authority that does not exist: Chapter 24 Note 3 (no row in the current schedule); Chapter 2
+  N362830: 1 citation(s) do not resolve: Note 1 to Subheading of Chapter 87 (reference does not name a note and a chapter or sectio
+  N333997: 1 citation(s) do not resolve: 21050000 (no row in the current schedule)
+  N345683: 1 quote(s) not found in the cited source: Additional U.S. Note 2 to Chapter 62
+  N337096: 1 quote(s) not found in the cited source: Note 2 to Chapter 62 Additional U.S. Notes
+
+mechanical floors on the same population (HS6):
+  ALL           n=500   carry forward  54.2%   first candidate  48.8%   ceiling  99.6%
+  DEAD_CODE     n=288   carry forward  21.2%   first candidate  25.3%   ceiling 100.0%
+  SCOPE_REVIEW  n=90    carry forward  97.8%   first candidate  54.4%   ceiling  97.8%
+  SURVIVED      n=122   carry forward 100.0%   first candidate 100.0%   ceiling 100.0%
