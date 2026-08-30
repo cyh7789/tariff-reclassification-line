@@ -33,10 +33,17 @@ gcloud sql users create "$DB_USER" --instance="$SQL_INSTANCE" --password="$DB_PA
 
 CONN=$(gcloud sql instances describe "$SQL_INSTANCE" --format='value(connectionName)')
 
+# The default compute service account is what the container runs as; without
+# aiplatform.user every model call comes back 403 and the demo has no agent.
+PROJECT_NUM=$(gcloud projects describe "$PROJECT" --format='value(projectNumber)')
+gcloud projects add-iam-policy-binding "$PROJECT" \
+  --member="serviceAccount:$PROJECT_NUM-compute@developer.gserviceaccount.com" \
+  --role=roles/aiplatform.user --condition=None >/dev/null
+
 gcloud run deploy fleet --source . --region="$REGION" --allow-unauthenticated \
   --min-instances=1 --max-instances=1 --no-cpu-throttling \
   --memory=1Gi --cpu=1 \
   --add-cloudsql-instances="$CONN" \
-  --set-env-vars="FLEET_PG_DSN=postgresql://$DB_USER:$DB_PASS@/$DB?host=/cloudsql/$CONN"
+  --set-env-vars="FLEET_PG_DSN=postgresql://$DB_USER:$DB_PASS@/$DB?host=/cloudsql/$CONN,FLEET_VERTEX_PROJECT=$PROJECT,FLEET_ALLOW_API=1"
 
 gcloud run services describe fleet --region="$REGION" --format='value(status.url)'

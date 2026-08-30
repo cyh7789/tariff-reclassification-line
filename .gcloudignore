@@ -1,0 +1,11 @@
+# Without this file Cloud Build falls back to .gitignore, which excludes data/
+# entirely — and the image needs data/snapshots/2026-08-18, the frozen legal text
+# a classification cites.
+.git
+.gitignore
+.pytest_cache
+**/__pycache__
+runs/
+data/cases.db*
+data/snapshots/*
+!data/snapshots/2026-08-18
